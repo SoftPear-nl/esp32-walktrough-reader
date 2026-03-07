@@ -19,12 +19,26 @@
 
 static const char *TAG = "st7789_lvgl";
 
+/* ── Rotary encoder/button state ─────────────── */
+volatile int encoder_count = 0;
+static int last_btn_state = 1;
+static int last_enc_btn_state = 1;
+
+// Encoder state for ISR
+static volatile int last_enc_state = 0;
+static volatile int enc_sequence = 0;
+static volatile int enc_cycle_count = 0;
+
 /* ── Pin definitions ──────────────────────────────────────── */
 #define SCREEN_1_SCL_PIN  1   /* SPI SCLK  */
 #define SCREEN_1_SDA_PIN  10  /* SPI MOSI  */
 #define SCREEN_1_RES_PIN  11  /* LCD RST   */
 #define SCREEN_1_DC_PIN   12  /* LCD DC    */
 #define SCREEN_1_CS_PIN   13  /* LCD CS    */
+#define ROT_ENC_A_PIN     4
+#define ROT_ENC_B_PIN     7
+#define ROT_ENC_BTN_PIN   6
+#define BTN_PIN      5
 
 /* ── Display geometry ─────────────────────────────────────── */
 #define LCD_H_RES         240
@@ -38,6 +52,76 @@ static const char *TAG = "st7789_lvgl";
 
 /* ── Globals ──────────────────────────────────────────────── */
 static SemaphoreHandle_t lvgl_mux = NULL;
+
+// Rotary encoder ISR
+static void IRAM_ATTR encoder_isr_handler(void* arg)
+{
+    int enc_a = gpio_get_level(ROT_ENC_A_PIN);
+    int enc_b = gpio_get_level(ROT_ENC_B_PIN);
+    int enc_state = (enc_a << 1) | enc_b;
+
+    // State machine for quadrature decoding
+    static int prev_state = 0;
+    static int step = 0;
+
+    // Transition table: [prev][curr] = direction
+    // 0: no move, 1: CW, -1: CCW
+    static const int transition_table[4][4] = {
+        {0, 1, -1, 0}, // prev 00
+        {-1, 0, 0, 1}, // prev 01
+        {1, 0, 0, -1}, // prev 10
+        {0, -1, 1, 0}  // prev 11
+    };
+
+    int dir = transition_table[prev_state][enc_state];
+    if (dir != 0) {
+        step += dir;
+        // Only count when 4 steps completed (one detent)
+        if (step >= 4) {
+            encoder_count++;
+            step = 0;
+        } else if (step <= -4) {
+            encoder_count--;
+            step = 0;
+        }
+    }
+    prev_state = enc_state;
+}
+
+/* ── Rotary encoder/button polling task ──────── */
+static void input_task(void *arg)
+{
+    ESP_LOGI(TAG, "Input task started");
+    while (1) {
+        int btn = gpio_get_level(BTN_PIN);
+        int enc_btn = gpio_get_level(ROT_ENC_BTN_PIN);
+
+        // Log encoder count and direction
+        static int last_reported_count = 0;
+        if (encoder_count != last_reported_count) {
+            if (encoder_count > last_reported_count) {
+                ESP_LOGI(TAG, "Encoder CW: %d", encoder_count);
+            } else {
+                ESP_LOGI(TAG, "Encoder CCW: %d", encoder_count);
+            }
+            last_reported_count = encoder_count;
+        }
+
+        // Button press detection (active low)
+        if (btn == 0 && last_btn_state == 1) {
+            ESP_LOGI(TAG, "Button pressed");
+        }
+        last_btn_state = btn;
+
+        // Encoder push button detection (active low)
+        if (enc_btn == 0 && last_enc_btn_state == 1) {
+            ESP_LOGI(TAG, "Encoder button pressed");
+        }
+        last_enc_btn_state = enc_btn;
+
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+}
 
 /* ── LVGL tick source (v9 explicit callback) ──────────────── */
 static uint32_t lvgl_tick_cb(void)
@@ -98,6 +182,26 @@ static void create_demo_ui(void)
 void app_main(void)
 {
     ESP_LOGI(TAG, "Initialising ST7789 display");
+
+    /* Rotary encoder and button GPIO setup */
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << ROT_ENC_A_PIN) | (1ULL << ROT_ENC_B_PIN) |
+                       (1ULL << ROT_ENC_BTN_PIN) | (1ULL << BTN_PIN),
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE
+    };
+    ESP_ERROR_CHECK(gpio_config(&io_conf));
+
+    // Encoder pins: enable interrupts
+    gpio_set_intr_type(ROT_ENC_A_PIN, GPIO_INTR_ANYEDGE);
+    gpio_set_intr_type(ROT_ENC_B_PIN, GPIO_INTR_ANYEDGE);
+    gpio_install_isr_service(0);
+    gpio_isr_handler_add(ROT_ENC_A_PIN, encoder_isr_handler, NULL);
+    gpio_isr_handler_add(ROT_ENC_B_PIN, encoder_isr_handler, NULL);
+
+    xTaskCreate(input_task, "input_task", 2048, NULL, 4, NULL);
 
     /* 1. SPI bus */
     spi_bus_config_t bus_cfg = {
