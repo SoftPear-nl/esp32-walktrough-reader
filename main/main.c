@@ -14,6 +14,8 @@
 #include "esp_log.h"
 #include "esp_spiffs.h"
 #include "esp_heap_caps.h"
+#include "nvs_flash.h"
+#include "nvs.h"
 
 static const char *TAG = "reader";
 
@@ -155,6 +157,9 @@ static Line  *lines       = NULL;
 static int    total_lines = 0;
 static int    top_line    = 0;
 
+/* -- Current file path (for NVS key) ------------------------ */
+static const char *current_file = "/spiffs/ff10.txt";
+
 /* -- Rotary encoder / button state -------------------------- */
 static volatile int encoder_count      = 0;
 static int          last_btn_state     = 1;
@@ -166,6 +171,45 @@ static esp_lcd_panel_handle_t panel_handle = NULL;
 /* -- Double pixel-row buffers (heap-allocated for DMA) ------ */
 static uint16_t *row_bufs[2] = { NULL, NULL };
 static int       cur_buf     = 0;
+
+/* -- NVS scroll position helpers ----------------------------- */
+/* Build a short NVS key from filename (max 15 chars) */
+static void nvs_key_from_path(const char *path, char *key, size_t key_sz)
+{
+    const char *base = strrchr(path, '/');
+    base = base ? base + 1 : path;
+    const char *dot = strrchr(base, '.');
+    int name_len = dot ? (int)(dot - base) : (int)strlen(base);
+    if (name_len > 11) name_len = 11;        /* "pos_" + 11 = 15 */
+    snprintf(key, key_sz, "pos_%.11s", base);
+    key[4 + name_len] = '\0';
+}
+
+static int load_scroll_pos(const char *path)
+{
+    char key[16];
+    nvs_key_from_path(path, key, sizeof(key));
+    nvs_handle_t h;
+    int32_t val = 0;
+    if (nvs_open("reader", NVS_READONLY, &h) == ESP_OK) {
+        nvs_get_i32(h, key, &val);
+        nvs_close(h);
+    }
+    ESP_LOGI(TAG, "Loaded scroll pos %ld for %s", (long)val, key);
+    return (int)val;
+}
+
+static void save_scroll_pos(const char *path, int pos)
+{
+    char key[16];
+    nvs_key_from_path(path, key, sizeof(key));
+    nvs_handle_t h;
+    if (nvs_open("reader", NVS_READWRITE, &h) == ESP_OK) {
+        nvs_set_i32(h, key, (int32_t)pos);
+        nvs_commit(h);
+        nvs_close(h);
+    }
+}
 
 /* -- Rotary encoder ISR ------------------------------------- */
 static void IRAM_ATTR encoder_isr_handler(void *arg)
@@ -187,8 +231,8 @@ static void IRAM_ATTR encoder_isr_handler(void *arg)
     int dir = transition_table[prev_state][enc_state];
     if (dir != 0) {
         step += dir;
-        if (step >= 4)       { encoder_count++; step = 0; }
-        else if (step <= -4) { encoder_count--; step = 0; }
+        if (step >= 4)       { encoder_count+=2; step = 0; }
+        else if (step <= -4) { encoder_count-=2; step = 0; }
     }
     prev_state = enc_state;
 }
@@ -305,9 +349,14 @@ static char *read_spiffs_file(const char *path)
 }
 
 /* -- Reader task: poll encoder and re-render on change ------ */
+#define SAVE_DELAY_MS  5000   /* write NVS 5 s after last scroll */
 static void reader_task(void *arg)
 {
-    int last_top = -1;
+    int last_top   = -1;
+    int saved_top  = -1;
+    TickType_t last_change_tick = 0;
+    bool       pending_save    = false;
+
     while (1) {
         int max_top = total_lines > ROWS ? total_lines - ROWS : 0;
         int current = encoder_count;
@@ -317,6 +366,17 @@ static void reader_task(void *arg)
             top_line = current;
             render_view();
             last_top = current;
+            last_change_tick = xTaskGetTickCount();
+            pending_save = true;
+        }
+        /* Debounced NVS save */
+        if (pending_save &&
+            (xTaskGetTickCount() - last_change_tick) >= pdMS_TO_TICKS(SAVE_DELAY_MS)) {
+            if (top_line != saved_top) {
+                save_scroll_pos(current_file, top_line);
+                saved_top = top_line;
+            }
+            pending_save = false;
         }
         vTaskDelay(pdMS_TO_TICKS(30));
     }
@@ -326,6 +386,14 @@ static void reader_task(void *arg)
 void app_main(void)
 {
     ESP_LOGI(TAG, "Starting reader");
+
+    /* NVS init */
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
 
     /* 0. GPIO */
     gpio_config_t io_conf = {
@@ -400,10 +468,16 @@ void app_main(void)
     assert(row_bufs[0] && row_bufs[1]);
 
     ESP_ERROR_CHECK(esp_vfs_spiffs_register(&spiffs_conf));
-    file_buf = read_spiffs_file("/spiffs/ff10.txt");
+    file_buf = read_spiffs_file(current_file);
     if (file_buf) parse_lines();
 
-    /* 5. Initial render + reader task */
+    /* 5. Restore scroll position + initial render + reader task */
+    int saved = load_scroll_pos(current_file);
+    int max_top = total_lines > ROWS ? total_lines - ROWS : 0;
+    if (saved > max_top) saved = max_top;
+    if (saved < 0) saved = 0;
+    encoder_count = saved;
+    top_line = saved;
     render_view();
     xTaskCreate(reader_task, "reader", 4096, NULL, 5, NULL);
     ESP_LOGI(TAG, "Ready");
