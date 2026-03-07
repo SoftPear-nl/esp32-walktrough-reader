@@ -291,8 +291,43 @@ static void render_view(void)
     }
 }
 
-/* -- Parse file into wrapped virtual lines ------------------ */
-/* Long physical lines are hard-wrapped at COLS characters.   */
+/* -- Find wrap point for word-wrapping ---------------------- */
+/* Returns the length of the next virtual line segment.       */
+/* Tries to break at space/tab after a word, or after '-'.    */
+/* Falls back to hard wrap if no break point is found.        */
+static int find_wrap(const char *s, int len)
+{
+    if (len <= COLS) return len;
+
+    /* Scan backwards from COLS to find a break point */
+    for (int i = COLS; i > 0; i--) {
+        char c = s[i];
+        /* Break before a space/tab (the space starts the next line and
+           will be consumed below, so it won't dangle). */
+        if (c == ' ' || c == '\t') return i;
+        /* Break after a hyphen/dash that isn't at position 0 */
+        if ((s[i - 1] == '-') && i > 1) return i;
+    }
+    return COLS;   /* no good break point – hard wrap */
+}
+
+/* -- Count virtual lines for one physical line -------------- */
+static int count_vlines(const char *s, int len)
+{
+    if (len == 0) return 1;
+    int n = 0;
+    int off = 0;
+    while (off < len) {
+        int seg = find_wrap(s + off, len - off);
+        n++;
+        off += seg;
+        /* skip leading space on the new wrapped line */
+        while (off < len && (s[off] == ' ' || s[off] == '\t')) off++;
+    }
+    return n;
+}
+
+/* -- Parse file into word-wrapped virtual lines ------------- */
 static void parse_lines(void)
 {
     if (!file_buf) return;
@@ -303,8 +338,7 @@ static void parse_lines(void)
     while (*p) {
         const char *ls = p;
         while (*p && *p != '\n') p++;
-        int ll = (int)(p - ls);
-        count += (ll == 0) ? 1 : (ll + COLS - 1) / COLS;
+        count += count_vlines(ls, (int)(p - ls));
         if (*p == '\n') p++;
     }
 
@@ -321,15 +355,18 @@ static void parse_lines(void)
         if (ll == 0) {
             lines[total_lines++] = (Line){ ls, 0 };
         } else {
-            for (int off = 0; off < ll; off += COLS) {
-                int seg = ll - off;
-                if (seg > COLS) seg = COLS;
+            int off = 0;
+            while (off < ll) {
+                int seg = find_wrap(ls + off, ll - off);
                 lines[total_lines++] = (Line){ ls + off, seg };
+                off += seg;
+                /* skip leading whitespace on wrapped continuation */
+                while (off < ll && (ls[off] == ' ' || ls[off] == '\t')) off++;
             }
         }
         if (*p == '\n') p++;
     }
-    ESP_LOGI(TAG, "Parsed %d virtual lines", total_lines);
+    ESP_LOGI(TAG, "Parsed %d virtual lines (word-wrapped)", total_lines);
 }
 
 /* -- Read entire file from SPIFFS into heap ----------------- */
