@@ -43,7 +43,8 @@ static const char *TAG = "reader";
 #define CELL_W      FONT_W                         /* 8 px wide per character  */
 #define CELL_H      (FONT_H + LINE_PAD)            /* 12 px tall per row       */
 #define COLS        (LCD_H_RES / CELL_W)           /* 30 chars per row         */
-#define ROWS        (LCD_V_RES / CELL_H)           /* 26 visible rows          */
+#define ROWS        (LCD_V_RES / CELL_H)           /* 32 total rows            */
+#define TEXT_ROWS   (ROWS - 1)                      /* 31 rows for text content  */
 
 /* Colors: RGB565 stored byte-swapped so SPI little-endian send is correct */
 #define COL_BG  0xC518u   /* #1A1A2E dark navy, RGB565 0x18C5 byte-swapped */
@@ -165,6 +166,13 @@ static volatile int encoder_count      = 0;
 static int          last_btn_state     = 1;
 static int          last_enc_btn_state = 1;
 
+/* -- Scroll speed modes ------------------------------------- */
+#define NUM_SCROLL_MODES 3
+static const int  scroll_steps[NUM_SCROLL_MODES] = { 2, 10, 0 }; /* 0 = page */
+static const char *scroll_labels[NUM_SCROLL_MODES] = { "x2", "x10", "page" };
+static volatile int scroll_mode = 0;
+static volatile bool status_dirty = false;
+
 /* -- LCD panel handle --------------------------------------- */
 static esp_lcd_panel_handle_t panel_handle = NULL;
 
@@ -231,8 +239,8 @@ static void IRAM_ATTR encoder_isr_handler(void *arg)
     int dir = transition_table[prev_state][enc_state];
     if (dir != 0) {
         step += dir;
-        if (step >= 4)       { encoder_count+=2; step = 0; }
-        else if (step <= -4) { encoder_count-=2; step = 0; }
+        if (step >= 4)       { encoder_count++; step = 0; }
+        else if (step <= -4) { encoder_count--; step = 0; }
     }
     prev_state = enc_state;
 }
@@ -246,19 +254,23 @@ static void input_task(void *arg)
         if (btn == 0 && last_btn_state == 1)
             ESP_LOGI(TAG, "Button pressed");
         last_btn_state = btn;
-        if (enc_btn == 0 && last_enc_btn_state == 1)
-            ESP_LOGI(TAG, "Encoder button pressed");
+        if (enc_btn == 0 && last_enc_btn_state == 1) {
+            scroll_mode = (scroll_mode + 1) % NUM_SCROLL_MODES;
+            status_dirty = true;
+            ESP_LOGI(TAG, "Scroll mode: %s", scroll_labels[scroll_mode]);
+        }
         last_enc_btn_state = enc_btn;
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
 /* -- Draw one text row and push to display ------------------ */
-static void draw_row(int display_row, const char *text, int len)
+static void draw_row_ex(int display_row, const char *text, int len,
+                        uint16_t fg, uint16_t bg)
 {
     uint16_t *buf = row_bufs[cur_buf];
 
-    for (int i = 0; i < LCD_H_RES * CELL_H; i++) buf[i] = COL_BG;
+    for (int i = 0; i < LCD_H_RES * CELL_H; i++) buf[i] = bg;
 
     int chars = len < COLS ? len : COLS;
     for (int col = 0; col < chars; col++) {
@@ -268,7 +280,7 @@ static void draw_row(int display_row, const char *text, int len)
         for (int gy = 0; gy < FONT_H; gy++) {
             uint8_t bits = glyph[gy];
             for (int gx = 0; gx < FONT_W; gx++) {
-                uint16_t px = (bits & (1u << gx)) ? COL_FG : COL_BG;
+                uint16_t px = (bits & (1u << gx)) ? fg : bg;
                 buf[(LINE_PAD + gy) * LCD_H_RES + col * CELL_W + gx] = px;
             }
         }
@@ -279,16 +291,32 @@ static void draw_row(int display_row, const char *text, int len)
     cur_buf ^= 1;   /* flip to the other buffer for the next call */
 }
 
+static void draw_row(int display_row, const char *text, int len)
+{
+    draw_row_ex(display_row, text, len, COL_FG, COL_BG);
+}
+
+/* -- Draw just the status bar ------------------------------- */
+static void draw_status_bar(void)
+{
+    char status[COLS + 1];
+    int cur_line = top_line + 1;
+    const char *mode = scroll_labels[scroll_mode];
+    snprintf(status, sizeof(status), " %d/%d  [%s]", cur_line, total_lines, mode);
+    draw_row_ex(TEXT_ROWS, status, (int)strlen(status), COL_BG, COL_FG);
+}
+
 /* -- Render current view to display ------------------------- */
 static void render_view(void)
 {
-    for (int r = 0; r < ROWS; r++) {
+    for (int r = 0; r < TEXT_ROWS; r++) {
         int idx = top_line + r;
         if (idx < total_lines)
             draw_row(r, lines[idx].start, lines[idx].len);
         else
             draw_row(r, "", 0);
     }
+    draw_status_bar();
 }
 
 /* -- Find wrap point for word-wrapping ---------------------- */
@@ -395,16 +423,30 @@ static void reader_task(void *arg)
     bool       pending_save    = false;
 
     while (1) {
-        int max_top = total_lines > ROWS ? total_lines - ROWS : 0;
-        int current = encoder_count;
-        if (current < 0) { encoder_count = 0; current = 0; }
-        if (current > max_top) { encoder_count = max_top; current = max_top; }
-        if (current != last_top) {
-            top_line = current;
+        int step = scroll_steps[scroll_mode];
+        if (step == 0) step = TEXT_ROWS;  /* page mode */
+        int max_top = total_lines > TEXT_ROWS ? total_lines - TEXT_ROWS : 0;
+
+        /* Consume encoder delta */
+        int delta = encoder_count;
+        if (delta != 0) {
+            encoder_count = 0;
+            int new_top = top_line + delta * step;
+            if (new_top < 0) new_top = 0;
+            if (new_top > max_top) new_top = max_top;
+            top_line = new_top;
+        }
+
+        if (top_line != last_top) {
             render_view();
-            last_top = current;
+            last_top = top_line;
             last_change_tick = xTaskGetTickCount();
             pending_save = true;
+        }
+        /* Redraw status bar if scroll mode changed */
+        if (status_dirty) {
+            draw_status_bar();
+            status_dirty = false;
         }
         /* Debounced NVS save */
         if (pending_save &&
@@ -510,10 +552,10 @@ void app_main(void)
 
     /* 5. Restore scroll position + initial render + reader task */
     int saved = load_scroll_pos(current_file);
-    int max_top = total_lines > ROWS ? total_lines - ROWS : 0;
+    int max_top = total_lines > TEXT_ROWS ? total_lines - TEXT_ROWS : 0;
     if (saved > max_top) saved = max_top;
     if (saved < 0) saved = 0;
-    encoder_count = saved;
+    encoder_count = 0;
     top_line = saved;
     render_view();
     xTaskCreate(reader_task, "reader", 4096, NULL, 5, NULL);
