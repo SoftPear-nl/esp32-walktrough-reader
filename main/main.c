@@ -19,17 +19,7 @@
 
 static const char *TAG = "st7789_lvgl";
 
-/* ── Rotary encoder/button state ─────────────── */
-volatile int encoder_count = 0;
-static int last_btn_state = 1;
-static int last_enc_btn_state = 1;
-
-// Encoder state for ISR
-static volatile int last_enc_state = 0;
-static volatile int enc_sequence = 0;
-static volatile int enc_cycle_count = 0;
-
-/* ── Pin definitions ──────────────────────────────────────── */
+/* -- Pin definitions ---------------------------------------- */
 #define SCREEN_1_SCL_PIN  1   /* SPI SCLK  */
 #define SCREEN_1_SDA_PIN  10  /* SPI MOSI  */
 #define SCREEN_1_RES_PIN  11  /* LCD RST   */
@@ -38,9 +28,9 @@ static volatile int enc_cycle_count = 0;
 #define ROT_ENC_A_PIN     4
 #define ROT_ENC_B_PIN     7
 #define ROT_ENC_BTN_PIN   6
-#define BTN_PIN      5
+#define BTN_PIN           5
 
-/* ── Display geometry ─────────────────────────────────────── */
+/* -- Display geometry --------------------------------------- */
 #define LCD_H_RES         240
 #define LCD_V_RES         320
 #define LCD_PIXEL_CLOCK_HZ (40 * 1000 * 1000)
@@ -50,33 +40,37 @@ static volatile int enc_cycle_count = 0;
 #define DRAW_BUF_LINES    24
 #define DRAW_BUF_SIZE     (LCD_H_RES * DRAW_BUF_LINES * sizeof(uint16_t))
 
-/* ── Globals ──────────────────────────────────────────────── */
+/* -- Globals ------------------------------------------------ */
 static SemaphoreHandle_t lvgl_mux = NULL;
+static lv_obj_t *scroll_cont = NULL;
 
-// Rotary encoder ISR
-static void IRAM_ATTR encoder_isr_handler(void* arg)
+/* -- Rotary encoder / button state ------------------------- */
+static volatile int encoder_count      = 0;
+static volatile int last_scroll_count  = 0; /* read by LVGL timer, written by input_task */
+static int          last_btn_state     = 1;
+static int          last_enc_btn_state = 1;
+
+/* -- Rotary encoder ISR (interrupt-driven quadrature) ------- */
+static void IRAM_ATTR encoder_isr_handler(void *arg)
 {
     int enc_a = gpio_get_level(ROT_ENC_A_PIN);
     int enc_b = gpio_get_level(ROT_ENC_B_PIN);
     int enc_state = (enc_a << 1) | enc_b;
 
-    // State machine for quadrature decoding
     static int prev_state = 0;
     static int step = 0;
 
-    // Transition table: [prev][curr] = direction
-    // 0: no move, 1: CW, -1: CCW
+    /* Transition table: [prev][curr] -> +1 CW, -1 CCW, 0 invalid */
     static const int transition_table[4][4] = {
-        {0, 1, -1, 0}, // prev 00
-        {-1, 0, 0, 1}, // prev 01
-        {1, 0, 0, -1}, // prev 10
-        {0, -1, 1, 0}  // prev 11
+        { 0,  1, -1,  0}, /* prev 00 */
+        {-1,  0,  0,  1}, /* prev 01 */
+        { 1,  0,  0, -1}, /* prev 10 */
+        { 0, -1,  1,  0}  /* prev 11 */
     };
 
     int dir = transition_table[prev_state][enc_state];
     if (dir != 0) {
         step += dir;
-        // Only count when 4 steps completed (one detent)
         if (step >= 4) {
             encoder_count++;
             step = 0;
@@ -88,32 +82,30 @@ static void IRAM_ATTR encoder_isr_handler(void* arg)
     prev_state = enc_state;
 }
 
-/* ── Rotary encoder/button polling task ──────── */
+/* -- Input polling task: buttons + encoder ISR visibility ─── */
 static void input_task(void *arg)
 {
     ESP_LOGI(TAG, "Input task started");
+    int last_logged_enc = 0;
+
     while (1) {
-        int btn = gpio_get_level(BTN_PIN);
+        int btn     = gpio_get_level(BTN_PIN);
         int enc_btn = gpio_get_level(ROT_ENC_BTN_PIN);
 
-        // Log encoder count and direction
-        static int last_reported_count = 0;
-        if (encoder_count != last_reported_count) {
-            if (encoder_count > last_reported_count) {
-                ESP_LOGI(TAG, "Encoder CW: %d", encoder_count);
-            } else {
-                ESP_LOGI(TAG, "Encoder CCW: %d", encoder_count);
-            }
-            last_reported_count = encoder_count;
+        /* Log every encoder count change so we can verify the ISR fires */
+        int enc = encoder_count;
+        if (enc != last_logged_enc) {
+            ESP_LOGI(TAG, "Encoder count: %d", enc);
+            last_logged_enc = enc;
         }
 
-        // Button press detection (active low)
+        /* Button press detection (active low) */
         if (btn == 0 && last_btn_state == 1) {
             ESP_LOGI(TAG, "Button pressed");
         }
         last_btn_state = btn;
 
-        // Encoder push button detection (active low)
+        /* Encoder push-button detection (active low) */
         if (enc_btn == 0 && last_enc_btn_state == 1) {
             ESP_LOGI(TAG, "Encoder button pressed");
         }
@@ -123,16 +115,15 @@ static void input_task(void *arg)
     }
 }
 
-/* ── LVGL tick source (v9 explicit callback) ──────────────── */
+/* -- LVGL tick source (v9 explicit callback) ---------------- */
 static uint32_t lvgl_tick_cb(void)
 {
     return (uint32_t)(esp_timer_get_time() / 1000ULL);
 }
 
-/* ── LVGL flush callback ──────────────────────────────────── */
+/* -- LVGL flush callback ------------------------------------ */
 static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
-    ESP_LOGI(TAG, "flush x1=%d y1=%d x2=%d y2=%d", area->x1, area->y1, area->x2, area->y2);
     esp_lcd_panel_handle_t panel = (esp_lcd_panel_handle_t)lv_display_get_user_data(disp);
     esp_lcd_panel_draw_bitmap(panel,
                               area->x1, area->y1,
@@ -141,60 +132,116 @@ static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px
     lv_display_flush_ready(disp);
 }
 
-/* ── LVGL timer task ──────────────────────────────────────── */
+/* -- LVGL timer task ---------------------------------------- */
 static void lvgl_task(void *arg)
 {
     ESP_LOGI(TAG, "LVGL task started");
-    uint32_t next_delay_ms = 1;
+    uint32_t next_delay_ms = 10;
 
     while (1) {
-        vTaskDelay(pdMS_TO_TICKS(next_delay_ms > 0 ? next_delay_ms : 1));
-        if (xSemaphoreTake(lvgl_mux, pdMS_TO_TICKS(10)) == pdTRUE) {
+        /* Always delay at least 1 RTOS tick so lower-priority tasks (including
+         * IDLE for WDT reset) get CPU time.  At CONFIG_FREERTOS_HZ=100 each
+         * tick is 10 ms; pdMS_TO_TICKS(<10) rounds down to 0 which makes
+         * vTaskDelay() return immediately and starves the IDLE task. */
+        TickType_t ticks = pdMS_TO_TICKS(next_delay_ms);
+        vTaskDelay(ticks < 1 ? 1 : ticks);
+        if (xSemaphoreTake(lvgl_mux, pdMS_TO_TICKS(50)) == pdTRUE) {
             next_delay_ms = lv_timer_handler();
             xSemaphoreGive(lvgl_mux);
         }
     }
 }
 
-/* ── Demo UI ──────────────────────────────────────────────── */
+/* -- LVGL timer: applies encoder scroll in LVGL task context  */
+static void scroll_timer_cb(lv_timer_t *timer)
+{
+    if (scroll_cont == NULL) return;
+    int current = encoder_count;
+    if (current != last_scroll_count) {
+        int32_t pos = (int32_t)current * 20;
+        int32_t scroll_bottom = lv_obj_get_scroll_bottom(scroll_cont);
+        int32_t scroll_y      = lv_obj_get_scroll_y(scroll_cont);
+        ESP_LOGI(TAG, "Scroll %s encoder=%d y_before=%d target=%d scrollable_bottom=%d",
+                 current > last_scroll_count ? "DOWN" : "UP",
+                 current, (int)scroll_y, (int)pos, (int)scroll_bottom);
+        lv_obj_scroll_to_y(scroll_cont, pos, LV_ANIM_OFF);
+        last_scroll_count = current;
+    }
+}
+
+/* -- Demo UI ------------------------------------------------ */
 static void create_demo_ui(void)
 {
     lv_obj_t *scr = lv_screen_active();
 
-    /* Background colour */
+    /* Background */
     lv_obj_set_style_bg_color(scr, lv_color_hex(0x1A1A2E), LV_PART_MAIN);
     lv_obj_set_style_bg_opa(scr, LV_OPA_COVER, LV_PART_MAIN);
 
     /* Title */
     lv_obj_t *label = lv_label_create(scr);
-    lv_label_set_text(label, "ST7789 + LVGL\n320 x 240");
+    lv_label_set_text(label, "Walkthrough Reader");
     lv_obj_set_style_text_color(label, lv_color_hex(0x00D4FF), LV_PART_MAIN);
     lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
-    lv_obj_align(label, LV_ALIGN_CENTER, 0, -30);
+    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 8);
 
-    /* Animated spinner */
-    lv_obj_t *spinner = lv_spinner_create(scr);
-    lv_obj_set_size(spinner, 60, 60);
-    lv_obj_align(spinner, LV_ALIGN_CENTER, 0, 50);
+    /* Scrollable container */
+    scroll_cont = lv_obj_create(scr);
+    lv_obj_set_size(scroll_cont, 230, 270);
+    lv_obj_align(scroll_cont, LV_ALIGN_BOTTOM_MID, 0, -5);
+    lv_obj_set_scroll_dir(scroll_cont, LV_DIR_VER);
+    lv_obj_set_scrollbar_mode(scroll_cont, LV_SCROLLBAR_MODE_AUTO);
+    lv_obj_set_style_bg_color(scroll_cont, lv_color_hex(0x22223B), LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(scroll_cont, LV_OPA_COVER, LV_PART_MAIN);
+    lv_obj_set_style_border_width(scroll_cont, 0, LV_PART_MAIN);
+    lv_obj_set_style_pad_all(scroll_cont, 8, LV_PART_MAIN);
+
+    /* Text content */
+    lv_obj_t *text = lv_label_create(scroll_cont);
+    lv_label_set_long_mode(text, LV_LABEL_LONG_WRAP);
+    lv_obj_set_width(text, 210);
+    lv_obj_set_height(text, LV_SIZE_CONTENT);
+    lv_obj_set_style_text_color(text, lv_color_hex(0xE0E0E0), LV_PART_MAIN);
+    lv_label_set_text(text,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. "
+        "Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. "
+        "Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. "
+        "Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. "
+        "Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. "
+        "Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. "
+        "Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. "
+        "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aliquam nibh. "
+        "Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. "
+        "Ut velit mauris, egestas sed, gravida nec, ornare ut, mi. Aenean ut orci vel massa suscipit pulvinar. "
+        "Nulla sollicitudin. Fusce varius, ligula non tempus aliquam, nunc turpis ullamcorper nibh, "
+        "in tempus sapien eros vitae ligula. Pellentesque rhoncus nunc et augue. Integer id felis. "
+        "Curabitur aliquet pellentesque diam. Integer quis metus vitae elit lobortis egestas. "
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. "
+        "Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. "
+        "Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. "
+        "Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat."
+    );
+
+    /* Timer to apply encoder scroll — runs inside the LVGL task */
+    lv_timer_create(scroll_timer_cb, 20, NULL);
 }
 
-/* ── app_main ─────────────────────────────────────────────── */
+/* -- app_main ----------------------------------------------- */
 void app_main(void)
 {
     ESP_LOGI(TAG, "Initialising ST7789 display");
 
-    /* Rotary encoder and button GPIO setup */
+    /* 0. Input GPIO setup */
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << ROT_ENC_A_PIN) | (1ULL << ROT_ENC_B_PIN) |
-                       (1ULL << ROT_ENC_BTN_PIN) | (1ULL << BTN_PIN),
-        .mode = GPIO_MODE_INPUT,
-        .pull_up_en = GPIO_PULLUP_ENABLE,
+                        (1ULL << ROT_ENC_BTN_PIN) | (1ULL << BTN_PIN),
+        .mode         = GPIO_MODE_INPUT,
+        .pull_up_en   = GPIO_PULLUP_ENABLE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE
+        .intr_type    = GPIO_INTR_DISABLE,
     };
     ESP_ERROR_CHECK(gpio_config(&io_conf));
 
-    // Encoder pins: enable interrupts
     gpio_set_intr_type(ROT_ENC_A_PIN, GPIO_INTR_ANYEDGE);
     gpio_set_intr_type(ROT_ENC_B_PIN, GPIO_INTR_ANYEDGE);
     gpio_install_isr_service(0);
@@ -217,13 +264,13 @@ void app_main(void)
     /* 2. Panel IO (SPI -> ST7789) */
     esp_lcd_panel_io_handle_t io_handle = NULL;
     esp_lcd_panel_io_spi_config_t io_cfg = {
-        .dc_gpio_num        = SCREEN_1_DC_PIN,
-        .cs_gpio_num        = SCREEN_1_CS_PIN,
-        .pclk_hz            = LCD_PIXEL_CLOCK_HZ,
-        .lcd_cmd_bits       = 8,
-        .lcd_param_bits     = 8,
-        .spi_mode           = 0,
-        .trans_queue_depth  = 10,
+        .dc_gpio_num       = SCREEN_1_DC_PIN,
+        .cs_gpio_num       = SCREEN_1_CS_PIN,
+        .pclk_hz           = LCD_PIXEL_CLOCK_HZ,
+        .lcd_cmd_bits      = 8,
+        .lcd_param_bits    = 8,
+        .spi_mode          = 0,
+        .trans_queue_depth = 10,
     };
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi(
         (esp_lcd_spi_bus_handle_t)LCD_HOST, &io_cfg, &io_handle));
@@ -231,23 +278,23 @@ void app_main(void)
     /* 3. ST7789 panel */
     esp_lcd_panel_handle_t panel_handle = NULL;
     esp_lcd_panel_dev_config_t panel_cfg = {
-        .reset_gpio_num  = SCREEN_1_RES_PIN,
-        .rgb_ele_order   = LCD_RGB_ELEMENT_ORDER_RGB,
-        .bits_per_pixel  = 16,
+        .reset_gpio_num = SCREEN_1_RES_PIN,
+        .rgb_ele_order  = LCD_RGB_ELEMENT_ORDER_RGB,
+        .bits_per_pixel = 16,
     };
     ESP_ERROR_CHECK(esp_lcd_new_panel_st7789(io_handle, &panel_cfg, &panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_invert_color(panel_handle, true));
-    ESP_ERROR_CHECK(esp_lcd_panel_swap_xy(panel_handle, false));     /* portrait: no axis swap */
+    ESP_ERROR_CHECK(esp_lcd_panel_swap_xy(panel_handle, false));
     ESP_ERROR_CHECK(esp_lcd_panel_mirror(panel_handle, false, false));
     ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
-    vTaskDelay(pdMS_TO_TICKS(120)); /* allow panel to settle after init */
+    vTaskDelay(pdMS_TO_TICKS(120));
     ESP_LOGI(TAG, "ST7789 panel ready");
 
     /* 4. LVGL initialisation */
     lv_init();
-    lv_tick_set_cb(lvgl_tick_cb); /* explicit v9 tick source */
+    lv_tick_set_cb(lvgl_tick_cb);
 
     static uint8_t buf1[DRAW_BUF_SIZE];
     static uint8_t buf2[DRAW_BUF_SIZE];
@@ -264,12 +311,15 @@ void app_main(void)
     assert(lvgl_mux);
     xTaskCreate(lvgl_task, "lvgl", 8192, NULL, 5, NULL);
 
-    /* 6. Build demo UI and force first render */
+    /* 6. Build UI — take the mutex briefly before the LVGL task can grab it.
+     * lv_refr_now() is NOT called here: at HZ=100 the LVGL task (priority 5)
+     * preempts app_main (priority 1) the moment xTaskCreate returns, so any
+     * blocking work here would race with the task.  The LVGL refr_timer will
+     * render the first frame on its own within one period (~33 ms). */
     if (xSemaphoreTake(lvgl_mux, pdMS_TO_TICKS(100)) == pdTRUE) {
         create_demo_ui();
-        lv_refr_now(disp); /* trigger immediate flush */
         xSemaphoreGive(lvgl_mux);
     }
 
-    ESP_LOGI(TAG, "UI ready — entering idle loop");
+    ESP_LOGI(TAG, "UI ready");
 }
