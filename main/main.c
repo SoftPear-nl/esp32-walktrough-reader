@@ -1,9 +1,10 @@
-#include <stdio.h>
+﻿#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/semphr.h"
-#include "esp_timer.h"
 #include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_panel_ops.h"
@@ -11,42 +12,162 @@
 #include "driver/gpio.h"
 #include "esp_err.h"
 #include "esp_log.h"
-#include "lvgl.h"
+#include "esp_spiffs.h"
+#include "esp_heap_caps.h"
 
-static const char *TAG = "st7789_lvgl";
+static const char *TAG = "reader";
 
 /* -- Pin definitions ---------------------------------------- */
-#define SCREEN_1_SCL_PIN  1   /* SPI SCLK  */
-#define SCREEN_1_SDA_PIN  10  /* SPI MOSI  */
-#define SCREEN_1_RES_PIN  11  /* LCD RST   */
-#define SCREEN_1_DC_PIN   12  /* LCD DC    */
-#define SCREEN_1_CS_PIN   13  /* LCD CS    */
+#define SCREEN_1_SCL_PIN  1
+#define SCREEN_1_SDA_PIN  10
+#define SCREEN_1_RES_PIN  11
+#define SCREEN_1_DC_PIN   12
+#define SCREEN_1_CS_PIN   13
 #define ROT_ENC_A_PIN     4
 #define ROT_ENC_B_PIN     7
 #define ROT_ENC_BTN_PIN   6
 #define BTN_PIN           5
 
 /* -- Display geometry --------------------------------------- */
-#define LCD_H_RES         240
-#define LCD_V_RES         320
-#define LCD_PIXEL_CLOCK_HZ (40 * 1000 * 1000)
-#define LCD_HOST          SPI2_HOST
+#define LCD_H_RES           240
+#define LCD_V_RES           320
+#define LCD_PIXEL_CLOCK_HZ  (40 * 1000 * 1000)
+#define LCD_HOST            SPI2_HOST
 
-/* Draw buffer: double-buffered, 24 lines each */
-#define DRAW_BUF_LINES    24
-#define DRAW_BUF_SIZE     (LCD_H_RES * DRAW_BUF_LINES * sizeof(uint16_t))
+/* -- Font / layout ------------------------------------------ */
+#define FONT_W      8
+#define FONT_H      8
+#define LINE_PAD    2                              /* blank pixels above glyph */
+#define CELL_W      FONT_W                         /* 8 px wide per character  */
+#define CELL_H      (FONT_H + LINE_PAD)            /* 12 px tall per row       */
+#define COLS        (LCD_H_RES / CELL_W)           /* 30 chars per row         */
+#define ROWS        (LCD_V_RES / CELL_H)           /* 26 visible rows          */
 
-/* -- Globals ------------------------------------------------ */
-static SemaphoreHandle_t lvgl_mux = NULL;
-static lv_obj_t *scroll_cont = NULL;
+/* Colors: RGB565 stored byte-swapped so SPI little-endian send is correct */
+#define COL_BG  0xC518u   /* #1A1A2E dark navy, RGB565 0x18C5 byte-swapped */
+#define COL_FG  0x1CE7u   /* #E0E0E0 light grey, RGB565 0xE71C byte-swapped */
 
-/* -- Rotary encoder / button state ------------------------- */
+/* -- 8x8 bitmap font, ASCII 0x20-0x7E ----------------------- */
+/* Each entry: 8 bytes, one per scanline, MSB = leftmost pixel */
+static const uint8_t font8[95][8] = {
+    {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}, /* 0x20   */
+    {0x18,0x3C,0x3C,0x18,0x18,0x00,0x18,0x00}, /* 0x21 ! */
+    {0x66,0x66,0x24,0x00,0x00,0x00,0x00,0x00}, /* 0x22 " */
+    {0x6C,0x6C,0xFE,0x6C,0xFE,0x6C,0x6C,0x00}, /* 0x23 # */
+    {0x18,0x7E,0x03,0x3E,0x60,0x3F,0x18,0x00}, /* 0x24 $ */
+    {0x00,0xC6,0xCC,0x18,0x30,0x66,0xC6,0x00}, /* 0x25 % */
+    {0x38,0x6C,0x38,0x76,0xDC,0xCC,0x76,0x00}, /* 0x26 & */
+    {0x18,0x18,0x0C,0x00,0x00,0x00,0x00,0x00}, /* 0x27 ' */
+    {0x30,0x18,0x0C,0x0C,0x0C,0x18,0x30,0x00}, /* 0x28 ( */
+    {0x0C,0x18,0x30,0x30,0x30,0x18,0x0C,0x00}, /* 0x29 ) */
+    {0x00,0x6C,0x38,0xFE,0x38,0x6C,0x00,0x00}, /* 0x2A * */
+    {0x00,0x18,0x18,0x7E,0x18,0x18,0x00,0x00}, /* 0x2B + */
+    {0x00,0x00,0x00,0x00,0x00,0x18,0x18,0x0C}, /* 0x2C , */
+    {0x00,0x00,0x00,0x7E,0x00,0x00,0x00,0x00}, /* 0x2D - */
+    {0x00,0x00,0x00,0x00,0x00,0x18,0x18,0x00}, /* 0x2E . */
+    {0xC0,0x60,0x30,0x18,0x0C,0x06,0x03,0x00}, /* 0x2F / */
+    {0x3C,0x66,0x6E,0x76,0x66,0x66,0x3C,0x00}, /* 0x30 0 */
+    {0x18,0x1C,0x18,0x18,0x18,0x18,0x7E,0x00}, /* 0x31 1 */
+    {0x3C,0x66,0x60,0x38,0x0C,0x66,0x7E,0x00}, /* 0x32 2 */
+    {0x3C,0x66,0x60,0x38,0x60,0x66,0x3C,0x00}, /* 0x33 3 */
+    {0x70,0x78,0x6C,0x66,0xFE,0x60,0xF0,0x00}, /* 0x34 4 */
+    {0x7E,0x06,0x3E,0x60,0x60,0x66,0x3C,0x00}, /* 0x35 5 */
+    {0x38,0x0C,0x06,0x3E,0x66,0x66,0x3C,0x00}, /* 0x36 6 */
+    {0x7E,0x66,0x60,0x30,0x18,0x18,0x18,0x00}, /* 0x37 7 */
+    {0x3C,0x66,0x66,0x3C,0x66,0x66,0x3C,0x00}, /* 0x38 8 */
+    {0x3C,0x66,0x66,0x7C,0x60,0x30,0x1C,0x00}, /* 0x39 9 */
+    {0x00,0x18,0x18,0x00,0x00,0x18,0x18,0x00}, /* 0x3A : */
+    {0x00,0x18,0x18,0x00,0x00,0x18,0x18,0x0C}, /* 0x3B ; */
+    {0x30,0x18,0x0C,0x06,0x0C,0x18,0x30,0x00}, /* 0x3C < */
+    {0x00,0x00,0x7E,0x00,0x00,0x7E,0x00,0x00}, /* 0x3D = */
+    {0x06,0x0C,0x18,0x30,0x18,0x0C,0x06,0x00}, /* 0x3E > */
+    {0x3C,0x66,0x60,0x30,0x18,0x00,0x18,0x00}, /* 0x3F ? */
+    {0x3E,0x63,0x7B,0x7B,0x7B,0x03,0x1E,0x00}, /* 0x40 @ */
+    {0x18,0x3C,0x66,0x66,0x7E,0x66,0x66,0x00}, /* 0x41 A */
+    {0x3E,0x66,0x66,0x3E,0x66,0x66,0x3E,0x00}, /* 0x42 B */
+    {0x3C,0x66,0x06,0x06,0x06,0x66,0x3C,0x00}, /* 0x43 C */
+    {0x1E,0x36,0x66,0x66,0x66,0x36,0x1E,0x00}, /* 0x44 D */
+    {0x7E,0x06,0x06,0x1E,0x06,0x06,0x7E,0x00}, /* 0x45 E */
+    {0x7E,0x06,0x06,0x1E,0x06,0x06,0x06,0x00}, /* 0x46 F */
+    {0x3C,0x66,0x06,0x76,0x66,0x66,0x3C,0x00}, /* 0x47 G */
+    {0x66,0x66,0x66,0x7E,0x66,0x66,0x66,0x00}, /* 0x48 H */
+    {0x3C,0x18,0x18,0x18,0x18,0x18,0x3C,0x00}, /* 0x49 I */
+    {0x78,0x30,0x30,0x30,0x30,0x36,0x1C,0x00}, /* 0x4A J */
+    {0x66,0x36,0x1E,0x0E,0x1E,0x36,0x66,0x00}, /* 0x4B K */
+    {0x06,0x06,0x06,0x06,0x06,0x06,0x7E,0x00}, /* 0x4C L */
+    {0xC6,0xEE,0xFE,0xD6,0xC6,0xC6,0xC6,0x00}, /* 0x4D M */
+    {0x66,0x6E,0x7E,0x76,0x66,0x66,0x66,0x00}, /* 0x4E N */
+    {0x3C,0x66,0x66,0x66,0x66,0x66,0x3C,0x00}, /* 0x4F O */
+    {0x3E,0x66,0x66,0x3E,0x06,0x06,0x06,0x00}, /* 0x50 P */
+    {0x3C,0x66,0x66,0x66,0x76,0x3C,0x70,0x00}, /* 0x51 Q */
+    {0x3E,0x66,0x66,0x3E,0x1E,0x36,0x66,0x00}, /* 0x52 R */
+    {0x3C,0x66,0x06,0x3C,0x60,0x66,0x3C,0x00}, /* 0x53 S */
+    {0x7E,0x18,0x18,0x18,0x18,0x18,0x18,0x00}, /* 0x54 T */
+    {0x66,0x66,0x66,0x66,0x66,0x66,0x3C,0x00}, /* 0x55 U */
+    {0x66,0x66,0x66,0x66,0x66,0x3C,0x18,0x00}, /* 0x56 V */
+    {0xC6,0xC6,0xC6,0xD6,0xFE,0xEE,0xC6,0x00}, /* 0x57 W */
+    {0x66,0x66,0x3C,0x18,0x3C,0x66,0x66,0x00}, /* 0x58 X */
+    {0x66,0x66,0x66,0x3C,0x18,0x18,0x18,0x00}, /* 0x59 Y */
+    {0x7E,0x60,0x30,0x18,0x0C,0x06,0x7E,0x00}, /* 0x5A Z */
+    {0x3C,0x0C,0x0C,0x0C,0x0C,0x0C,0x3C,0x00}, /* 0x5B [ */
+    {0x03,0x06,0x0C,0x18,0x30,0x60,0xC0,0x00}, /* 0x5C \ */
+    {0x3C,0x30,0x30,0x30,0x30,0x30,0x3C,0x00}, /* 0x5D ] */
+    {0x10,0x38,0x6C,0xC6,0x00,0x00,0x00,0x00}, /* 0x5E ^ */
+    {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF}, /* 0x5F _ */
+    {0x0C,0x0C,0x18,0x00,0x00,0x00,0x00,0x00}, /* 0x60 ` */
+    {0x00,0x00,0x3C,0x60,0x7C,0x66,0x7C,0x00}, /* 0x61 a */
+    {0x06,0x06,0x3E,0x66,0x66,0x66,0x3E,0x00}, /* 0x62 b */
+    {0x00,0x00,0x3C,0x06,0x06,0x66,0x3C,0x00}, /* 0x63 c */
+    {0x60,0x60,0x7C,0x66,0x66,0x66,0x7C,0x00}, /* 0x64 d */
+    {0x00,0x00,0x3C,0x66,0x7E,0x06,0x3C,0x00}, /* 0x65 e */
+    {0x38,0x6C,0x0C,0x1E,0x0C,0x0C,0x1E,0x00}, /* 0x66 f */
+    {0x00,0x00,0x7C,0x66,0x66,0x7C,0x60,0x3C}, /* 0x67 g */
+    {0x06,0x06,0x3E,0x66,0x66,0x66,0x66,0x00}, /* 0x68 h */
+    {0x18,0x00,0x1C,0x18,0x18,0x18,0x3C,0x00}, /* 0x69 i */
+    {0x30,0x00,0x38,0x30,0x30,0x36,0x1C,0x00}, /* 0x6A j */
+    {0x06,0x06,0x66,0x36,0x1E,0x36,0x66,0x00}, /* 0x6B k */
+    {0x1C,0x18,0x18,0x18,0x18,0x18,0x3C,0x00}, /* 0x6C l */
+    {0x00,0x00,0x6C,0xFE,0xD6,0xC6,0xC6,0x00}, /* 0x6D m */
+    {0x00,0x00,0x3E,0x66,0x66,0x66,0x66,0x00}, /* 0x6E n */
+    {0x00,0x00,0x3C,0x66,0x66,0x66,0x3C,0x00}, /* 0x6F o */
+    {0x00,0x00,0x3E,0x66,0x66,0x3E,0x06,0x06}, /* 0x70 p */
+    {0x00,0x00,0x7C,0x66,0x66,0x7C,0x60,0x60}, /* 0x71 q */
+    {0x00,0x00,0x3E,0x66,0x06,0x06,0x06,0x00}, /* 0x72 r */
+    {0x00,0x00,0x7C,0x06,0x3C,0x60,0x3E,0x00}, /* 0x73 s */
+    {0x0C,0x0C,0x3E,0x0C,0x0C,0x0C,0x38,0x00}, /* 0x74 t */
+    {0x00,0x00,0x66,0x66,0x66,0x66,0x7C,0x00}, /* 0x75 u */
+    {0x00,0x00,0x66,0x66,0x66,0x3C,0x18,0x00}, /* 0x76 v */
+    {0x00,0x00,0xC6,0xD6,0xFE,0xEE,0x6C,0x00}, /* 0x77 w */
+    {0x00,0x00,0x66,0x3C,0x18,0x3C,0x66,0x00}, /* 0x78 x */
+    {0x00,0x00,0x66,0x66,0x66,0x7C,0x60,0x3C}, /* 0x79 y */
+    {0x00,0x00,0x7E,0x30,0x18,0x0C,0x7E,0x00}, /* 0x7A z */
+    {0x38,0x18,0x18,0x0E,0x18,0x18,0x38,0x00}, /* 0x7B { */
+    {0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x00}, /* 0x7C | */
+    {0x0E,0x18,0x18,0x38,0x18,0x18,0x0E,0x00}, /* 0x7D } */
+    {0x76,0xDC,0x00,0x00,0x00,0x00,0x00,0x00}, /* 0x7E ~ */
+};
+
+/* -- Virtual line (start pointer + length) ------------------ */
+typedef struct { const char *start; int len; } Line;
+
+static char  *file_buf    = NULL;
+static Line  *lines       = NULL;
+static int    total_lines = 0;
+static int    top_line    = 0;
+
+/* -- Rotary encoder / button state -------------------------- */
 static volatile int encoder_count      = 0;
-static volatile int last_scroll_count  = 0; /* read by LVGL timer, written by input_task */
 static int          last_btn_state     = 1;
 static int          last_enc_btn_state = 1;
 
-/* -- Rotary encoder ISR (interrupt-driven quadrature) ------- */
+/* -- LCD panel handle --------------------------------------- */
+static esp_lcd_panel_handle_t panel_handle = NULL;
+
+/* -- Double pixel-row buffers (heap-allocated for DMA) ------ */
+static uint16_t *row_bufs[2] = { NULL, NULL };
+static int       cur_buf     = 0;
+
+/* -- Rotary encoder ISR ------------------------------------- */
 static void IRAM_ATTR encoder_isr_handler(void *arg)
 {
     int enc_a = gpio_get_level(ROT_ENC_A_PIN);
@@ -54,168 +175,159 @@ static void IRAM_ATTR encoder_isr_handler(void *arg)
     int enc_state = (enc_a << 1) | enc_b;
 
     static int prev_state = 0;
-    static int step = 0;
+    static int step       = 0;
 
-    /* Transition table: [prev][curr] -> +1 CW, -1 CCW, 0 invalid */
     static const int transition_table[4][4] = {
-        { 0,  1, -1,  0}, /* prev 00 */
-        {-1,  0,  0,  1}, /* prev 01 */
-        { 1,  0,  0, -1}, /* prev 10 */
-        { 0, -1,  1,  0}  /* prev 11 */
+        { 0,  1, -1,  0},
+        {-1,  0,  0,  1},
+        { 1,  0,  0, -1},
+        { 0, -1,  1,  0}
     };
 
     int dir = transition_table[prev_state][enc_state];
     if (dir != 0) {
         step += dir;
-        if (step >= 4) {
-            encoder_count++;
-            step = 0;
-        } else if (step <= -4) {
-            encoder_count--;
-            step = 0;
-        }
+        if (step >= 4)       { encoder_count++; step = 0; }
+        else if (step <= -4) { encoder_count--; step = 0; }
     }
     prev_state = enc_state;
 }
 
-/* -- Input polling task: buttons + encoder ISR visibility ─── */
+/* -- Input task: button monitoring -------------------------- */
 static void input_task(void *arg)
 {
-    ESP_LOGI(TAG, "Input task started");
-    int last_logged_enc = 0;
-
     while (1) {
         int btn     = gpio_get_level(BTN_PIN);
         int enc_btn = gpio_get_level(ROT_ENC_BTN_PIN);
-
-        /* Log every encoder count change so we can verify the ISR fires */
-        int enc = encoder_count;
-        if (enc != last_logged_enc) {
-            ESP_LOGI(TAG, "Encoder count: %d", enc);
-            last_logged_enc = enc;
-        }
-
-        /* Button press detection (active low) */
-        if (btn == 0 && last_btn_state == 1) {
+        if (btn == 0 && last_btn_state == 1)
             ESP_LOGI(TAG, "Button pressed");
-        }
         last_btn_state = btn;
-
-        /* Encoder push-button detection (active low) */
-        if (enc_btn == 0 && last_enc_btn_state == 1) {
+        if (enc_btn == 0 && last_enc_btn_state == 1)
             ESP_LOGI(TAG, "Encoder button pressed");
-        }
         last_enc_btn_state = enc_btn;
-
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
-/* -- LVGL tick source (v9 explicit callback) ---------------- */
-static uint32_t lvgl_tick_cb(void)
+/* -- Draw one text row and push to display ------------------ */
+static void draw_row(int display_row, const char *text, int len)
 {
-    return (uint32_t)(esp_timer_get_time() / 1000ULL);
-}
+    uint16_t *buf = row_bufs[cur_buf];
 
-/* -- LVGL flush callback ------------------------------------ */
-static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
-{
-    esp_lcd_panel_handle_t panel = (esp_lcd_panel_handle_t)lv_display_get_user_data(disp);
-    esp_lcd_panel_draw_bitmap(panel,
-                              area->x1, area->y1,
-                              area->x2 + 1, area->y2 + 1,
-                              px_map);
-    lv_display_flush_ready(disp);
-}
+    for (int i = 0; i < LCD_H_RES * CELL_H; i++) buf[i] = COL_BG;
 
-/* -- LVGL timer task ---------------------------------------- */
-static void lvgl_task(void *arg)
-{
-    ESP_LOGI(TAG, "LVGL task started");
-    uint32_t next_delay_ms = 10;
-
-    while (1) {
-        /* Always delay at least 1 RTOS tick so lower-priority tasks (including
-         * IDLE for WDT reset) get CPU time.  At CONFIG_FREERTOS_HZ=100 each
-         * tick is 10 ms; pdMS_TO_TICKS(<10) rounds down to 0 which makes
-         * vTaskDelay() return immediately and starves the IDLE task. */
-        TickType_t ticks = pdMS_TO_TICKS(next_delay_ms);
-        vTaskDelay(ticks < 1 ? 1 : ticks);
-        if (xSemaphoreTake(lvgl_mux, pdMS_TO_TICKS(50)) == pdTRUE) {
-            next_delay_ms = lv_timer_handler();
-            xSemaphoreGive(lvgl_mux);
+    int chars = len < COLS ? len : COLS;
+    for (int col = 0; col < chars; col++) {
+        uint8_t c = (uint8_t)text[col];
+        if (c < 0x20 || c > 0x7E) c = 0x20;
+        const uint8_t *glyph = font8[c - 0x20];
+        for (int gy = 0; gy < FONT_H; gy++) {
+            uint8_t bits = glyph[gy];
+            for (int gx = 0; gx < FONT_W; gx++) {
+                uint16_t px = (bits & (1u << gx)) ? COL_FG : COL_BG;
+                buf[(LINE_PAD + gy) * LCD_H_RES + col * CELL_W + gx] = px;
+            }
         }
     }
+
+    int y0 = display_row * CELL_H;
+    esp_lcd_panel_draw_bitmap(panel_handle, 0, y0, LCD_H_RES, y0 + CELL_H, buf);
+    cur_buf ^= 1;   /* flip to the other buffer for the next call */
 }
 
-/* -- LVGL timer: applies encoder scroll in LVGL task context  */
-static void scroll_timer_cb(lv_timer_t *timer)
+/* -- Render current view to display ------------------------- */
+static void render_view(void)
 {
-    if (scroll_cont == NULL) return;
-    int current = encoder_count;
-    if (current != last_scroll_count) {
-        int32_t pos = (int32_t)current * 20;
-        lv_obj_scroll_to_y(scroll_cont, pos, LV_ANIM_ON);
-        last_scroll_count = current;
+    for (int r = 0; r < ROWS; r++) {
+        int idx = top_line + r;
+        if (idx < total_lines)
+            draw_row(r, lines[idx].start, lines[idx].len);
+        else
+            draw_row(r, "", 0);
     }
 }
 
-/* -- Demo UI ------------------------------------------------ */
-static void create_demo_ui(void)
+/* -- Parse file into wrapped virtual lines ------------------ */
+/* Long physical lines are hard-wrapped at COLS characters.   */
+static void parse_lines(void)
 {
-    lv_obj_t *scr = lv_screen_active();
+    if (!file_buf) return;
 
-    /* Background */
-    lv_obj_set_style_bg_color(scr, lv_color_hex(0x1A1A2E), LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(scr, LV_OPA_COVER, LV_PART_MAIN);
+    /* First pass: count virtual lines */
+    int count = 0;
+    const char *p = file_buf;
+    while (*p) {
+        const char *ls = p;
+        while (*p && *p != '\n') p++;
+        int ll = (int)(p - ls);
+        count += (ll == 0) ? 1 : (ll + COLS - 1) / COLS;
+        if (*p == '\n') p++;
+    }
 
-    /* Scrollable container */
-    scroll_cont = lv_obj_create(scr);
-    lv_obj_set_size(scroll_cont, 240, 320);
-    lv_obj_align(scroll_cont, LV_ALIGN_BOTTOM_MID, 0, 0);
-    lv_obj_set_scroll_dir(scroll_cont, LV_DIR_VER);
-    lv_obj_set_scrollbar_mode(scroll_cont, LV_SCROLLBAR_MODE_AUTO);
-    lv_obj_set_style_bg_color(scroll_cont, lv_color_hex(0x22223B), LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(scroll_cont, LV_OPA_COVER, LV_PART_MAIN);
-    lv_obj_set_style_border_width(scroll_cont, 0, LV_PART_MAIN);
-    lv_obj_set_style_pad_all(scroll_cont, 8, LV_PART_MAIN);
+    lines = malloc((size_t)count * sizeof(Line));
+    if (!lines) { ESP_LOGE(TAG, "lines malloc failed"); return; }
 
-    /* Text content */
-    lv_obj_t *text = lv_label_create(scroll_cont);
-    lv_label_set_long_mode(text, LV_LABEL_LONG_WRAP);
-    lv_obj_set_width(text, 235);
-    lv_obj_set_height(text, LV_SIZE_CONTENT);
-    lv_obj_set_style_text_color(text, lv_color_hex(0xE0E0E0), LV_PART_MAIN);
-    lv_label_set_text(text,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. "
-        "Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. "
-        "Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. "
-        "Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. "
-        "Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. "
-        "Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. "
-        "Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. "
-        "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aliquam nibh. "
-        "Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. "
-        "Ut velit mauris, egestas sed, gravida nec, ornare ut, mi. Aenean ut orci vel massa suscipit pulvinar. "
-        "Nulla sollicitudin. Fusce varius, ligula non tempus aliquam, nunc turpis ullamcorper nibh, "
-        "in tempus sapien eros vitae ligula. Pellentesque rhoncus nunc et augue. Integer id felis. "
-        "Curabitur aliquet pellentesque diam. Integer quis metus vitae elit lobortis egestas. "
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. "
-        "Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. "
-        "Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. "
-        "Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat."
-    );
+    /* Second pass: populate */
+    total_lines = 0;
+    p = file_buf;
+    while (*p) {
+        const char *ls = p;
+        while (*p && *p != '\n') p++;
+        int ll = (int)(p - ls);
+        if (ll == 0) {
+            lines[total_lines++] = (Line){ ls, 0 };
+        } else {
+            for (int off = 0; off < ll; off += COLS) {
+                int seg = ll - off;
+                if (seg > COLS) seg = COLS;
+                lines[total_lines++] = (Line){ ls + off, seg };
+            }
+        }
+        if (*p == '\n') p++;
+    }
+    ESP_LOGI(TAG, "Parsed %d virtual lines", total_lines);
+}
 
-    /* Timer to apply encoder scroll — runs inside the LVGL task */
-    lv_timer_create(scroll_timer_cb, 10, NULL);
+/* -- Read entire file from SPIFFS into heap ----------------- */
+static char *read_spiffs_file(const char *path)
+{
+    struct stat st;
+    if (stat(path, &st) != 0) { ESP_LOGE(TAG, "stat failed: %s", path); return NULL; }
+    char *buf = malloc((size_t)st.st_size + 1);
+    if (!buf) { ESP_LOGE(TAG, "malloc failed"); return NULL; }
+    FILE *f = fopen(path, "r");
+    if (!f) { free(buf); ESP_LOGE(TAG, "fopen failed: %s", path); return NULL; }
+    size_t n = fread(buf, 1, (size_t)st.st_size, f);
+    fclose(f);
+    buf[n] = '\0';
+    ESP_LOGI(TAG, "Read %u bytes from %s", (unsigned)n, path);
+    return buf;
+}
+
+/* -- Reader task: poll encoder and re-render on change ------ */
+static void reader_task(void *arg)
+{
+    int last_top = -1;
+    while (1) {
+        int max_top = total_lines > ROWS ? total_lines - ROWS : 0;
+        int current = encoder_count;
+        if (current < 0) { encoder_count = 0; current = 0; }
+        if (current > max_top) { encoder_count = max_top; current = max_top; }
+        if (current != last_top) {
+            top_line = current;
+            render_view();
+            last_top = current;
+        }
+        vTaskDelay(pdMS_TO_TICKS(30));
+    }
 }
 
 /* -- app_main ----------------------------------------------- */
 void app_main(void)
 {
-    ESP_LOGI(TAG, "Initialising ST7789 display");
+    ESP_LOGI(TAG, "Starting reader");
 
-    /* 0. Input GPIO setup */
+    /* 0. GPIO */
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << ROT_ENC_A_PIN) | (1ULL << ROT_ENC_B_PIN) |
                         (1ULL << ROT_ENC_BTN_PIN) | (1ULL << BTN_PIN),
@@ -231,8 +343,7 @@ void app_main(void)
     gpio_install_isr_service(0);
     gpio_isr_handler_add(ROT_ENC_A_PIN, encoder_isr_handler, NULL);
     gpio_isr_handler_add(ROT_ENC_B_PIN, encoder_isr_handler, NULL);
-
-    xTaskCreate(input_task, "input_task", 2048, NULL, 4, NULL);
+    xTaskCreate(input_task, "input", 2048, NULL, 4, NULL);
 
     /* 1. SPI bus */
     spi_bus_config_t bus_cfg = {
@@ -241,11 +352,11 @@ void app_main(void)
         .sclk_io_num     = SCREEN_1_SCL_PIN,
         .quadwp_io_num   = -1,
         .quadhd_io_num   = -1,
-        .max_transfer_sz = LCD_H_RES * DRAW_BUF_LINES * sizeof(uint16_t),
+        .max_transfer_sz = LCD_H_RES * CELL_H * sizeof(uint16_t),
     };
     ESP_ERROR_CHECK(spi_bus_initialize(LCD_HOST, &bus_cfg, SPI_DMA_CH_AUTO));
 
-    /* 2. Panel IO (SPI -> ST7789) */
+    /* 2. Panel IO */
     esp_lcd_panel_io_handle_t io_handle = NULL;
     esp_lcd_panel_io_spi_config_t io_cfg = {
         .dc_gpio_num       = SCREEN_1_DC_PIN,
@@ -259,8 +370,7 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi(
         (esp_lcd_spi_bus_handle_t)LCD_HOST, &io_cfg, &io_handle));
 
-    /* 3. ST7789 panel */
-    esp_lcd_panel_handle_t panel_handle = NULL;
+    /* 3. ST7789 */
     esp_lcd_panel_dev_config_t panel_cfg = {
         .reset_gpio_num = SCREEN_1_RES_PIN,
         .rgb_ele_order  = LCD_RGB_ELEMENT_ORDER_RGB,
@@ -274,31 +384,27 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_lcd_panel_mirror(panel_handle, false, false));
     ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
     vTaskDelay(pdMS_TO_TICKS(120));
-    ESP_LOGI(TAG, "ST7789 panel ready");
+    ESP_LOGI(TAG, "ST7789 ready");
 
-    /* 4. LVGL initialisation */
-    lv_init();
-    lv_tick_set_cb(lvgl_tick_cb);
+    /* 4. SPIFFS + file */
+    esp_vfs_spiffs_conf_t spiffs_conf = {
+        .base_path              = "/spiffs",
+        .partition_label        = "storage",
+        .max_files              = 5,
+        .format_if_mount_failed = false,
+    };
+    /* Allocate double row buffers in DMA-capable memory */
+    size_t buf_sz = LCD_H_RES * CELL_H * sizeof(uint16_t);
+    row_bufs[0] = heap_caps_malloc(buf_sz, MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
+    row_bufs[1] = heap_caps_malloc(buf_sz, MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
+    assert(row_bufs[0] && row_bufs[1]);
 
-    static uint8_t buf1[DRAW_BUF_SIZE];
-    static uint8_t buf2[DRAW_BUF_SIZE];
+    ESP_ERROR_CHECK(esp_vfs_spiffs_register(&spiffs_conf));
+    file_buf = read_spiffs_file("/spiffs/ff10.txt");
+    if (file_buf) parse_lines();
 
-    lv_display_t *disp = lv_display_create(LCD_H_RES, LCD_V_RES);
-    lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565_SWAPPED);
-    lv_display_set_flush_cb(disp, lvgl_flush_cb);
-    lv_display_set_user_data(disp, panel_handle);
-    lv_display_set_buffers(disp, buf1, buf2, DRAW_BUF_SIZE,
-                           LV_DISPLAY_RENDER_MODE_PARTIAL);
-
-    /* 5. LVGL mutex + task (stack 8 kB, priority 5) */
-    lvgl_mux = xSemaphoreCreateMutex();
-    assert(lvgl_mux);
-    xTaskCreate(lvgl_task, "lvgl", 8192, NULL, 5, NULL);
-
-    if (xSemaphoreTake(lvgl_mux, pdMS_TO_TICKS(100)) == pdTRUE) {
-        create_demo_ui();
-        xSemaphoreGive(lvgl_mux);
-    }
-
-    ESP_LOGI(TAG, "UI ready");
+    /* 5. Initial render + reader task */
+    render_view();
+    xTaskCreate(reader_task, "reader", 4096, NULL, 5, NULL);
+    ESP_LOGI(TAG, "Ready");
 }

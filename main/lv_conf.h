@@ -33,7 +33,7 @@
  *===================*/
 
 /* Default display refresh period in milliseconds */
-#define LV_DEF_REFR_PERIOD 20
+#define LV_DEF_REFR_PERIOD 10
 
 /* Input device read period in milliseconds */
 #define LV_INDEV_DEF_READ_PERIOD 30
@@ -77,8 +77,10 @@
 /*=================
    FONT USAGE
  *=================*/
+#define LV_FONT_MONTSERRAT_10 1
+#define LV_FONT_MONTSERRAT_12 1
 #define LV_FONT_MONTSERRAT_14 1
-#define LV_FONT_DEFAULT &lv_font_montserrat_14
+#define LV_FONT_DEFAULT &lv_font_montserrat_12
 
 /*=================
    WIDGET USAGE

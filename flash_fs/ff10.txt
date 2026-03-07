@@ -1,0 +1,2103 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 10 - MUSHROOM ROCK RAOD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Raptor, Gandarewa, Lamashtu, Red Element, Funguar, Garuda
+Bosses   - Sinspawn Gui
+Items    - Al Bhed Primer X, Ether, 1400 Gil, Hi-Potion x4, Mega-Potion x2,
+          Phoenix Down x2, Potion x10, Remedy x2, Serene Bracer, Serene Armlet,
+          Soft x4, Tough Bangle, X-Potion
+
+The Mushroom Rock Road is so named because there are lots of rocks there in the
+shape of Mushrooms. Inriguing, no?  Anyway start off by talking to everyone you
+see. The first five people you see on the Mushroom Rock will hand over a REMEDY
+, a TOUGH BANGLE, an ETHER, a HI-POTION, and 2 PHOENIX DOWNS. As you head on
+you'll be informed that you all have to go to the Command Centre. You'll have
+to turn left, into the Valley. You'll meet O'aka on the way, his prices now
+depend on how much money you donated to him earlier.
+
+
+                     Price (depends on how much you donated before)
+Weapons            | < 100 Gil   | 101-1000 Gil | 1001-10000 Gil | > 10000 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+Ice Brand          | 1500 Gil    | 1125 Gil     | 900 Gil        | 525 Gil
+Rod of Wisdom      | 1050 Gil    | 788 Gil      | 630 Gil        | 368 Gil
+Metal Shield       | 1050 Gil    | 788 Gil      | 630 Gil        | 368 Gil
+Magic Ring         | 4050 Gil    | 3038 Gil     | 2430 Gil       | 1418 Gil
+NulFrost Armguard  | 1950 Gil    | 1463 Gil     | 1170 Gil       | 683 Gil
+Magic Bangle       | 4050 Gil    | 3038 Gil     | 2430 Gil       | 1418 Gil
+Light Bracer       | 3150 Gil    | 2263 Gil     | 1890 Gil       | 1103 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+
+
+
+                     Price (depends on how much you donated before)
+Items              | < 100 Gil   | 101-1000 Gil | 1001-10000 Gil | > 10000 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+Potion             | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+Phoenix Down       | 200 Gil     | 150 Gil      | 120 Gil        | 70 Gil
+Antidote           | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+Eye Drops          | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+Echo Screen        | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+
+
+As you can see there are some dramatic swings in price there. For the cheapest
+prices you would gave had to donate over 10,000 Gil. After that to have made
+any kind of profit you would have to spend well over 20,000 Gil (sounds odd),
+I don't think paying that much in advance is worth it. Head past O'aka. You'll
+be heading for a stone platform now, talk to the person before it for a HI-
+POTION. Get on the platform an ascend. This would be a good spot for training
+if only there was a save sphere near-by. Anyway, this is a pretty long section
+and you'll be brought into battle regularly. The toughest opponent is the
+Garuda, use a BLIND attack to render him harmless.
+
+As you can see by the map the path weaves back and forth, only making your
+journey that bit longer. You'll see a chest containing 1000 GIL in a dead end
+after the first wind in the road, the person near the chest will give you 10
+POTIONS. Back on the path you'll a REMEDY in a chest a little further on. If
+you happen to bump into Shelinda, talk to her 3 times and she will fully heal
+you. She'll do this unlimited times, making this a perfect spot for some
+training. Try to get your Lulu to learn the level 2 Black Magic spells like
+Fira etc. They are really helpful at this stage. After you finish training (or
+if you don't want to bother), let Shelinda heal you and continue on. If at all
+possible try and fill your overdrive gauges (people and aeons). Don't use
+the overdrives though! Just before you leave the valley you'll find a chest
+containing a HI-POTION. At the end you have to step on another platform which
+will bring you up.
+
+You've now reached the Precipice. Talk to the man in front of you as you come
+up to get an X-POTION. Continue on and turn left when you see a turn. Another
+platform will take to to a SERUM ARMLET. Head bakc to the main path, an keep
+heading forward. When you see another left turn take it again, follow the path
+around to pick up AL BHEP PRIMER X. Back on the main path look for a man who
+will kindly donate you 400 GIL. Have a word with the next gurad you see, he
+guards a huge machina. He'll give you a MEGA-POTION. If you want to see Wakka
+punch Luzzu in the face then take a few steps to the South where a conversation
+will ensue. When you're ready, head back to the big machina and go up.
+You're up at the command centre now. The only thing to do is head straight for
+the next area, around to the left. Talk to any guards for snippets of informa
+-tion regarding Operation Mi'ihen. There's a SAVE SPHERE over to the left hand
+side, save here. O'aka is beside it, and he's selling better weapons now.
+
+
+                     Price (depends on how much you donated before)
+Weapons            | < 100 Gil   | 101-1000 Gil | 1001-10000 Gil | > 10000 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+Avenger            | 8100  Gil   | 6075  Gil    | 4860  Gil      | 2835 Gil
+T.K.O.             | 10100 Gil   | 7575  Gil    | 6060  Gil      | 3535 Gil
+Sentry             | 18150 Gil   | 13613 Gil    | 10890 Gil      | 6353 Gil
+Pearl Ring         | 500   Gil   | 375   Gil    | 300   Gil      | 175  Gil
+White Armlet       | 3100  Gil   | 2325  Gil    | 1860  Gil      | 1085 Gil
+Alert Armlet       | 500   Gil   | 375   Gil    | 300   Gil      | 175  Gil
+Blue Bangle        | 5250  Gil   | 3938  Gil    | 3150  Gil      | 1838 Gil
+Red Ring           | 12300 Gil   | 9225  Gil    | 7380  Gil      | 4305 Gil
+Lucid Armguard     | 3750  Gil   | 2813  Gil    | 2250  Gil      | 1313 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+
+
+                     Price (depends on how much you donated before)
+Items              | < 100 Gil   | 101-1000 Gil | 1001-10000 Gil | > 10000 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+Potion             | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+Phoenix Down       | 200 Gil     | 150 Gil      | 120 Gil        | 70 Gil
+Antidote           | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+Eye Drops          | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+Echo Screen        | 100 Gil     | 75 Gil       | 60 Gil         | 35 Gil
+------------------ | ----------- | ------------ | -------------- | -----------
+
+
+As you can see the weapons are a bit pricey, but have some really good abilit
+-ies such as Initiative and Counter-Attack. Buy any if you can afford them.
+After you've finished your business with O'aka then head into the main section
+of the control centre. You'll be stopped by Gatta, and have a short chat with
+him. Answer as you see fit. There are some scenes with Maesters Kinoc and
+Seymour too. There are two chests here, it can be hard to see them. One is in
+the top right corner, it contains a SERENE BRACER. The other, a little south of
+that one, contains a Mega-Potion. When you're ready talk to the guard at the
+South East corner of the area, and prepare for battle, a lovely big boss. Oh
+and there are some really cool FMVs coming up here, look out for those.
+
+----------------------------------------
+    BOSS - SINSPAWN GUI
+----------------------------------------
+HP       - 12,000 (Head - 4,000) (Arms - 800 each)
+AP       - 485
+Weakness - None
+
+This boss is one of the toughest you will have encountered so far. He has
+four parts, the Head, Body and Arms(2). The Arms will always regenerate when
+you destroy them. However, if you don't take out the arms you will be unable
+to hit the body with Physical attacks. Therefore you have to take out the arms
+every time they come back.
+
+My party of choice here would be Auron, Yuna and Lulu (if she has second level
+Black Magic). Give every Character at least one active turn for the puprpose
+of gaining AP. Use everyone's Overdrive as well. Start off by dealing with the
+head. Cast spells with Lulu and Physical attacks from Wakka can do that. If
+you get a message on-screen saying the head is moving suspiciously, make sure
+the next thing you do is attack it or else it wil Poison the whole party. It
+also deals a good bit of damage with the Poison attack. You can't really afford
+to get hit with that. The Head uses Thunder attacks, so cast NulShock with Yuna
+for some temporary immunity. After some relentless attack of the head, it will
+change colour, meaning it's dead. Now switch Auron in for Wakka. It's time to
+take out the Arms.
+
+They don't have much HP, so just attack and use spells. Once they are both gone
+it's time to go nuts on the body. Bring in anyone with a full Overdrive gauge
+to deal good damage. Auron should use POWER BREAK at first chance, significant
+-ly reducing the amount of damage dealt. After a couple of turns the arms will
+come back. Now summom an Aeon with full Overdrive to deal a good amount of
+damage, upwards of 2,000 HP. If you didn't take my advice and didn't fill the
+overdrive gauges, summon anyway and see if you can fill the gauge during the
+fight. When the arms are gone it's also a good idea to switch Yuna for Tidus
+and have him attack the body with Auron. After you give him a good beating he
+will die. Or will he...
+
+No is the answer. The big bastard comes back alive. But this time his HP is
+halved, and you fight alongside Seymour! He is very strong, and lets you kick
+ass. His Black Magic will take off in excess of 1,200 HP a turn. Again take out
+the head first, then the arms and body. This is the only chance in the whole
+game that you get to see Requiem, Seymours Overdrive. It takes a while to fill
+his gauge, but it is worth it. This second battle should be a breeze with
+Seymour on your team. After winning you'll get 6 shiny LV. 1 KEY SPHERES,
+letting you go to new and mysterious places on the Sphere Grid.
+
+You'll regain control on the beach, you're task is to find the one living
+person left. It will be either Gatta or Luzzu (I always get Luzzu). You can
+find him to the very north of the beach, in the middle pretty much, resting
+against the cliff. After talking to him you'll be zapped to the Aftermath area
+of Mushroom Rock. You're adventure in this part of the world is about to end.
+Save you're game, and run straight left from the Sphere to find a HI-POTION.
+You have to exit at the North East, you'll meet O'aka on the way. He only sells
+items now, see lists above for what he sells and prices. As soon as you leave
+Aftermath, you're on the Djose Highroad. If you return to the First part of the
+Mushroom Rakc Road much later in the game you can find 4 SOFTS at the far end.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 11 - DJOSE HIGHROAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Ganarewa, Bit Big, Garm, Simurgh, Bunyip, Funguar, Snow Flan,
+           Basilisk
+Bosses   - None
+Items    - Al Bhed Primer XI, Ability Sphere, Ether x2, Bright Bangle, 4000 Gil
+           Hi-Potion x3, Mega-Phoenix, Mega-Potion, Halberd, Potion x10, Remedy
+           Switch Hitter, Variable Steel
+
+***Some of the items can only be obtained afetr the Djose Cloister of Trials***
+
+This road has a whooping 8 items to collect on it. Talk to everyone you meet to
+receive a VARIABLE STEEL(talk to this guy twice), a SOFT RING and a MEGA
+-POTION. North of the guy you got the mega-potion from you'll find a chest on
+the left hand side of the road. North of that again on the right hand side you
+can find the AL BHED PRIMER XI behind a rock. Run on and in a little niche
+on the left find a chest containing a BRIGHT BANGLE. There are tow further
+people to talk to on the Highroad, one gives up a HI-POTION, the other a dose
+of ETHER. When all items are collected proceed to the next area, the Pilgrim
+Road. Turn right at the end of the Highroad. The left turn leads to the Moon
+-flow, but we don't want to go there yet.
+
+There are no items to pick up here (yet). They become availible after the
+Cloister of Trials. Head straight through this road, you'll now be approaching
+the Temple. In this area you'll find 4000 GIL to the extreme left and 4 ABILITY
+SPHERES in the North East corner. Save also, and browse through to items on
+sale in the shop beside the Save Sphere.
+
+Weapons           | Price
+----------------- | ---------
+Fencing Sabre     | 550 Gil
+Rune Rod          | 550 Gil
+Hyper Ball        | 550 Gil
+Rune Mog          | 550 Gil
+Halberd           | 825 Gil
+Shimmering Blade  | 825 Gil
+Metal Shield      | 550 Gil
+Metal Ring        | 550 Gil
+Metal Armguard    | 550 Gil
+Metal Bangle      | 550 Gil
+Metal Armlet      | 550 Gil
+Metal Bracer      | 550 Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Soft              | 50  Gil
+----------------- | ---------
+
+
+You can rest here, but it's a bit pointless to say the least. When you are
+ready go into the Temple. You'll meet Isaaru, another pilgrim summoner. He'll
+warn you about summoners getting kidnapped. Once you have control again look
+in the chambers to the right and left of the door to the Cloister to find a
+MEGA-PHOENIX and a REMEDY. Just outside the chamber to the left you can also
+find am ETHER. Now head into the Trials. The word(s) for this one is(are) a
+pain in the ass.
+
+As you enter, you'll find DJOSE SPHERES on the left and right walls of the
+chamber. Insert them both in the door to open it. You'll enter another chamber.
+There are a load of symbols on the floor, your job is to light the lot of them
+up. You'll see a pedestal, and a door beyond it. There are DJOSE SPHERES on
+either side of the door, take one of them. Run to the right and you'll see two
+more holes in the wall for spheres so put it in either. Now take the other
+DJOSE SPHERE from near the door and place it in the other hole to the right.
+A pedestal on the ceiling will light up. Now go to the pedestal on the ground
+and push it under the one on the ceiling (it must have a DJOSE SPHERE in it).
+The DJOSE SPHERE will charge itself up. Take it and place it in the hole to the
+right of the door.
+
+The door will now open, but the way is still barred by a pit of lightning. Go
+back to the pedestal on the ground and put 2 DJOSE SPHERES in it. Now push it
+into the lightning pit, creating a platform. Use the action button to jump onto
+the platform, then to the other side. Push the switch to light up a piece of
+the rune on the floor, then head back to the main chamber. Take the charged
+DJOSE SPHERE from the right of the door and put it in the hole on the left.
+Now run the the left and step on the shiny spot on the floor to get back the
+pedestal. Take the two remaining DJOSE SPHERES (one in the pedestal, one in the
+wall to the right) and put them in the holes back in the walls of the first
+chamber of the trails you entered. This should light up the remaining parts of
+the symbol on the floor. A platform will materialize so jump on and head up.
+
+Run north to a room with 5 pedestals, each in an alcove in the wall. Push each
+one into the wall as far as it can go to create a flight of stairs an pedestal
+near the platform. Don't go up yet, head back down on the platform instead.
+Near the shiny spot to the left a Glyph has appeared on the wall. Touch it to
+find a DESTRUCTION SPHERE. Now go back up on the platform and insert the
+DESTRUCTION SPHERE in the pedestal. A secret chamber will appear, take the
+MAGIC SPHERE from the chest. Now go up the stairs and complete the Trials.
+
+You'll encounter Dona again, she's a cow. Yuna heads into the Chamber of the
+Fayth, and as soon as you regain control try and leave to get Yuna back, com
+-plete with new aeon, Ixion. You'll all now end up in the courtyard in front
+of the temple, minus Yuna. Go into the inn, where a new chest holding a SWITCH
+HITTER has appeared. Now go into the temple to the room to the left of the
+Trials entrance to find Yuna. Once everyone has been rounded up head south.
+Remember the turn for the Moonflow? That's our destination. On the bridge south
+talk to everyone to get a HALBERD, 2 HI-POTIONS and 10 POTIONS. Now go for the
+Moonflow.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 12 - MOONFLOW
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Gandarewa, Bite Bug, Bunyip, Funguar, Ochu, Snow Flan
+Bosses   - Extractor
+Items    - Al Bhed Primer XII, Antidote x4, Ether, Lv. 1 Key Sphere x3, Magic
+           Defence Sphere, Mega-Potion, Phoenix Down x2, Summoners Soul,
+           X-Potion
+
+Just follow the path to the North here. Look out for the four chests scattered
+around on the path and you'll end up with 6 LV. KEY SPHERES, a X-POTION and a
+MAGIC DEFENCE SPHERE. Run around for a bit and get your aeons Overdrive gauge
+full, and Yuna's too if you can. Yes, Belgemine wants another fight. You'll
+also bump into Biran and Yenke Ronso who seem to have a vendetta against
+Kimahri.
+
+----------------------------------------
+    BOSS - BELGAMINES IXION
+----------------------------------------
+HP       - ????
+AP       - 0
+Weakness - Water
+
+This fight is easy if you built up your overdrive gauge first. If you get to
+use Hellfire twice then you will win. If you get hurt too badly you can use
+FIRE on yourself with Ifrit to heal. If you didn't build up the Overdrive
+gauges before-hand you can still win, and you do it like this. Summon Ifrit.
+Attack and heal every second round. Eventually your overdrive gauge will fill
+so use Hellfire. Now Ixion will use haste on itself, and Ifrit it going to die.
+That's a given. Once Ifrit is gone Summon Valefor. Ixion will keep attacking
+quickly, but Valefor should be able to dodge a lot of the attacks and also get
+a full overdrive gauge. Use it, and you should win. If you don't, I don't know
+what to tell you. Anyway good look, it's not vital you win.
+
+If you win you'll get 2 DRAGON SCALES, if you lose you'll get 6 SMOKE BOMBS.
+Either way you'll get a SUMMONERS SOULS, letting you teach your aeons new
+abilities if you have the respective items. This is very handy, trust me. Once
+your business is complete on the South Bank Road, head north to just the plain
+old South Bank. There isn't a thing of interest here, so leg it through as fast
+as possible. You'll stop a ways up to admire the river, then just go for the
+South Wharf. There is a treasure chest on your characters righth containing
+2 PHOENIX DOWNS. If you lent O'aka any money at all at the start of the game,
+he'll be beside the chest. Here is what he sells.
+
+Weapons           | Price
+----------------- | ---------
+Double-Edge       | 2175 Gil
+Switch Hitter     | 975  Gil
+Snakehead         | 3075 Gil
+Mythril Ring      | 1575 Gil
+Emerald Bangle    | 1125 Gil
+Serum Bracer      | 1425 Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+----------------- | ---------
+
+There are four other shops around here selling stuff too, I'll add the lists in
+at a later date. Two of them sell armour though, the other two sell weapons. All
+sell items but they are all more expensive than O'akas. From O'aka head to the
+left. You'll be introduced to the Shoopuf. Head to the left of the steps into
+another area with a tent in the background. Some little blue men (aren't they
+cool?) will tell the Chocobo Knights that a Chocobo can't go on the Shoopuf. Go
+up into the tent and find 5000 GIL in a chest behind Lulu. Now go back to the
+steps leading up to the Shoopuf and talk to the blue guy to depart. On the way
+over you'll see a machina city submerged underwater. Yuna will tell a little
+story, and then is kidnapped! Wakka and Tidus heroically jump to her rescue,
+here comes a boss.
+
+----------------------------------------
+    BOSS - EXTRACTOR
+----------------------------------------
+HP       - 4000
+AP       - 660
+Weakness - Slow, Lightning
+
+This boss isn't very hard in my opinion. He only has two attacks, Aqua Shooter
+and Depth Charge. Now I will admit that Depth Charge is a strong attack, about
+400 from each character and it inflicts the Darkness effect, but you can stop
+this attack from being exectuted every time. Weapons with LIGHTNINGSTRIKE are
+ever so helpful here.
+
+Ok he has set patterns to his attack as well. He'll use Aqua Shooter twice,
+then float upwards to ready Depth Charges. If you can inflict 500 HP of damage
+on him while he is readying the Depth Charges you can cancle the attack. If
+you keep getting hit by the Depth Charges then use PROVOKE with Tidus every
+three turns. He'll just keep using Aqua Shooter, although it will become a lot
+stronger than before. He only has 4000 HP too, if you get an Overdrive you can
+knock his HP down by about a quarter. If you manage to get Lightning on the
+Elemental Reels with Wakka you'll deal a lot of damage. If you prevent the
+Depth Charges this guy is a walk in the park.
+
+You'll get Yuna back, naturally after the fight, and the rest of the journey
+across the Moonflow will be a lot less eventful. Once you reach the North Wharf
+You can find the AL BHED PRIMER XII up the ramp to the right of the screen.
+O'aka is hanging about again, he only sells items now, see the items list above
+for what he sells. Leave this area via the left of the screen and grab the
+ETHER in the chest to the left of the hut. Continue in that direction and
+you'll encounter a young girl lying on the ground. This is none other than
+Rikku, who you met at the start of the game. She'll join your party, which is
+always helpful. In a little mock battle her overdrive Mix will be demonstrated.
+She is _really_ weak at the moment, she starts with 360 HP. Make sure to level
+her up a good bit.
+
+In any battles that follow on your way now look out for treasure chests on the
+bettlefield, have Rikku STEAL from them to get the contents. Also look out for
+the pair of chests left on the path, they contain a Mega-Potion and 4 ANTIDOTES
+for your inventory. Continue to the north to enter Guadosalam, ruled over by
+Maester Seymour.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 13 - GUADOSALAM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - None
+Bosses   - None
+Items    - Al Bhed Primer XIII, Elixer, Hi-Potion x2, 3000 Gil, Mega-Potion
+           Lightning Marble x8
+
+As you enter Guadosalam you are greeted by Trommel, a Guado. He tells the party
+the Seymour has some business with Yuna, and leads her off to Seymours Mansion.
+Rikku will now tell you about the CUSTOMISE function, it lets you use items to
+add extra abilities to your weapons. It really is handy. Steal lots with Rikku
+as the items you get are often used in customisation. When you get control back
+look around for the items on offer. Go into the inn on the right to save, and
+have a word with the Historian Maechen. You can practice fighting Iron Giants
+and Larva at the moniter. When your finished head out and take the next right.
+In a house to the extreme west you can find the AL BHED PRIMER XIII and a chest
+holding 3000 GIL. Exit that house and head South, passing a turn to the right
+to find and ELIXER. Now head back in the direction of the mansion, it's to the
+north. To the right of the entrance you can find a MEGA-POTION in a chest. Now
+enter the mansion. Before you do anything else, go up the stairs to find a
+chest holding two HI-POTIONS. It's hidden behind the railings on the far side.
+
+Now try and leave, Trommel will appear. Follow him into the hall and talk to
+each and every one of your companions to trigger Seymours entrance. He will
+show you some weird stuff, such as the Zanarkand of 1000 years ago. The party
+will now be lead to the mystical Farplane, you get to see it for yourself now.
+Follow everyone to there. Auron and Rikku refuse to go in. Once inside talk to
+Wakka and then Yuna. Once the conversation is over you'll see the BROTHERHOOD
+sword has been greatly enhanced. On your way back from the Farplane look for
+a chest hidden on the left of the path just before you return to the main
+part of Guadosalam. Now head back to Seymours place. Talk to all your fellow
+guardians, and then head west and down to find Shelinda waiting to lead you
+from Guadosalam. Next stop is the Thunder Plains. If you like do a bit of
+shopping first, the shop is found on the path below the one to the Farplane.
+
+Weapons           | Price
+----------------- | ---------
+Baroque Sword     | 1237 Gil
+Ductile Rod       | 1237 Gil
+Switch Hitter     | 1237 Gil
+Variable Mog      | 1237 Gil
+Halberd           | 2475 Gil
+Shimmering Blade  | 2475 Gil
+Devastator        | 1237 Gil
+Yellow Shield     | 3487 Gil
+Yellow Ring       | 3487 Gil
+Yellow Armguard   | 3487 Gil
+Yellow Bangle     | 3487 Gil
+Yellow Armlet     | 3487 Gil
+Yellow Bracer     | 3487 Gil
+Yellow Targe      | 3487 Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 75  Gil
+Phoenix Down      | 150 Gil
+Antidote          | 75  Gil
+Eye Drops         | 75  Gil
+Echo Screen       | 75  Gil
+Soft              | 75  Gil
+----------------- | ---------
+
+The items that have protection against Lightning will prove very handy in the
+up-coming areas, as will ones with the WATERSTRIKE ability. O'aka also sells
+stuff from the shop.
+
+Weapons           | Price
+----------------- | ---------
+Double-Edge       | 2175  Gil
+Belladona Wand    | 3075  Gil
+Blind Pass        | 3075  Gil
+Fatal Cait Sith   | 12825 Gil
+Simmering Blade   | 1650  Gil
+Devastator        | 825   Gil
+Yellow Bangle     | 2325  Gil
+Yellow Shield     | 2325  Gil
+Yellow Ring       | 2325  Gil
+Yellow Armguard   | 2325  Gil
+Yellow Armlet     | 2325  Gil
+Yellow Bracer     | 2325  Gil
+Yellow Targe      | 2325  Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+----------------- | ---------
+
+As far as the items and armour are concerned, O'aka is a country mile cheaper
+so go to him. The weapons are different so just buy what you need. Now head for
+the Thunder Plains.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 14 - THUNDER PLAINS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies - Aerouge, Buer, Melusine, Kusariqqu, Qactuar, Gold Element, Larva,
+          Iron Giant
+Bosses  - None
+Items   - Al Bhed Primer XIV, Ether, 7000 Gil, Hi-Potion x2, Phoenix Down x2,
+          Remedy, Water Ball, X-Potion, Yellow Shield
+
+The Thunder Plains are so called for a reason. I wish the real world has small
+isolated spectacular electrical storms like that. I'd live there. Anyway as you
+make your way through the Thunder Plains you'll sometimes see the screen flash
+white, meaning your about to be hit by lightning. Hit X as soon as the screen
+goes white to dodge. You can get items by dodoging, but leave this till later.
+For now I would just collect the 2 PHOENIX DOWNS and 2 HI-POTIONS from chests
+on the left, both are before the SAVE SPHERE. Once you reach the SAVE SPHERE I
+would run around it a bit to level up, this is a great chance to beef up Rikku
+a bit.
+
+As you make your way through the plains you'll see little glowing stones every
+now and again. These are Qactuar stones, if you stand in front of them and
+press the SQUARE button you can activate them. If you activate one stone you
+can fight Qactuars, but only one at a time. The second stone you activate makes
+them appear in groups of two, the third makes them appear in groups of three.
+You can only activate a maximum of three stones.
+
+Head North down the left of the plains to find another chest, this one holds
+5000 GIL. Once you have that cut across to the right hand side, and once the
+plain widens to the right, head right and get a WATER BALL from the chest.
+Equip this right away, it will work really well against the creatures here.
+
+On your way down the plains you also might meet Maechen, who will tell you
+about the plains, and Shelinda, who will ask about Seymour and Yunas propsed
+marriage. It doesn't matter what you tell her. You can now head for the next
+section of the plains, take the exit to the left in the north to reach the
+travel agency, owned by Rin. Here you can buy equipment that will protect
+against lightning attacks.
+
+Weapons           | Price
+----------------- | ---------
+Baroque Sword     | 825  Gil
+Ductile Rod       | 825  Gil
+Switch Hitter     | 825  Gil
+Variable Mog      | 825  Gil
+Halberd           | 1650 Gil
+Shimmering Blade  | 1650 Gil
+Devastator        | 825  Gil
+Yellow Shield     | 2475 Gil
+Yellow Ring       | 2475 Gil
+Yellow Armguard   | 2475 Gil
+Yellow Bangle     | 2475 Gil
+Yellow Armlet     | 2475 Gil
+Yellow Bracer     | 2475 Gil
+Yellow Targe      | 2475 Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+Grenade           | 300 Gil
+Map               | 50  Gil
+----------------- | ---------
+
+Talk to Rikku, and Rin will appear. Go talk to Rin now, and when he asks how
+your study of Al Bhed is going, answer that it goes well. He'll give you the
+AL BHED PRIMER XIV. Now go down the passage to the right to find Yuna. You'll
+catch her at a bad moment kind of and Tidus will somewhat embarrass himself.
+Talk to Rikku again to leave. Outside there is a YELLOW SHIELD on the ground.
+It's not in a chest or anything, so make sure you get it. Equip it as it gives
+100% protetion against LIGHTNING ATTACKS. The North part of the plains has a
+new enemy, the Iron Giant. If you can beat these they offer 800 AP, not to be
+sniffed at. As you enter the plains again go straight right to find a chest
+holding an X-POTION. Now head north. As soon as you reach the SAVE SPHERE you
+could do a little more training, try and kill a few Iron Giants to boost your
+AP. Now head for the left hand side of the plains and go North. You'll come
+across a chest holding an ETHER. Now go to the right of the plains to find a
+chest holding 2000 GIL, and back on the left a little further on you can find
+a REMEDY. You're at the end of the Thunder Plains now, head North to reach
+Macalania Woods.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 15 - MACALANIA (WOODS, LAKE & TEMPLE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   MACALANIA WOODS
+----------------------------------------
+Enemies  - Chimera, Iguion, Murussu, Wasp, Blue Element, Xiphos
+Bosses   - Spherimorph
+Items    - Al Bhed Primer XV, Jecht Sphere, 2000 Gil, Sleepy Cait Sith, Remedy,
+           Phoenix Down x3
+
+The three parts of Macalania are the Woods, Lake and Temple. You'll encounter
+them in that order as well. First off, the woods.
+
+Your party will have a little talk by the SAVE SPHERE. Save here if you like,
+and head North, it's your only option. Round the first large bend to the left
+you'll find a SLEEPY CAIT SITH, and further on down the path here you'll find
+200 GIL. If you haven't leveled up much during the game the random battles here
+might get a bit overwhelming, if you fell you're struggling then flee. In the
+Central section of the woods you can find 3 PHOENIX DOWNS, they're at the
+northern-most part of the big circle-shaped bend. In the Northern Section you
+can find a REMEDY, it's tucked into a the corner of the third bed in the road
+you come up to. Once you're through the North section, you can save again at
+the Lake Road. As you head north Auron will notice something about the area
+and hack a new path through the bushes. Apparently Braska, Jecht and Auron had
+visited this spot on their pilgrimage. Jecht left a Sphere behind too. You'll
+see the stuff Spheres are made from, and then be attacked by a boss.
+
+----------------------------------------
+    BOSS - SPHERIMORPH
+----------------------------------------
+HP       - 12000
+AP       - 3240
+Weakness - Varies
+
+This boss is a bit weird, his elemental weakness shifts every single time you
+attack him, and there isn't all that much that helps you find out which
+element his weakness shifted to without attacking. Spherimorph counters with
+magic, and his weakness will be the OPPOSITE spell to the one he countered
+with. He starts every time weak to Ice, so start out by using BLIZZARA.
+
+Your strategy is as follows. Use Blizzara. He will then shift element, so have
+someone attack with a physical attack. He will counter with a spell, so have
+Lulu use the OPPOSITE spell to that one. Make sure you use the right spell
+because he counters a wrong magic spell with a physical attack on ALL the
+characters in battle. It hurts, trust me. Keep this up and have Yuna heal
+every time a persons HP gets low.
+
+When the Spherimorphs HP gets low he will use Press, an attack that halves all
+characters HP. Heal up after this, and continue attacking. Try to give every
+person a turn in the fight as it offers a fair amount of AP. If you manage to
+finish him off with an aeons overdrive you'll get over 4500 AP, which is nice.
+
+After the fight you'll get a JECHT SPHERE, which teaches Auron a new overdrive
+technique called Shooting Star. It can hurl enemies from the battlefield, and
+if it doesn't it inflicts a good bit of damage. Now head back to the SAVE
+SPHERE out at the Lake Road. Just before the turn off to the right of the save
+sphere you can find the AL BHED PRIMER XV. You'll find O'aka near the Save
+Sphere, don't buy anything and tell him his prices are too expensive. He'll
+drop them. Now take the exit to the north to reach Lake Macalania.
+
+
+   LAKE MACALANIA
+----------------------------------------
+Enemies - Evil Eye, Madfet, Snow Wolf, Ice Flan, Guado Guardian
+Bosses  - Crawler, Wendigo
+Items   - Al Bhed Primer XVI, Avenger, 4000 Gil, Lv. 1 Key Sphere, Lv. 2 Key
+          Sphere, Mega-Potion
+
+You'll have a talk outside the agency, owned by Rin again of course. Talk to
+Clasko to the right of the agency and tell him he would be a good Chocobo
+BREEDER. He'll gve you an item later on if you do. The chest behind him is
+not accessible for now, nor are any of the other items apart from the AL BHED
+PRIMER XVI which can be found to the left of O'aka outside the agency. Speaking
+of O'aka, here is what he sells.
+
+Weapons           | Price
+----------------- | ---------
+Sonic Steel       | 13838 Gil
+Halberd           | 2925  Gil
+Force Knuckles    | 1463  Gil
+Serum Ring        | 3263  Gil
+Echo Bangle       | 3488  Gil
+Echo Armlet       | 1238  Gil
+Soft Bracer       | 2813  Gil
+Soldiers Targe    | 2588  Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 75  Gil
+Hi-Potion         | 750 Gil
+Phoenix Down      | 150 Gil
+Antidote          | 75  Gil
+Eye Drops         | 75  Gil
+Echo Screen       | 75  Gil
+Soft              | 75  Gil
+----------------- | ---------
+
+-----------
+AGENCY SHOP
+-----------
+Weapons           | Price
+----------------- | ---------
+Baroque Sword     | 825  Gil
+Ductile Rod       | 825  Gil
+Switch Hitter     | 825  Gil
+Variable Mog      | 825  Gil
+Halberd           | 1650 Gil
+Shimmering Blade  | 1650 Gil
+Devastator        | 825  Gil
+Seeker's Shield   | 1575 Gil
+Seeker's Ring     | 1575 Gil
+Seeker's Armguard | 1575 Gil
+Seeker's Bangle   | 1575 Gil
+Seeker's Armlet   | 1575 Gil
+Seeker's Bracer   | 1575 Gil
+Seeker's Targe    | 1575 Gil
+Longsword         | 50   Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Hi-Potion         | 500 Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+Grenade           | 300 Gil
+Map               | 50  Gil
+----------------- | ---------
+
+Now go into the agency and save. There's an AL BHED COMPILATION SPHERE to save
+your Al Bhed Dictionary to. Maechen is here too, have a word with him about the
+area. When you go outside, Trommel will appear again to escort Yuna to Maester
+Seymour but those pesky Al Bhed make an attempt to kidnap our beloved Yuna
+again, here's another boss.
+
+----------------------------------------
+    BOSS - CRAWLER
+----------------------------------------
+HP       - 16000
+AP       - 4400
+Weakness - Slow, Armour Break, Delay Attack, Lightning
+
+The Crawler is accompanied by a negator, a little flying thing that stops all
+magic and summons being used. Defeat it quickly by using long rang attacks
+like Wakka. As for everyone else, just keep attacking the Crawler while he is
+doing this.
+
+The Negator needs to be taken out just for the sake of speed. Your chars can
+probably do about 200 damage to the Crawler, it'll take ages to whittle down
+16000 HP. A Thundara spell can do a good 1000 HP of damage to the Crawler,
+whcih really is a lot.
+
+The other thing is that Crawler brings back the Negator after magic is used on
+him 4 times, and while the Negator is gone he will use Mana Beam, a nasty
+attack that can do over 1500 HP, to everyone. You'll get plenty of prior
+warning though, so summon an aeon and use the SHIELD command. Another thing you
+could do is haste up your Lulu and slow the Crawler so Lulu may get 4 magical
+attacks in before the Crawler uses Mana Beam.
+
+Needless to say, kill the Negator as soon as it comes back. Keep as many chars
+on haste as you can, and use ARMOUR BREAK if you have it. As long as you can
+manage to block Mana Beam there isn't too much to worry about. You aeon may
+even get an overdrive, wouldn't that be joyful. Over-all this is a long, drawn
+out fight, but very winnable. It's all about the strategy my friends.
+
+After the fight you reach the far North of the lake, and are on the way to the
+temple. The view from the road to the temple is pretty panoramic and breath
+-taking, if you are so inclined. Anyway talk to the guy right in front of you
+at the beginning of the road for 400 GIL, then head for the temple.
+
+   MACALANIA TEMPLE
+----------------------------------------
+Enemies - None
+Bosses  - Seymour, Guado Guardian
+Items   - 5000 Gil, Elixer, Ether, Hi-Potion x2, Remedy x2, Phoenix Down x3,
+          Shell Targe, X-Potion x2
+
+This temple is somewhat unique because you get the aeon _before_ you do the
+trials. Anyway as you enter the temple talk to Trommel on the right to get a
+SHELL TARGE. Save if you like too. There are a load of niches in the wall here,
+the first one on the right as you enter holds 2 X-POTIONS, while the second on
+the left holds 5000 GIL. Look in the room to the right of the steps up to the
+trials and talk to both persons inside to get an ETHER and an ELIXER. There's
+chest too containing 3 PHOENIX DOWNS. Go to the room on the other side now and
+speak to the guy on the right. He'll give you 2 HI-POTIONS, and in the chest
+you'll find 2 REMEDIES. Now head for the stairs and you'll hear someone calling
+out about Lord Jyscal. Head to the room to the right again to view Jyscals
+Sphere, revealing the dark and treacherous side of Seymour. So he isn't so nice
+after all. Now it dawns on you that Yuna is stuck with Seymour at the moment,
+so rush to the trials to face off with Seymour.
+
+----------------------------------------
+    BOSS - SEYMOUR
+----------------------------------------
+HP       - 6000
+AP       - 2000
+Weakness - Slow
+
+----------------------------------------
+    BOSS - ANIMA
+----------------------------------------
+HP       - 18000
+AP       - 2500
+Weakness - None
+
+Don't worry, you don't fight them both at the same time, but this fight is
+still really hard. The first part of this fight pits you against Seymour and
+a pair of Guado Guardians. You can't hit Seymour physically while the guardians
+live, they take all the attacks. If you do attack a guardian he will heal
+himself with auto-potion, restoring 1000 HP. There is a simple way around this
+though. Have Rikku steal just once from each guardian and they won't be able
+to heal any more.
+
+At the start of the battle use the "talk" command with Tidus to almost double
+his strength. It's always helpful to double your strength. Once this is done
+focus on the guardians and take them out. I would save aeons for later though.
+Seymour has a rigid sequence for attacking. He _ALWAYS_ goes like this: Ice,
+Lightning, Fire, Water. You'll know what spell is coming up all the time, so
+Yuna can cast a NUL spell to block it. This renders Seymour pretty harmless
+for the time-being. The guardians will attack with low level magic (about 100
+per hit) and confusion. Get any characters off confusion right away should they
+succumb.
+
+When the guardians are dead and Seymour's HP drops below the 3000 mark he'll
+summon Anima on you. This is the reason you've been saving your aeons. Anima
+has a _lot_ of HP, and aeon overdrives are some of the most damaging attacks
+in your arsenal. Anima also has a rigid attack sequence: Pain, boost, Pain,
+boost, etc. Pain causes damage and instant death, but since aeons are immune
+that won't be an issue. I would summon your new summon (named ????) first of
+all. She is really strong, and will either kill Anima or damage him lots. What
+you do it just attack normally, and heal yourself by casting ice spells on your
+-self when you need to. Once your overdrive builds up, use it. It should do a
+lot of damage. If this aeon gets knocked out simply summon another, it should
+be all you need.
+
+Once Anima has been dealt with we have to face a new, rejuvinated Seymour. He
+wants that power that defeated Anima. He's not as bad this time, no guardians.
+He casts elemental spells on two people per turn now, buut the NUL spells
+should still block that. Use SLOW if you have it, second level elemental
+spells, and physical attacks. Seymour should go down easily enough. Try and
+make sure you give everyone an active turn for AP purposes.
+
+When you've won, you'll find a new SAVE SPHERE in the chamber. Save, then get
+ready for the Macalania Trials. You go up and try to cross an ice bridge, but
+it dissappears halfway across. It's your job to try and rebuild it and escape.
+Before I go on, DO NOT TRY AND SAVE AGAIN. If you're halfway through the trials
+and you go and save, all your work will be un-done.
+
+Go down the ice ramp, and find the pedestal. Push it into the little ice peak
+to the right, the ice will dissappear but stop the pedestal in the process. Now
+go get the MACALANIA SPHERE from the wall to the right and insert it in the
+pedestal. Now push the pedestal forward into the other ice block. Take the
+GLYPH SPHERE from the middle pillar in the hall, and go down the ramp in the
+same direction you sent the pedestal. When you're down at the bottom you'll see
+the pedestal has been stopped by a little ridge of ice. Now push the pedestal
+to the right, it will take it's place under a pillar. A piece of the ice bridge
+will reform itself. Now go to the far right and insert the GLYPH SPHERE in the
+wall. A piece of the ground will rise up and make another MACALANIA SPHERE
+availible for your use.
+
+Go up and take this sphere, and bring it back to the lower level. But it in the
+central pillar down here. Another piece of the bridge will be restored. Now go
+up the ramp and take the MACALANIA SPHERE from the top. Put it into the pillar
+you took the GLYPH SPHERE from. You can leave now if you like, but I would
+advise you get the hidden item from here as well. You'll thank me later.
+
+Take the sphere from the central pillar and put it in the wall on the right.
+Now go up the ramp to the very top level, as it you were about to leave. Step
+on the shiny spot on the floor to make the padestal appear beside you. Take the
+MACALANIA SPHERE from it, and push it down the hill. A GLYPH on the ground will
+fire it off to the right. Insert the MACALANIA SPHERE into the far wall where
+the ramp down was to reform it. Now go step on the shiny spot on the floor
+here to bring down the ramp, complete with DESTRUCTION SPHERE. Take the sphere
+out and push the pedestal into the ice formation like before, then down the
+ramp. Follow it down and place the DESTRUCTION SPHERE in the hole to the
+left of the ramp. A part of the floor will give way, revealing a chest. Take
+the LUCK SPHERE from inside.
+
+Now go back up to the middle level and take the MACALANIA SPHERE from the wall
+on the right. Bring it back down, put it in the pedestal, and push the pedestal
+into postition like before. Now go back up the ramp, take the MACALANIA SPHERE
+from the top and put it in the central pillar. The bridge is now totally re
+-formed, and you can leave. DON'T STEP ON THE GLOWING SWITCH AGAIN! The bridge
+will be destroyed, and you'll have to do all that stuff again to rebuild it.
+Leave the temple, save outside at the new SAVE SPHERE. You have to run here,
+and some Guado Guardians will chase you. If they catch you you'll have to fight
+them and a fiend it summons, a Madfet, and Evil Eye or an Ice Flan. Keep
+running, you may have to fight up to three of these fights before you get off
+the ice bridge from the temple.
+
+In the next section, the Crevasse, stick to the skinny paths to the east. You
+will eventually come across a chest holding a LV. 1 KEY SPHERE. Save at the
+bottom here and get ready for yet another boss.
+
+----------------------------------------
+    BOSS - WENDIGO
+----------------------------------------
+HP       - 18000
+AP       - 2000
+Weakness - Fire, Sleep, Darkness, Delay Attack.
+
+The Wendigo is again accompanied by a pair of Guado Guardians. They cast BESERK
+on the Wendigo which makes him take off DOUBLE (!!!) what he usually would.
+They auto-potion themselves again so steal from them first. Then kill them any
+way you can. Keep using Esuna with Yuna to keep the BERSERK status off, that's
+very important. When the guardians die, they will cast SHELL and PROTECT on the
+Wendigo, which is annoying as hell. If you manage to finish them off with an
+aeons overdrive they won't though.
+
+When you have the Wendigo on it's own, there are a couple of things you should
+do right away. First of all use POWER BREAK on the Wendigo. Then use SLEEP
+ATTACK or DARK ATTACK. If you manage to put it to sleep cast HASTE on Lulu and
+then attack with FIRA until it wakes up. DELAY ATTACK will push the Wendigo's
+attack down a bit in the attack order. If you BLIND the Wendigo just go all out
+on it. Summon an aeon because it will miss most of it's attacks and fill the
+aeons overdrive in the process. HELLFIRE will probably do the most damage.
+If you keep the Wendigo BLIND or ASLEEP you will win, hands down. Remember not
+to attack physically when it's asleep.
+
+After the fight the Wendigo will smash the ice on the lake in one last spiteful
+move. You'll end up under the lake. Make sure you get the LV.2 KEY SPHERE from
+the chest to the right of Kimahri. There's another chest hidden beside Auron
+holding an AVENGER. Just talk to Rikku then Auron to leave trigger the next
+story event. Sin will appear, he's listening to the hymn of the fayth coming
+from the temple apparently. He starts to mess things up too, and next thing you
+know you're in an oasis...
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 16 - BIKANEL ISLAND/SANUBIA DESERT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Alcyone, Mushussu, Mech Guard, Mech Gunner, Zu, Sand Wolf, Cactuar,
+           Sandragora, Sand Worm
+Bosses   - None
+Items    - Al Bhed Potion x24, Al Bhed Primer XVII, Al Bhed Primer XVIII, Ether
+           , Elixer, 10000 Gil, Hi-Potion x12, Lv.2 Key Sphere, Megalixer x3,
+           Mega-Potion x5, Mercury Crest, Remedy x4, Teleport Sphere x2,
+           X-Potion x2
+
+As you can see there are an absolute dump load of valuable and nice items to
+collect from this desert. It takes a while to get them all but I would advise
+you to stick with it. Before I go on, lets clear something up about Al Bhed
+Potions. They are not normal items. Only Rikku can use them at the moment, with
+her "Use" command. In the same way that you use Grenades and the like. They are
+extremely good items, they give everyone back 1000 HP and cure Petrification,
+Poison and Silence.
+
+Anyway save your game and then jump back into the water in the Oasis. There is
+a chest containing 4 REMEDIES in the water. Get back out and head North.
+Eventually you'll be attacked by a Zu, a giant bird. You'll have to fight alone
+for now, so do your best. As soon as Tidus loses half his HP, Auron will enter
+the scene and help, Lulu will follow soon after. BIO will take 25% of the giant
+birds max HP every single round, try that to win.
+
+Head north again to find Wakka taking shelter under what looks like a huge
+up-side-down bathtub. There's a chest here containing 8 AL BHED POTIONS too.
+It says the Al Bhed leave these for travellers in need, maybe they aren't so
+bad? Head round to the left to enter Sanubia Desert - East. Go to the right
+straight away to find Kimahri standing on a dune. Now go back to the main
+path and head north. You'll see a tent on the way with a SAVE SPHERE in it.
+Use this, and take the 8 AL BHED POTIONS and the 2 ETHERS from the chests.
+You'll also come across Riku again, she'll re-join the party. Keep heading
+north and when the path opens out to the left, head left into the corner to
+find 4 HI-POTIONS. Now head North again to leave the east section and enter
+Sanubia Desert - Central.
+
+Run straight North again to find 4 HI-POTIONS. South-West of here you can find
+2 X-POTIONS behind some debris in the sand. In the extreme west you can find
+2 MEGA-POTIONS. Follow the boundary now to the North-East and you'll find a
+SAVE SPHERE eventually. There are another 8 AL BHED POTIONS in a chest here
+too. Run to the extreme North to find the AL BHED PRIMER XVIII, now go back to
+SAVE SPHERE. Save and heal, now go west.
+
+In the very South-West you can find an Elixer. In the large dome shaped ruin
+to the North you can find 10000 GIL and a LV.2 KEY SPHERE. Head North again and
+to the right of the exit to the next area you can find the AL BHED PRIMER XVII.
+Now head for Sanubia Desert - West. Head north along the boundary of the desert
+abd as soon as you can turn left, do so. Go down here into the corner and find
+the MERCURY CREST. To the North-East of there you can find 8 HI-POTIONS. To the
+North-East again you can find a whirlpool of sand with a Sandragora in it.
+Plunge yourself into the pit to fight it. Use FIRE attacks, sleep and poison
+on it to win. Also have protection or a cure for CONFUSION. Once you kill it
+you can get 3 MEGALIXERS from the chest. To the north is anothe pit with a
+Sandragora in, kill it again to claim 2 TELEPORT SPHERES. From there head
+straight west, and once you reach the desert boundary head south, into a corner
+to find a chest containing 3 MEGA-POTIONS. Now head north into the top corner
+to find 2 X-POTION. Nopw head east and then north when the way opens up to
+reach the Al Bhed Home.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 17 - HOME
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies - Evil Eye, Guado Guardian, Chimera, Bomb, Dual Horn
+Bosses  - None
+Items   - Al Bhed Potion x10, Al Bhed Primer XIX, Al Bhed Primer XX, Al Bhed
+          Primer XXI, 10000 Gil, Friend Sphere, Hi-Potion x2, Lv.2 Key Sphere,
+          Lv. 4 Key Sphere, Special Sphere, Skill Sphere
+
+You'll see that Home is under siege as soon as you get over the hill. Rikku
+panics and runs off, you all follow her. You'll meet Cid, the leader of the Al
+Bhed. Examine a body on the ground wearing yellow and white to get 2 HI-POTIONS
+and the AL BHED PRIMER XIX is on the ground in the north-western corner. Now
+try and equip characters with the ICESTRIKE ability, and protection against
+FIRE would work too. When you enter the building you'll have to fight a Guado
+Guardian and 3 Bombs. They're a lot stronger than they should be for some reason
+so just do what you need to finish them. The AL BHED POTIONS will come in handy
+as will MEGA-POTIONS if you get desperate.
+
+Once you enter the main corridor of Home you'll be drawn into another battle.
+After the battle you'll be forced down the stairs. Now just turn around and go
+back up to hunt some items. There is a door on the left hand side of the screen
+so go in. You'll be ambushed by a Guado Guardian and 2 Dual Horns. Once you
+beat them you can take the AL BHED PRIMER XX. The chest beside it will ask you
+a question in Al Bhed when you examine it. Chose the second option on the top
+row to get an ELIXER. The other chest asks you to pick a number of words from
+a total of 9. You have to choose 3 words, in Al Bhed of course. Pick the right
+word in the middle line, the middle word in the bottom line, and the middle
+one of the top line. You'll get a FRINED SPHERE for your troubles.
+
+Go back up the stairs (flee from random battles if you're not strong enough)
+and go to the right. You can find the AL BHED PRIMER XXI on the ground just
+beyond the door to the living quarters. Now enter the living quarters and get
+ready for another ambush. Once the fiends have been dispatched you'll see
+another two encoded chests on the ground. The one beside the COMPLITATION
+SPHERE asks you to solve some maths puzzles in Al Bhed. The answers are 5,6,3,3
+in that order. You should be able to do that one on your own anyway. You get
+a FRIEND SPHERE for your troubles. There's another chest hidden to the right
+of the other. It will ask you 4 questions in total. Pick the 3rd answer, then
+the 4th, then the 2nd, then the 1st to unlock a SPECIAL SPHERE. Now go back
+to the main corridor and take the middle fork to get 6 AL BHED POTIONS. Now
+take the left fork. The group will have a discussion and you'll be forced into
+yet another fight against Dual Horns. Save your game after and go down the
+stairs.
+
+Go left as you come down the stairs to find a LV.4 KEY SPHERE, and in the other
+corner you can find a LV.2 KEY SPHERE. Now go through the door to the summoners
+sanctum. But lo and behold, Yuna isn't here. Get 10000 Gil from the corner
+before you high-tail it to the airship dock.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 18 - AIRSHIP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies - Evil Eye, Bomb, Dual Horn
+Bosses  - Evrae
+Items   - Al Bhed Potion x4
+
+You still don't have control of the ship yet, the only objective here is to
+rescue Yuna. You can save your game in the Bridge, then head outside to talk
+to the people of the ship. Go to the cabin (the only other room with a SAVE
+SPHERE) and talk to a guy on the left to get 4 AL BHED POTIONS. Now go back to
+the Bridge and talk to everyone to find the ship is in fact under siege. The
+corridor outside the Bridge is an absolutely perfect training ground if you
+want to beef up your characters. You should be able to get a good few overkills
+on the enemies you fight, if you overkill a fiend you get twice the usual AP.
+At the very least get Tidus to learn SLOW or HASTEGA if you're close. SLOW is
+really important for the next fight.
+
+When you feel you're ready head for the guy you got the AL BHED POTIONS from.
+Well not him exactly, that room. Save you game and go for the ramp in the north
+of the room. You can buy stuff off Rin here, just talk to him to hear Wakka
+sound very like Bender from Futurama.
+
+Weapons           | Price
+----------------- | ---------
+Baroque Sword     | 907  Gil
+Ductile Rod       | 907  Gil
+Switch Hitter     | 907  Gil
+Variable Mog      | 907  Gil
+Halberd           | 1815 Gil
+Shimmering Blade  | 1815 Gil
+Devastator        | 907  Gil
+Seeker's Shield   | 1732 Gil
+Seeker's Armguard | 1732 Gil
+Seeker's Bangle   | 1732 Gil
+Seeker's Armlet   | 1732 Gil
+Seeker's Bracer   | 1732 Gil
+Seeker's Targe    | 1732 Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 55  Gil
+Hi-Potion         | 550 Gil
+Phoenix Down      | 110 Gil
+Antidote          | 55  Gil
+Eye Drops         | 55  Gil
+Echo Screen       | 55  Gil
+Soft              | 55  Gil
+Power Distiller   | 110 Gil
+Mana Distiller    | 110 Gil
+Speed Distiller   | 110 Gil
+Ability Distiller | 110 Gil
+Grenade           | 330 Gil
+Map               | 55  Gil
+----------------- | ---------
+
+Rin has apparently jacked all his prices up by 10%. That stingy bastard. Anyway
+buy what you need, make sure you're ready for the following fight, go back and
+get more levels if you think you're weak, and go up the ramp to face possibly
+your toughest challenge so far.
+
+----------------------------------------
+    BOSS - EVRAE
+----------------------------------------
+HP       - 32000
+AP       - 5400
+Weakness - Slow
+
+Before you enter the fray try and make sure you have lots of Al Bhed Potions.
+I know you can only get 4 on the ship, but you should have a good few from
+Bikanel Island. If they weren't in the game, this fight would verge on imposs
+-ible for your average, casual gamer. You have a couple of TRIGGER COMMANDS
+here, they are to PULL BACK and MOVE CLOSER to Evrae. They take a few turns
+to execute. A little tip, don't use OVERDRIVES at the start of the battle,
+hang onto them.
+
+Here's how we start. Have Rikku, Auron and Tidus in your party. Use POWER BREAK
+with Auron to half the physical damage he does (to about 600), cast SLOW with
+Tidus until it hits (it make take a few goes), and STEAL with Rikku. You should
+be getting WATER GEMS, which you can USE on Evrae for over 1000 HP damage. Once
+Tidus manages to get Evrae SLOWED down, then use HASTE on Auron, or HASTEGA in
+the off-chance that you have it. Keep attacking with Auron and Tidus, and bring
+in every character and give them one active turn at least.
+
+Eventually you'll see Evrae kind of rear back his head. This means he is prep
+-aring POISON BREATH, his most devastating attack. Drop everything you're doing
+and make sure Tidus and Rikku are in the party. Use the trgger command PULL
+BACK with Tidus. Now keep attacking with Auron, and just defend with Rikku. If
+you pull back before Evrae manages to use the attack, that's all well and good.
+If you don't, prepare to have about 1500 HP taken from EVERYONE and the POISON
+status inflicted. This is why Rikku is there. Her Al Bhed Potions will heal
+for 1000 and cure the poison. If she's knocked out then revive her and use the
+Al Bhed Potion. Now heal fully and continue to attack. If you managed to dodge
+the attack then pull back in. While you wait have Lulu and Wakka attack.
+
+Once you get Evrae's HP below the 10000 mark he'll cast HASTE on himself. You
+can't take this off unless one of your characters has the ability to cast
+DISPEL. This is highly unlikely however. This is why you've hung onto your
+overdrives. Move In and hit him with all you have. If you don't feel confident
+like this then Pull Back and let Lulu and Wakka finish him off. He'll counter
+with Swooping Scythe, which has the same effect as Move In. Just Pull Back
+again continue to attack with Lulu. When he moves back it's a perfect time to
+unleash your overdrive attacks. Use AL BHED POTIONS any time you even think
+your HP might get low in the next few rounds. You should win eventually, and
+I take my hat off to you when you do. Good luck soldier...
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 19 - BEVELLE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Warrior Monk, YAT-99, YKT-63
+Bosses   - None
+Items    - Al Bhed Primer XXII
+
+You'll now reach Bevelle, and witness some of the coolest FMVs in the game in
+my opinion. Check out Tidus sliding down the ropey thing. Pure genius if you
+ask me. But anyway, you're in the heart and soul of Yevon, the centre of his
+teachings. And yes, they start a fight with you. Make sure your HP is totally
+full now, and run forward. You'll have to fight 5 battles in total against the
+enemies listed above. If you fight Warrior Monks always take out the one in the
+middle first, he has a flame-thrower. It's twice as damaging as the other guys
+attacks and it hit everyone. If you fight a YKT 63 (the guy with the big legs)
+make sure you kill him before anyone else. If you're left alone on the battle
+-field with him he'll use THRUST KICK, and hurl an ally from the fight. Use
+LANCET to learn this skill for Kimahri. If you fight a YAT-99 you can only
+attack him with long range attacks before all the other enemies on the field
+are dead. If you heal after every fight you should be fine. Again, make sure
+every person gets an active turn in every fight. You'll all have gained a
+Sphere Level or two before the last fight.
+
+After all the fights your party is held at bay by some guns. Weren't you all
+shot loads of times in the previous fights? Weird. But anyway, you're held up.
+Yuna tries to send Seymour, but Maester Mika says all her friends will die if
+she does. Ther'll be more talk, and Yuna will jump off the building. Oh my God!
+I hear screams of, but Valefor saves the day. You all now head for the cloister
+of trials in Bevelle Temple. This is by far the most annoying one in the game.
+I swear to God these things are annoying to write for. Anyway, there are
+Machina and stuff in the temple, Wakka is pretty disgusted. The leaders of
+Yevon are big fat hypocrites. At the bottom of a flight of stairs you'll find
+the AL BHED PRIMER XXII on the ground. Now run to the save point, save, and
+enter the trials. I'm going to try and draw a little map showing the layout
+of these trials, it's eas to get confused.
+
+   1         3
+   |         |___________    A
+   ^         |
+   |         |
+   |         |___________    B
+  X-X        |
+   |         |           |\
+   |         |___________| \ C
+   ^         |
+   |         |    _______
+   |_________|___________|   D
+   |         |
+   2         4
+
+Now that may look a bit confusing, but it will help, trust me. If you look at
+the straight with the X on either side, if you go to the end there (marked 1)
+and keep going you'll end up back at the start (marked 2). It's the same with
+the other straight, from 3 you'll end up at 4. The two X's on the map are
+little alcoves to either side of the path. And I forgot to mention you don't
+run around these trials, you stand on a little platform that brings you about.
+You turn at glyph junctions by pressing X when the arrow flashes the way you
+want to go. I know it's confusing, but I'm doing my best. Ok, lets begin.
+
+Go past the first Glyph junction you come across, and when you're coming up to
+the second one you'll see the arrow flashes left and right alternately. You
+need to hit X when you're at the junction and the arrow points left to move in
+to the alcove. Take the BEVELLE SPHERE and the push the pedestal into the
+walkway to create anothe platform. Now continue on to point 1 on the map,
+you'll then come to point to, and then you want to go into the right alcove
+this time. Put the BEVELLE SPHERE in your hand into the hole in the wall,
+making a new piece of path. Now push the pedestal into the walkway and get on
+the platform. Head for the southern junction now, the one just after point 2
+and turn right. Now turn left at the bottom and take the second right, into
+the lane marked B on the map. Take the GLYPH SPHERE from here, put it in the
+pedestal, and push it into the walkway to set off again. Now take the next
+right, marked A on the map.
+
+Here, take the BEVELLE SPHERE from the pedestal and insert it in the wall. A
+floor will form to one side of you. Now take the GLYPH SPHERE from the pedestal
+and insert it in the hole at the end of the new walkway. The wall will open
+and let you access the DESTRUCTION SPHERE, so take it. Now insert the DESTRUCT
+-ION SPHERE in the Pedestal. Now take the BEVELLE SPHERE from the wall and do
+the same. Now take the DESTRUCTION SPHERE back into your hand, and push the
+pedestal into the walkway. Travel back to where you got the GLYPH SPHERE, that
+is marked B on the map. Put the DESTRUCTION SPHERE in the wall, this will open
+up a passage in lane B on the map. Now travel to lane D on the map, and take
+the BEVELLE SPHERE from the end of the passage. Now head for lane B. Halfway
+down here you'll stop at a platform. Push the pedestal into the walkway on
+the other side to continue. You're now going to stop travelling around on these
+annoying platforms. Go up the stairs and put the BEVELLE SPHERE in the hole in
+the wall right in front of you. Take the HP SPHERE from the chest to the right.
+The chest will dissapear and leave a shiny spot on the floor. Step on it and
+the obedient pedestal will appear.
+
+Push the pedestal to the left into the walkway. Step on the new platform and
+the platform will take you to a chest holding a KNIGHT LANCE for Kimahri. You
+can now leave the trials, just head in the direction the HP SPHERE was. You'll
+arrive at the chamber of the fayth and Tidus and Kimahri will kind of break in
+to witness a new aeon joing with Yuna. This bad boy is Bahamut. You're all now
+caught by the gaurds, and tried in a court of Yevon. As it turns out Maester
+Mika is dead too. You're all sentanced to be thrown in the Via Purifico, the
+Way of Purity or something like that I presume in Latin. Anyway it's more-or
+-less a death sentance.
+
+
+   VIA PURIFICO(PT. 1)
+----------------------------------------
+Enemies - Bat Eye, Cave Iguion, Sahagin, Maze Larva, Swamp Madfet, Warrior
+          Monk, Aqua Flan, YAT-99, YKT-63
+Bosses  - Grothia, Pterya, Spathi,
+Items   - Black Magic Sphere, Elixer, 10000 Gil, Lucid Ring, Mega-Potion,
+          Skill Sphere, White Magic Sphere
+
+You'll start of with control of Yuna on her own. You're pretty much dependant
+on your aeons here, summon like mad to stay alive. A few of your companions are
+in this area too, so lets find them. First of all, go to the SAVE SPHERE and
+save. Turn right from this area, and follow the path. Turn left at the junction
+and head straight. You'll find Kimahri here, and a chest containing a MEGA
+-POTION. Continue north and follow the path to find Auron and a SAVE SPHERE.
+Head to the left when you get Auron and follow the path. Turn left again when
+you can, and head south. Ignore the first left turn, and take the second. In
+this dead end you'll find a WHITE MAGIC SPHERE, and Lulu. Now head back out and
+go south until you enter a chamber with a chest and a glyph on the wall. The
+chest contains an ELIXER. Touch the glyph to activate the teleport platforms.
+
+Now go back to the enterance by turning right from the chamber. Save your game
+and then head North. Run through a clearing and turn right. Here you'll find a
+BLACK MAGIC SPHERE, and also step on the platform on the ground. Now head back
+to the place where you found Auron. Run to the left in the direction you went
+to find Lulu and you should come across a platform on the ground. Move to the
+South of the platform (without stepping on it) and stand on it when it points
+west. You'll enter a previously sealed off chamber containing 3 chests. They
+hold a SKILL SPHERE, a LUCID RING and 10000 GIL. Step on the platform in here
+to get back out. Now head back to where you found Auron again and save. Now
+run around and build up your aeons overdrives, another battle of the aeons is
+coming up. You have to win this one though. When the overdrives are full, head
+North to meet Isaaru. He tells you he can't let you pass, and he and Yuna enter
+the duel.
+
+----------------------------------------
+    BOSS - GROTHIA
+----------------------------------------
+HP       - 8000
+AP       - None
+Weakness - Ice
+
+This guy looks like Ifrit. He enters the battle with full overdrive gauge, so
+summon Shiva and use NulBlaze to block this. Now attack with magic and physical
+attacks, and use ICE magic on yourself when the old HP runs low. Keep doing
+this, but eventually Shiva will be defeated. Now summon Bahamut to finish the
+job. Usee physical attacks and IMPULSE to finish Grothia off.
+
+----------------------------------------
+    BOSS - PTERYA
+----------------------------------------
+HP       - 12000
+AP       - None
+Weakness - None
+
+This is a Valefor style Aeon. He has a bit more HP than Grothia, but still
+should be not too hard. Keep attacking until you get a full overdrive gauge,
+and use that. If this doesn't end the fight use IMPULSE a few more times to
+do so. If it just so happens that Bahamut gets knocked out, bring in Ixion.
+
+----------------------------------------
+    BOSS - SPATHI
+----------------------------------------
+HP       - 20000
+AP       - None
+Weakness - None
+
+This guy looks like Bahamut. You can't summon Bahamut now because of that. If
+you have Ixion, attack about 3 times then heal by using your strongest THUNDER
+MAGIC on yourself. You'll get your overdrive sooner or later, so use it. It
+will inflict good damage. Keep going with the strategy. Spathi will countdown
+to his overdrive, so when this comes try and ensure your HP is full and use
+SHIELD to half the damage. If your aeon gets knocked out, summon Ifrit and
+repeat the strategy, except heal with FIRE MAGIC this time. This fight isn't
+too tough. This also heralds the end of the first part of the Via Purifico.
+It's Tidus, Wakka and Rikku's turn now.
+
+
+   VIA PURIFICO(PT. 2)
+----------------------------------------
+Enemies - Sahagin, Octopus, Remora, Phylegyas
+Bosses  - Evrae Altana
+Items   - Rematch, Avenger
+
+This whole section is underwater. There's a SAVE SPHERE pretty much right there
+as you take control, with a chest beside it. This chest is in fact a shop, so
+have at least 2 PHOENIX DOWNS at hand. Just follow the path, you'll be attacked
+by random fiends, run if you need to. There's another SAVE SPHERE futher up,
+so use it. As you enter the rotunda you'll be attacked by a big fiend.
+
+----------------------------------------
+    BOSS - EVRAE ALTANA
+----------------------------------------
+HP       - 16384
+AP       - 5800
+Weakness - Phoenix Down, curative items/magic
+
+This is proabably the easiest boss fight in the game. Here is what you do. Use
+a PHOENIX DOWN on Evrae Altana. Then use a second PHOENIX DOWN on him. Ignore
+the trigger commands. Don't do anything else. That will win you the fight.
+
+Just after the rotunda there's a chest on the ground on the right, it holds a
+REMATCH. Further on, round the corner you'll find another chest on the bottom
+holding an AVENGER. All the random battles stop as soon as you beat Evrae, so
+now it's simply a matter of swimming to the exit.
+
+
+   HIGHBRIDGE
+----------------------------------------
+Enemies - None
+Bosses  - Seymour Natus, Mortibody
+Items   - None
+
+You'll face Seymour again here, Kimahri holds him up while the rest of you flee
+to safety. At the end of the bridge Yuna has a change of heart, and her guard
+-ians vow to follow here where ever she goes. She want's to go back and fight
+Seymour, so that's what you'll do. This bridge is the absolute _perfect_ place
+to train up a bit now. It would be a good idea to get Yuna a few SPHERE LEVELS
+to make up for the ones she missed while she was absent from the party. It
+would not hurt at all to get everyone else a few levels too. Just run around
+the SAVE SPHERE for a while and fight. You can buy stuff from O'aka too.
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Hi-Potion         | 500 Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+Power Distiller   | 100 Gil
+Mana Distiller    | 100 Gil
+Speed Distiller   | 100 Gil
+Ability Distiller | 100 Gil
+----------------- | ---------
+
+There is a SAVE SPHERE at both ends of the bridge, so head for the far one.
+This area is really riddled with robots to fight, TRAIN HERE! Don't pass up
+this opportunity. As always, fill all your aeons overdrives and some characters
+ones as well. Then run to Seymour to fight him.
+
+----------------------------------------
+    BOSS - SEYMOUR NATUS
+----------------------------------------
+HP       - 36000
+AP       - 6300
+Weakness - None
+
+----------------------------------------
+    BOSS - MORTIBODY
+----------------------------------------
+HP       - 4000, 3000, 2000, 1000
+AP       - None
+Weakness - None
+
+Seymour has the Mortibody, a big brown thing, hanging off him. I would start
+off by using an aeon with full overdrive. If it manages to take 9999 of Seymour
+and over 4000 of Mortibody, Mortibody will absorb 3000 HP from Seymour, so it
+will in fact do 13000 HP damage to Seymour! That's over a third of his HP. To
+be a cheater you could keep summoning aeons in full overdrive to win, but that
+is a sissy tactic.
+
+The first thing you should do is HASTE up Yuna. Mortibody will use a low level
+elemental spell, and Seymour will follow up with two of the same spell, except
+a level higher. If Yuna can get a turn in in between Mortibody and Seymour she
+can use a NUL spell. At that start of the battle also use the TALK command with
+Auron and Tidus to double their attack strength almost. Once Seymour's HP drops
+below the 24000 mark he will cast PROTECT on himself and then PETRIFIES your
+characters. If Mortibody subsequently attacks a petrified character they will
+be put out of the fight for good, you'll have to continue with 2 fighters. Have
+ESUNA or a SOFT at hand at all times during this phase of the fight.
+
+Once you get Seymour below the 12000 mark he'll cast FLARE on one person. This
+can do up to 3000 HP damage, which could easily knock a character out. REFLECT
+works like a charm here. Mortibody will also use an attack called Desperado
+which deals 500+ damage and takes away all positive status effects. You'll lose
+HASTE and anything similar. Mortibody will also start using CURA on Seymour.
+Either cast REFLECT on him (remember not to use magic any more) or make him a
+ZOMBIE (probably not possible at this stage though). Attack Mortibody if you
+want, if you take away all his HP he'll steal some from Seymour. This battle
+again isn't incerdibly hard if you approach it the right way. Again, try and
+give every character a turn. After the fight you're banished from Bevelle and
+end up in the Macalania Woods.
+
+
+   MACALANIA WOODS
+----------------------------------------
+Enemies - None
+Bosses  - None
+Items   - Lucid Ring
+
+You all just sit there around the SAVE SPHERE (save), and Tidus decides to go
+see Yuna. Talk to everyone first though. All the other routes are blocked, just
+keep going south until you reach the lake. You'll see Kimahri before you reach
+Yuna. Tidus will have a big, long conversation while some sappy music plays in
+the background. Personally, I'm not mad about this whole scene. Tidus tried to
+get Yuna to quit the pilgimage, and that famous shot of them in the water is
+played out. When everything is over, go back to your campsite to find a LUCID
+RING. Now follow the group east to the Calm Lands.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 20 - CALM LANDS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Neibros, Flame Flan, Mech Scouter, Coeurl, Chimera Brain, Skoll,
+           Shred, Anacondaur, Ogre, Malboro
+Bosses   - Defender X
+Items    - Aeons Soul, Al Bhed Primer XXIII, 15000 Gil, Lv.2 Key Sphere
+
+
+The Calm Lands is probably my favourite area in the game. I'm not sure why, it
+just is. Head down the slope to the left. You'll come across Maechen, who'll
+tell you about the place. Once you get down the bottom of the hill a hovercraft
+will appear. It's Rin, he's got a mobile shop now.
+
+Weapons           | Price
+----------------- | ---------
+Malleable Staff   | 38625 Gil
+Shapeshifter      | 6250  Gil
+Buckler           | 25050 Gil
+White Armguard    | 15750 Gil
+Saviour Bangle    | 6825  Gil
+Wizard Bracer     | 76250 Gil
+Curative Targe    | 10050
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Hi-Potion         | 500 Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+Power Distiller   | 100 Gil
+Mana Distiller    | 100 Gil
+Speed Distiller   | 100 Gil
+Ability Distiller | 100 Gil
+----------------- | ---------
+
+Way in the north there is another little settlement, which has a shop and a
+SAVE SPHERE. On the way there you'll see Belegmine standing there, waitnig for
+another duel. Fill up your aeon overdrives by all means before going over to
+her.
+
+----------------------------------------
+    BOSS - BELEGMINE'S SHIVA
+----------------------------------------
+HP       - 15000
+AP       - None
+Weakness - Fire
+
+You should be well able for this fight, summon Bahamut or Ifrit complete with
+an overdrive for the best results. If you use Ifrit, finishing her off should
+be a formality, heal with FIRE MAGIC if you really need to. If you summon
+Bahamut it really shouldn't be any contest. After you win (or lose) you'll get
+the AEON'S SOUL, an items that lets you increase the attributes of your aeons.
+Levelling up Yuna is still far more effective though. If you win you'll get 30
+POWER SPHERES while if you lose you'll get 30 SPEED SPHERES.
+
+Now go to the little settlement. There's a shop here offering HOLY WATER for
+the first time. There's also a moniter that will let you fight mock battles
+against a Coeurl, Malboro, Bashura and Ghost. You get no AP, but do if you want
+to. The hill behind the settlement has a chest containing a LV.2 KEY SPHERE.
+
+Weapons           | Price
+----------------- | ---------
+Baroque Sword     | 7575  Gil
+Ductile Rod       | 7575  Gil
+Switch Hitter     | 7575  Gil
+Variable Mog      | 7575  Gil
+Halberd           | 15150 Gil
+Shimmering Blade  | 15150 Gil
+Devastator        | 7575  Gil
+Seeker's Shield   | 1575  Gil
+Seeker's Ring     | 1575  Gil
+Seeker's Armguard | 1575  Gil
+Seeker's Bangle   | 1575  Gil
+Seeker's Armlet   | 1575  Gil
+Seeker's Bracer   | 1575  Gil
+Seeker's Targe    | 1575  Gil
+----------------- | ---------
+
+Items             | Price
+----------------- | ---------
+Potion            | 50  Gil
+Hi-Potion         | 500 Gil
+Phoenix Down      | 100 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+Power Distiller   | 100 Gil
+Mana Distiller    | 100 Gil
+Speed Distiller   | 100 Gil
+Ability Distiller | 100 Gil
+Grenade           | 300 Gil
+Map               | 50  Gil
+----------------- | ---------
+
+From here I would now go to the North-West corner of the Calm Lands where you
+can find the AL BHED PRIMER XIII and a woman on a Chocobo. Talk to the woman
+for the chance to train a Chocobo. If you manage to pass the first level of
+training you can ride a Chocobo around the calm lands. Once you have the
+Chocobo go to the very south east corner to find two chests holding 10000 GIL
+and 5000 GIL. Head north from here. You'll pass a green dot on the map, the
+Training Area. Leave this till later. Keep going North till you reach another
+exit, you'll get off the Chocobo automatically. You'll come out near the bridge
+to Mount Gagazet, you'll be accosted by more Yevonites saying you're a traitor.
+They summon Defender X, a big, stone, robot style guy. He's tough.
+
+----------------------------------------
+    BOSS - DEFENDEER X
+----------------------------------------
+HP       - 64000
+AP       - 6660
+Weakness - Dark, Armour Break
+
+Defender X is completely physical, and he can only attack one character at a
+time. That is pretty much his biggest weakness. Start the fight by using ARMOUR
+BREAK on him, and try an use HASTE on as many people as possible. A good party
+to begin with would be Yuna, Auron and Tidus.
+
+Defender X only has only 3 main attacks. He uses HAYMAKER, his best attack.
+It can do up to 4000 HP damage to one character. He then has BLAST PUCH, which
+halves a characters HP. Then the regular physical attack, dealing about 2000 HP
+damage per hit. When his HP falls below 16000 he uses MIGHTY GUARD, which puts
+him on NULALL, SHELL and PROTECT. Use DISPEL to counter this. MENTAL BREAK also
+works like a charm, allowing Lulu to do a lot more damage with Magic. If Wakka
+uses DARK BUSTER every round it will block the physical attacks, but Haymaker
+will still land.
+
+There isn't much point in using aeons unless they have a full overdrive at the
+ready, Defender X takes them out pretty quickly. If you want to use a wussy
+tactic, cast PROVOKE on him with Tidus every third turn. He will only use Blast
+Punch now, and it's impossible for Tidus to die, even if his HP reaches 1. And
+since Tidus is the only one who will be attacked, you'll have no problem in
+winning the fight. After the fight continue across the bridge to Mt Gagazet,
+home of the Ronso.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 21 - MOUNT GAGAZET
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Imp, Bandersnatch, Mech Leader, Grenade, Bashura, Nidhogg, Grat,
+           Mech Defender
+Bosses   - Biran Ronso, Yenke Ronso, Seymour Natus, Mortiorchris
+Items    - Braska's Sphere, Defending Bracer, 20000 Gil, HP Sphere, Lv. 4 Key
+           Sphere, Saturn Crest
+
+You'll be welcomed by a load of snarling Ronse telling you to get the hell off
+their mountain. But Yuna's will of tempered steel that the mightiest Ronso
+couldn't bend gets you through. Biran and Yenke still want to kill you though.
+Save your game and head north up the mountain. Biran and Yenke will attack you.
+
+----------------------------------------
+    BOSS - BIRAN & YENKE RONSO
+----------------------------------------
+HP       - Depends on Kimahri's Strength
+AP       - 9000
+Weakness - None
+
+Kimahri has to face this fight all by himself. It isn't very hard though. The
+point of this fight is questionable, is it to further the story, or to let
+Kimahri learn a load of new LANCET abilities. You can learn about 4 off each
+of them. Biran has THRUST KICK, MIGHTY GUARD, DOOM and SELF DESTRUCT. Yenke
+has AQUA BREATH, FIRE BREATH, STONE BREATH and WHITE WIND. When you use LANCET
+and learn a new ability, your overdrive gauge will fully fill. Take advantage
+of that.
+
+The two Ronso can move about the battlefield by using Bulldozer. Its a physical
+attack that does about 200 damage or there abouts. You can only use physical
+attacks when the pair are separated. They use crappy low level magic that does
+about 50 damage, and they use some of the "breath" abilities listed above to
+do about 150 damage. You can only learn an overdrive technique after they have
+used it in the fight. Make sure you learn all the Ronso rages before you kill
+either brother. This fight is piss easy, you can and will win without problems.
+
+Now go back to the enterance and save. It's time now to face the mountain. Get
+ready for lots of random battles. On the right at the beginning you'll find a
+chest holding 20000 GIL. Further up on the left you'll find a MEGA-POTION. Keep
+heading north until you see a tomb. Examine it for Lulu to tell a story.
+A little further on, in a dead end to the north you can find the JECHT SPHERE.
+You get to see a little movie of the group 10 years earlier. Auron will now
+learn a third overdrive technique. Head back to the main path and go as far
+west as you can, ignore the turn to the north. Down a windy little path you'll
+find a DEFENDING BRACER. Now just continue North and follow the path to the
+next part of the mountain trial. You'll meet Wantz, O'akas brother on the way.
+He sells things. Buy some HOLY WATER.
+
+Weapons           | Price
+----------------- | ----------
+Double-Edge       | 4350   Gil
+Conductor         | 90750  Gil
+Double Penalty    | 18150  Gil
+Booster Cactuar   | 112750 Gil
+Trident           | 6450   Gil
+Shimmering Blade  | 16650  Gil
+Survivor          | 97875  Gil
+Tetra Shield      | 45375  Gil
+Blessed Ring      | 37750  Gil
+Tetra Armguard    | 52875  Gil
+Shell Bangle      | 18225  Gil
+Tetra Armlet      | 45375  Gil
+Blessed Bracer    | 22875  Gil
+Haste Targe       | 90225  Gil
+----------------- | -----------
+
+Items             | Price
+----------------- | ----------
+Potion            | 50  Gil
+Hi-Potion         | 500 Gil
+Phoenix Down      | 100 Gil
+Holy Water        | 300 Gil
+Antidote          | 50  Gil
+Eye Drops         | 50  Gil
+Echo Screen       | 50  Gil
+Soft              | 50  Gil
+Power Distiller   | 100 Gil
+Mana Distiller    | 100 Gil
+Speed Distiller   | 100 Gil
+Ability Distiller | 100 Gil
+----------------- | ----------
+
+Run straight ahead, and go to the left when you can. Down a small hill you'll
+find two chests holding a HP SPHERE and a LV.4 KEY SPHERE. Now go back to the
+main path, ignore all turns from it, there is nothing more to get here. There
+is a SAVE SPHERE up here though, train around this if you like. Again, build
+up the overdrives of your aeons. Now head for the exit, and move to the next
+area. You'll talk on the top of what looks like a cliff, and then Seymour
+rears his ugly face again.
+
+----------------------------------------
+    BOSS - SEYMOUR FLUX
+----------------------------------------
+HP       - 70000
+AP       - 10000
+Weakness - None
+
+----------------------------------------
+    BOSS - MORTIORCHIS
+----------------------------------------
+HP       - 4000
+AP       - None
+Weakness - None
+
+Seymours party trick here is to turn you into a Zombie and then cast FULL-LIFE
+on you, that equals death. There are 2 proven ways around this, and one dodgy
+theoretical one that I just thought up. The two good ones are to use a HOLY
+WATER or a REMEDY on the effected character. The other, is to (I wish I could
+use italics) knock your character out. Yes, that is correct. If he used FULL-
+LIFE on you, you _should_ come back with full health. I DO NOT KNOW IF THIS
+WORKS though.
+
+He also has a vicious attack called Cross Cleave, which will do up to 2500 HP
+damage to everyone. This can be halved with PROTECT though. Have Lulu use BIO
+at the very start, and have Tidus use HASTEGA. A good party is Yuna, Tidus and
+Auron. Have Yuna cast PROTECT on everyone. Tidus and Auron should just attack
+physically. Stop him killing with Lance of Atrophy by using HOLY WATERS or
+anything similar. Once Seymour's HP drops below 35000, Mortiorchis will use
+Totla Annihilation. Even with PROTECT this can still do 2000 on everyone. He
+will use this two rounds after Seymour's HP drops below 35000. Summon and aeon
+to try and block this. The aeon will be banished after the first action it
+makes. Only use summons if they have a full overdrive gauge.
+
+This battle is hard, one of the hardest in the game. It will take a while to
+get the hang of it, don't count on winning the first time. Good luck anyway.
+After the fight just continue on your way. Just before the SAVE SPHERE look
+in between the pillars on the left to find a SATURN CREST. As soon as you enter
+the area withh all the blue flowing stuff, fayth apprently, Tidus will fall in
+to a dream. Just run around and talk to the fayth where ever he goes. After you
+wake up get ready for the second part of the Mountain.
+
+   MOUNT GAGAZET PT. 2
+----------------------------------------
+Enemies - Splasher, Achelous, Maelspike, Behemoth, Ahriman, Grendel, Dark Flan,
+          Mandragora
+Bosses  - Sanctuary Keeper
+Items   - Fortune Sphere, Lv. 1 Key Sphere, Pep Talk, Recovery Ring, Return
+          Sphere
+
+Make your way north to the SAVE SPHERE, and save. Now go left, or west. When
+you reach the water, jump in and swim. Only Tidus, Wakka and Rikku can fight
+now, which is a bit of a handicap. Just keep going north, and eventually you'll
+reach a spinning shell guarding a light. The shell has gaps in it, so what you
+have to do it throw Wakka's ball and hit the light. When the shell is totally
+covering the light, throw the ball. Take as many turns as you like to do this.
+Once you do it a chest containing a LV.1 KEY SPHERE will appear. Now go back to
+the SAVE SPHERE to find a set of steps to the north of it have materialised. Go
+up and to the left until you reach the water. Dive in...
+
+Just swim until you approach a trio of glowing circles. You have to send one
+character into each circle. Send Rikku to the green circle, Tidus to the blue
+one and Wakka to the orange one. A chest will now appear holding a FORTUNE
+SPHERE. Head back to the SAVE SPHERE. Now go up the stairs and to the right
+this time to find a RETURN SPHERE and a RECOVERY RING. To the left of the
+SAVE SPHERE, down the first passage you went down you can find a PEP TALK.
+Now go up the stairs and turn left. A new paggage leading up has appeared on
+the left hand side, so go up. You're party will be attacked by the next boss,
+the Sanctuary Keeper. Before hand it might be a good idea to get some aeon
+overdrives ready.
+
+----------------------------------------
+    BOSS - SANCTUARY KEEPER
+----------------------------------------
+HP       - 40000
+AP       - 11000
+Weakness - None
+
+This guy has a plethora of strong attacks. The worst one is Photon Wings. It
+inflicts damage, Sleep, Silence, Confuse (grrr) and Curse. Curse stops you from
+using and overdrive, and is lifted with a HOLY WATER. He also uses tail sweep,
+which has the dispel effect, takes away HP and has a delay effect. Then he has
+his physical attack, doing a solid 1500 HP damage per turn. Then there's the
+almighty Mana Breath doing about 2500 HP damage to one person. The cherry on
+top is Curaga, healing himself for 9999 HP.
+
+Start off by using ARMOUR BREAK, MENTAL BREAK and POWER BREAK. Cast REFLECT to
+stop his Curaga. This means no magic though. Just attack physically and heal
+with Yuna when your HP is low. Summon aeons when you can, but try and make sure
+they have an overdrive ready. They will get blown to bits though, overdrive or
+not. An important thing to remember is that it is possible to inflict SLOW on
+him. It might take a few turns though.
+
+He'll also cast regen and protect on himself, cast DISPEL if you have it. That
+is fairly important. Overall this is a tough fight, but you can manage it. He
+doesn't have that much HP, so do your best. After the fight you finally leave
+Mt. Gagazet and reach the Zanarkand ruins.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 22 - ZANARKAND RUINS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Ahriman, YAT-99, YKT-11, Dark Flan, Behemoth, Defender Z, Fallen
+           Monk, Grendel, Bashura, Mahdragora
+Bosses   - Spectral Keeper
+Items    - Fortune Sphere, 10000 Gil, Friend Sphere, Luck Sphere, Spiritual
+           Targe, Lv.3 Key Sphere, Sun Crest
+
+Zanarkand is now in ruins. It's also fairly linear, but that doesn't mean it's
+easy. Save your game, an progress. On the overpass you can find a FORTUNE
+SPHERE and a SPIRITUAL TARGE, both on the left hand side. When you reach the
+dome you can save, and a guy will tell you that Yunalesca is waiting. In the
+interior of the dome, take a detour about halfway around the circular walkway
+on the right hand side to find 10000 GIL. Now head the rest of the way round
+and save. Also train up here, it's never harmful to gain a few sphere levels.
+Make sure Yuna learns DISPEL.
+
+When your ready head on to reach the next area. Run until you're at a junction
+with two roads. Take the one to the straight right and pick up a FRIEND SPHERE.
+Now head back to the main path and continue. You can find a LV.3 KEY SPHERE on
+the right hand side a bit further up. Now head for the next area. When you
+reach it the random battles will stop. You can pick up a LUCK SPHERE from the
+right of the path. Save at the top and make your way into the trials.
+
+These trials are not as hard as the previous ones in my opinion. To start the
+trials step on the green square. There are a load of white spots on the ground,
+and by standing on them you light up a shape on the ground. You can see what
+shapes you need to light up on the screen in the north of the room. Once you
+light all these up, a load of pedestals will appear around the room. Push the
+one in the top left into the wall and go through the door that opened up.
+
+Go up to the screen again and examine it to get an overview of the room, and
+all the shapes you need to illuminate. Once you have this done an glyph will
+appear in the middle of the room. I'm afraid there isn't that much help I can
+give you here. You'll have to repeat the process for 3 other pedestals in the
+previous rooms, all of them except the two in the middle. Once you've lit up
+4 glyphs in the middle of the room you can take the two spheres from either
+side of the screen. Take the KILIKA SPHERE from the left of the screen, take it
+back to the previous room and put it in the pedestal on the left. Now go get
+the BESAID SPHERE from the right of the screen and put it in the pedestal on
+the right. Push both pedestals into the wall to light up the last two glyphs.
+I would advise you to go build up your aeons overdrive gauges now, you're going
+to have to fight a fairly tough boss now. Go back into the room with the glyphs
+where the Spectral Keeper will be waiting.
+
+----------------------------------------
+    BOSS - SPECTRAL KEEPER
+----------------------------------------
+HP       - 52000
+AP       - 12000
+Weakness - None
+
+This is a unique fight. The battlefield is 6 glyphs surrounding the Spectral
+Keeper, you can move one at a time. If you all move behind the Spectral Keeper
+he will just turn around, and if you attack him he will counter and hit all
+three glyphs in front of him for about 2300 HP each. He also uses Berserk on
+one character, making him/her attack mindlessly and thus provoke the counter
+attack. Use a REMEDY or ESUNA right away.
+
+Try and place the character with the most HP in front of the Spectral Keeper,
+with the other two one glyph away at least. Cast PROTECT on the guy in front
+of the Spectral Keeper too. Sometimes he lays Glyph Mines on the glyphs, they
+will kill whoever is on the glyph at the time.
+
+If you have any summons with full overdrive at hand then use them. After the
+overdrive, the Spectral Keeper will kill the aeon pretty hastily. If you get
+BERSERKED then make sure you get it off right away, that is vital. The main
+aim here is to only let one person be hit with the counter attack. This is a
+tough battle, yes, but manageable. As soon as it's over go save and fill your
+aeons overdrives yet again. Arguably the hardest fight in the game is on it's
+way.
+
+You go down to the chamber of the fayth, there's another SAVE SPHERE down here.
+There is no final aeon to get, but Yunalesca appears and entices you to follow
+her. After this converstaion save again. MAKE SURE YOUR AEONS HAVE OVERDRIVES.
+Go up the stairs and talk with Yunalesca for a while. She'll decide to fight
+you when you refuse to turn someone into a Fayth. Auron comes out with my
+favourite little quote of the game, his little battle cry before the fight.
+
+----------------------------------------
+    BOSS - YUNALESCA (3 forms)
+----------------------------------------
+HP       - 24000, 48000, 60000
+AP       - 14000
+Weakness - None
+
+This is a weird, weird fight. Yunalesca has not got many damaging attacks, but
+this fight is desperately hard. If you don't have DISPEL, I don't know what to
+tell you except go learn it. It doesn't matter how long it takes.
+
+Yunalesca is weak but annoying in her first form. If you use a physical attack
+she will counter it with blind. If you use magic she'll counter with silence.
+Her regular attacks will nullify any good status effects like haste. Either use
+REFLECT to stop the Blind and stuff, or keep using ESUNA. Keep using Physical
+attacks with your strongest characters. Yunalesca will also use drain on you,
+stealing your HP and giving it to her.
+
+Once you beat her first form and her second emerges, she'll use Hellbiter right
+away. This causes damage and puts everyone on the ZOMBIE status. In this form
+the only thing she can do is use Hellbiter, Cura, Regen and counter. She'll
+cast Regen on you which has the same effect as poison. Cura just does damage.
+Cast Dispel on anyone with Regen on them, and heal the Zombie status of anyone
+who she uses Cura on. Keep hacking away at her with all you have (not aeons).
+Once her HP starts to get low, make sure _at least_ 2 characters are still
+ZOMBIES. When you beat her second form, her third emerges.
+
+She turns into a giant head now, and opens up with and attack called MEGA
+DEATH. This will instantly kill all character who are NOT on the ZOMBIE status.
+That's why you need zombies. She now uses CURAGA instead of CURA, and has a new
+attack called MIND BLAST. It causes about 600-800 HP damage an inflicts the
+CONFUSION status effect. In this form now you can summon, but ONLY WITH FULL
+OVERDRIVES!!! If you summon an aeon without an overdrive she will use MIND
+BLAST which will inflict CURSE, and then absorb all your HP. If you summon
+with an overdrive then you can use the overdrive and then get your HP absorbed,
+in this event you'll still end up doing damage. It's a good idea to finish her
+with an overdrive too. After you kill her, you'll also get rid of the only way
+to get the final aeon.
+
+After the fight go to the far end of the platform you're on and down the small
+set of steps to find a chest with the SUN CREST inside. Now head out the way
+you came in. At the bottom of the stair Auron will reveal something quite
+shocking about himself. Once you get outside then the Airship will appear, and
+so will Sin. He seems placid for some reason. Anyway you'll now get control
+of the Airship.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 23 - AIRSHIP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - None
+Bosses   - None
+Items    - None
+
+You'll start out on the Airship bridge. Talk to everyone, then go to the far
+end of the ship, the other one with the SAVE SPHERE. Talk to Yuna and Kimahri
+here and then head back to the bridge. The gang have an idea to play the hymn
+of the fayth at Sin to calm him. First of all talk to Cid to go to the High
+-bridge. Here you talk to Maester Mika, who sends himself, and a fayth, who
+goes all cryptic on us. Then go back to the Airship. I'm going to assume, for
+the walkthrough purposes you want to fight Sin right away. First of all head
+to Remiem Temple by going to the Calm Lands and examining the chocobo feather
+in the extreme south east corner. At Remiem Temple race the Chocobo race and
+win, and open 3 chests in the process. I'll go into more detail in this in
+another update. You'll win 30 WINGS TO DISCOVERY, which will be vital to your
+success.
+
+Now return to the Airship and select Sin as your new destination. You'll fly
+into the creature, and have to fight his fins before anything else. They aren't
+very tough. Go to the deck of the airship where you fought Evrae before to
+start the fight.
+
+----------------------------------------
+    BOSS - SIN LEFT & RIGHT FIN
+----------------------------------------
+HP       - 65000 (each)
+AP       - 33000 (total)
+Weakness - None
+
+The fights against the two fins are tactically the excact same. Use ARMOUR
+BREAK and MENTAL BREAK to weaken the fins up. Use HASTEGA as well and just keep
+pugging away with your best attacks. His only attack is to ram the ship when
+your near and swipe you with his fin when your far away. Just keep hitting him,
+use overdrives as they come, it's not hard, really. He'll also use Gravija once
+in a while whoch will sap 3/4 of your HP. Heal afterwards, and continue to
+attack. After the fight you'll land on Sin and fight his core and a Sinspawn.
+
+----------------------------------------
+    BOSS - SINSPAWN GENAIS
+----------------------------------------
+HP       - 20000
+AP       - 1800
+Weakness - Fire, Slow
+
+----------------------------------------
+    BOSS - SIN CORE
+----------------------------------------
+HP       - 36000
+AP       - 18000
+Weakness - None
+
+You have to take out the Sinspawn before you take out the core. He's weak to
+FIRE and SLOW, so use these to your advantage. Once you get rid of 50% of his
+HP then he'll get retreat to his shell, and physical attacks will take off
+significantly less. You should just hammer away magically now, or summon Ifrit
+if you like. He'll try and cast CURA on himself, which you can stop by casting
+SILENCE on him. He'll also be getting ready to cast GRAVIJA, try and have an
+aeon block this strong attack. Once the sinspawn is gone you can move onto
+the core.
+
+Use ARMOUR BREAK right away. This is important. He'll use NEGATOR eery now and
+again which will get rid of your HASTE or whatever, and you'll have to ARMOUR
+BRAKE him again. He'll just use GRAVIJA apart from that, so just keep smacking
+him until he is dead. So the first few fights there weren't hard, but that's
+abou to change. You get to go back to the ship now to save and stuff. When you
+are ready you can fight Sin's head. It's tough.
+
+----------------------------------------
+    BOSS - SIN'S HEAD
+----------------------------------------
+HP       - 140000
+AP       - 20000
+Weakness - None
+
+You have to beat Sin here before his overdrive gauge fills, or else you die.
+It's as simple as that. It doesn't even take off any health, you just die. You
+can't avoid it, and the only way to prevent it is to kill Sin before he kills
+you. You can't use aeons either because they fill up his overdrive gauge like
+nobodies business. Only use an aeon overdrive to finish him off.
+
+Sin doesn't really attack much, only counter, He has a counter which takes
+about 800 HP from you and inflicts ZOMBIE and CONFUSION. Cure the CONFUSION as
+quickly as you can. You start the fight pretty far away from Sin, only long
+range attacks work. You'll get "drawn to Sin" three times, then you can use
+close quarters combat. Have Auron use ARMOUR BREAK right away. Make sure you
+use HASTEGA as well, as time is of the essence here. As long as you do those
+two moves you should be able to manage. If Auron can do about 7,000 per turn,
+and Tidus and Wakka about half that you should manage. Not too hard again if
+you know what you're doing. Now you can go inside Sin.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ AREA 24 - INSIDE SIN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enemies  - Ahriman, Wraith, Exoray, Demonolith, Varuna, Adamantoise, Great
+           Malboro, Gemini, Gemini
+Items    - Defending Bracer, Defence Sphere, Elixer, Four-on-One, 20000 Gil,
+           HP Sphere, Laevatein, Lv.3 Key Sphere, Lv.4 Key Sphere, Megalixer,
+           Phantom Ring, Special Sphere, Wizard Lance
+Bosses   - Seymour Omnis, The Final Boss (You'll see)
+
+You'll start off in the sea of sorrow. There are loads of items here, I'll try
+and tell you where to get them. There are a few places where you can't pass,
+they are waterfalls. There is a SPECIAL SPHERE in the south, you have to take
+a long route to get round the waterfall. There is a PHANTOM RING in the south
+west, and an ELIXER north of it. There's a WIZARD LANCE in the centre of the
+area, and a LV.3 KEY SPHERE north of there. The map only shows places you've
+been, and the exit here is to the north. There's a SAVE SPHERE just before the
+exit too. Build up your aeons overdrives and then go up the stairs for a final
+confrontation with Seymour.
+
+----------------------------------------
+    BOSS - SEYMOUR OMNIS
+----------------------------------------
+HP       - 80000
+AP       - 24000
+Weakness - Varies
+
+This can be the hardest fight in the world, but when you know what to do it's
+really really easy. They key to this fight is paying attention to the Morti
+-phasms, the discs behind Seymour. They dictate what he is going to use next
+and what he is weak against. They are everything in this fight. It will always
+start off with four RED CIRCLES pointing at Seymour. This means he is going
+to use FIRAGA four times in a row, a maximum of twice on a single character.
+This means you use NULBLAZE to block 3 of the four FIRAGAS.
+
+Not only does it mean he'll use four FIRAGA's, it means he's weak against ICE.
+Use attacks like ARMOUR BREAK and MENTAL BREAK to help you on your way. Once
+Seymour has been attacked 6 times he will use DISPEL. This is quite ominous,
+as his next attck is going to ULTIMA. It may be a good idea to summon an aeon
+to take the brunt of this attack. After this cast HASTEGA on everyone again,
+use the appropriate NUL spell, and use ARMOUR and MENTAL BREAK again. If you
+can manage to have an aeon take the ULTIMA damage every time you'll be ok. It
+helps if you get to unleash that aeons overdrive too. Take the right approach
+and you'll be fine.
+
+After the fight, go back and SAVE, and then continue on. Follow the path here,
+and fight. Follow the path until you reach a clearing, at which you should
+turn right. Then take the next left and you'll reach a SAVE SPHERE. Save,
+naturally, and see a big monolith fall from the sky. Don't approach it yet
+though. BUILD UP RIKKU'S OVERDRIVE! The whole strategy for the next battle is
+based on this. BUILD UP TIDUS'S OVERDRIVE TOO!!!! Those two things are vital.
+
+Once you have these things done, approach th monolith to be transported to a
+weird and colourful worl where pinnacles of ice constantly break through the
+ground. If you touch one of these you'll have to fight a battle. To continue
+on here you have to collect 10 items. To collect these items you have to go up
+to a cyrstal when it appears and examine it. You won't have to fight unless you
+hit an icicle. You'll see a little white spot on the ground before an icicle
+comes through the gorund. The items you collect are a PRISM BALL, MAGE'S STAFF,
+STILLBLADE, WHITE MAGIC SPHERE, HRUNTING, WICKED CAIT SITH, KNIGHT LANCE,
+INFINITY and ATTRIBUTE SPHERE. Once you do this you'll be transported to
+another area, it looks like Zanarkand is in the background. Make sure you have
+a LV.3 or 4 KEY SPHERE in your inventory, you'll need it in the battle.
+Approach... gasp! It's Jecht, who turns into a big scary badass.
+
+----------------------------------------
+    BOSS - BRASKA'S FINAL AEON
+----------------------------------------
+HP       - 60000, 120000
+AP       - None
+Weakness - None
+
+----------------------------------------
+    BOSS - YU PAGODA
+----------------------------------------
+HP       - 5000, 10000, 15000, etc
+AP       - None
+Weakness - None
+
+You face Braskas Final Aeon here, he's supported by two Yu Pagodas. They heal
+him 3000 HP every now and again and fill his overdrive gauge. Tidus can use
+the "Talk" Trigger Command to bring his overdrive gauge back to zero. This is
+an important key to victory.
+
+Start off the fight with Yuna, Tidus and Rikku. Have Rikku use her overdrive
+to mix a LV.3 or 4 KEY SPHERE with a WINGS TO DISCOVERY to make a TRIO OF 9999.
+This make ALL you attacks do 9999 damage (ignores defence) and all your healing
+give back 9999. This works until the end of the fight or you get knocked out.
+Now use HASTEGA with Tidus and have the other two attack normally. After just
+6 attacks his first form will be gone. Once he enters his second form (he pulls
+a big sword out of his belly) use SLICE AND DICE with Tidus to pretty much half
+his HP. You now just need to attack 7 more times to win. If your HP goes low
+use PRAY, which will heal everyone for 9999! After the fight there are one or
+two fights left, but you can't lose.
+
+----------------------------------------
+    BOSS - ALL YOU AEONS/YU YEVON
+----------------------------------------
+HP       - Their HP from the game
+AP       - None
+Weakness - Depends on the aeon
+
+You'll have to fight all your aeons now, just use the element opposite to what
+they are, if they're non elemental just hack away. Keep yourself on HASTEGA all
+the time. You can't die here because all you characters have AUTO-LIFE, and
+it's on permanently. Once all you aeons have been dispatched you'll fight Yu
+Yevon. You have to make him a Zombie because he cures himself constantly for
+9999 HP. He has 2 Yu Pagodas too, you'll have to keep inflicting the zombie
+status. You can't die like I said, so good look.
+
+Enjoy the ending too!
