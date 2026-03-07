@@ -1,7 +1,3 @@
-/*
- * ST7789 320x240 display driver using LVGL v9 + esp_lcd
- */
-
 #include <stdio.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
@@ -159,12 +155,7 @@ static void scroll_timer_cb(lv_timer_t *timer)
     int current = encoder_count;
     if (current != last_scroll_count) {
         int32_t pos = (int32_t)current * 20;
-        int32_t scroll_bottom = lv_obj_get_scroll_bottom(scroll_cont);
-        int32_t scroll_y      = lv_obj_get_scroll_y(scroll_cont);
-        ESP_LOGI(TAG, "Scroll %s encoder=%d y_before=%d target=%d scrollable_bottom=%d",
-                 current > last_scroll_count ? "DOWN" : "UP",
-                 current, (int)scroll_y, (int)pos, (int)scroll_bottom);
-        lv_obj_scroll_to_y(scroll_cont, pos, LV_ANIM_OFF);
+        lv_obj_scroll_to_y(scroll_cont, pos, LV_ANIM_ON);
         last_scroll_count = current;
     }
 }
@@ -178,17 +169,10 @@ static void create_demo_ui(void)
     lv_obj_set_style_bg_color(scr, lv_color_hex(0x1A1A2E), LV_PART_MAIN);
     lv_obj_set_style_bg_opa(scr, LV_OPA_COVER, LV_PART_MAIN);
 
-    /* Title */
-    lv_obj_t *label = lv_label_create(scr);
-    lv_label_set_text(label, "Walkthrough Reader");
-    lv_obj_set_style_text_color(label, lv_color_hex(0x00D4FF), LV_PART_MAIN);
-    lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
-    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 8);
-
     /* Scrollable container */
     scroll_cont = lv_obj_create(scr);
-    lv_obj_set_size(scroll_cont, 230, 270);
-    lv_obj_align(scroll_cont, LV_ALIGN_BOTTOM_MID, 0, -5);
+    lv_obj_set_size(scroll_cont, 240, 320);
+    lv_obj_align(scroll_cont, LV_ALIGN_BOTTOM_MID, 0, 0);
     lv_obj_set_scroll_dir(scroll_cont, LV_DIR_VER);
     lv_obj_set_scrollbar_mode(scroll_cont, LV_SCROLLBAR_MODE_AUTO);
     lv_obj_set_style_bg_color(scroll_cont, lv_color_hex(0x22223B), LV_PART_MAIN);
@@ -199,7 +183,7 @@ static void create_demo_ui(void)
     /* Text content */
     lv_obj_t *text = lv_label_create(scroll_cont);
     lv_label_set_long_mode(text, LV_LABEL_LONG_WRAP);
-    lv_obj_set_width(text, 210);
+    lv_obj_set_width(text, 235);
     lv_obj_set_height(text, LV_SIZE_CONTENT);
     lv_obj_set_style_text_color(text, lv_color_hex(0xE0E0E0), LV_PART_MAIN);
     lv_label_set_text(text,
@@ -223,7 +207,7 @@ static void create_demo_ui(void)
     );
 
     /* Timer to apply encoder scroll — runs inside the LVGL task */
-    lv_timer_create(scroll_timer_cb, 20, NULL);
+    lv_timer_create(scroll_timer_cb, 10, NULL);
 }
 
 /* -- app_main ----------------------------------------------- */
@@ -311,11 +295,6 @@ void app_main(void)
     assert(lvgl_mux);
     xTaskCreate(lvgl_task, "lvgl", 8192, NULL, 5, NULL);
 
-    /* 6. Build UI — take the mutex briefly before the LVGL task can grab it.
-     * lv_refr_now() is NOT called here: at HZ=100 the LVGL task (priority 5)
-     * preempts app_main (priority 1) the moment xTaskCreate returns, so any
-     * blocking work here would race with the task.  The LVGL refr_timer will
-     * render the first frame on its own within one period (~33 ms). */
     if (xSemaphoreTake(lvgl_mux, pdMS_TO_TICKS(100)) == pdTRUE) {
         create_demo_ui();
         xSemaphoreGive(lvgl_mux);
