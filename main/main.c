@@ -25,8 +25,8 @@ static const char *TAG = "reader";
 #define SCREEN_1_RES_PIN  11
 #define SCREEN_1_DC_PIN   12
 #define SCREEN_1_CS_PIN   13
-#define ROT_ENC_A_PIN     4
-#define ROT_ENC_B_PIN     7
+#define ROT_ENC_A_PIN     7
+#define ROT_ENC_B_PIN     4
 #define ROT_ENC_BTN_PIN   6
 #define BTN_PIN           5
 
