@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <dirent.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -159,7 +160,22 @@ static int    total_lines = 0;
 static int    top_line    = 0;
 
 /* -- Current file path (for NVS key) ------------------------ */
-static const char *current_file = "/spiffs/ff10.txt";
+#define MAX_FILES    16
+#define MAX_PATH_LEN 264   /* "/spiffs/" (8) + NAME_MAX (255) + NUL (1) */
+static char current_file[MAX_PATH_LEN] = "/spiffs/ff10.txt";
+
+/* -- File picker state -------------------------------------- */
+static char             file_list[MAX_FILES][MAX_PATH_LEN];
+static int              file_count  = 0;
+static int              picker_sel  = 0;
+static int              picker_top  = 0;
+#define PICKER_VISIBLE  (TEXT_ROWS - 1)
+
+typedef enum { MODE_READER, MODE_PICKER } app_mode_t;
+static volatile app_mode_t app_mode       = MODE_READER;
+static volatile bool       enter_picker   = false;
+static volatile bool       picker_confirm = false;
+static volatile bool       picker_cancel  = false;
 
 /* -- Rotary encoder / button state -------------------------- */
 static volatile int encoder_count      = 0;
@@ -251,13 +267,22 @@ static void input_task(void *arg)
     while (1) {
         int btn     = gpio_get_level(BTN_PIN);
         int enc_btn = gpio_get_level(ROT_ENC_BTN_PIN);
-        if (btn == 0 && last_btn_state == 1)
-            ESP_LOGI(TAG, "Button pressed");
+        if (btn == 0 && last_btn_state == 1) {
+            if (app_mode == MODE_READER) {
+                enter_picker = true;
+            } else {
+                picker_cancel = true;
+            }
+        }
         last_btn_state = btn;
         if (enc_btn == 0 && last_enc_btn_state == 1) {
-            scroll_mode = (scroll_mode + 1) % NUM_SCROLL_MODES;
-            status_dirty = true;
-            ESP_LOGI(TAG, "Scroll mode: %s", scroll_labels[scroll_mode]);
+            if (app_mode == MODE_READER) {
+                scroll_mode = (scroll_mode + 1) % NUM_SCROLL_MODES;
+                status_dirty = true;
+                ESP_LOGI(TAG, "Scroll mode: %s", scroll_labels[scroll_mode]);
+            } else {
+                picker_confirm = true;
+            }
         }
         last_enc_btn_state = enc_btn;
         vTaskDelay(pdMS_TO_TICKS(10));
@@ -413,16 +438,132 @@ static char *read_spiffs_file(const char *path)
     return buf;
 }
 
+/* -- Scan all files from SPIFFS into file_list[] ------------ */
+static void scan_spiffs_files(void)
+{
+    file_count = 0;
+    DIR *dir = opendir("/spiffs");
+    if (!dir) { ESP_LOGE(TAG, "opendir /spiffs failed"); return; }
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL && file_count < MAX_FILES) {
+        if (entry->d_name[0] == '.') continue;  /* skip . and hidden */
+        snprintf(file_list[file_count], MAX_PATH_LEN, "/spiffs/%s", entry->d_name);
+        file_count++;
+    }
+    closedir(dir);
+    ESP_LOGI(TAG, "Found %d file(s) on SPIFFS", file_count);
+}
+
+/* -- Draw the file picker menu ------------------------------ */
+static void draw_picker_view(void)
+{
+    /* Title bar */
+    const char *title = "  -- SELECT FILE --  ";
+    draw_row_ex(0, title, (int)strlen(title), COL_BG, COL_FG);
+
+    /* File entry rows */
+    for (int r = 0; r < PICKER_VISIBLE; r++) {
+        int fi = picker_top + r;
+        if (fi < file_count) {
+            const char *base = strrchr(file_list[fi], '/');
+            base = base ? base + 1 : file_list[fi];
+            if (fi == picker_sel)
+                draw_row_ex(r + 1, base, (int)strlen(base), COL_BG, COL_FG);
+            else
+                draw_row(r + 1, base, (int)strlen(base));
+        } else {
+            draw_row(r + 1, "", 0);
+        }
+    }
+
+    /* Status/hint bar */
+    const char *hint = "ENC:sel  BTN:back  PUSH:open";
+    draw_row_ex(TEXT_ROWS, hint, (int)strlen(hint), COL_BG, COL_FG);
+}
+
+/* -- Load a new file, restore saved scroll position --------- */
+static void open_file(const char *path)
+{
+    free(file_buf);
+    free(lines);
+    file_buf    = NULL;
+    lines       = NULL;
+    total_lines = 0;
+    top_line    = 0;
+    strncpy(current_file, path, MAX_PATH_LEN - 1);
+    current_file[MAX_PATH_LEN - 1] = '\0';
+    file_buf = read_spiffs_file(current_file);
+    if (file_buf) parse_lines();
+    int saved   = load_scroll_pos(current_file);
+    int max_top = total_lines > TEXT_ROWS ? total_lines - TEXT_ROWS : 0;
+    if (saved > max_top) saved = max_top;
+    if (saved < 0)       saved = 0;
+    top_line      = saved;
+    encoder_count = 0;
+}
+
 /* -- Reader task: poll encoder and re-render on change ------ */
 #define SAVE_DELAY_MS  5000   /* write NVS 5 s after last scroll */
 static void reader_task(void *arg)
 {
-    int last_top   = -1;
-    int saved_top  = -1;
+    int last_top         = -1;
+    int saved_top        = -1;
     TickType_t last_change_tick = 0;
     bool       pending_save    = false;
 
     while (1) {
+        /* ---- Activate picker when BTN pressed in reader mode ---- */
+        if (enter_picker && app_mode == MODE_READER) {
+            enter_picker = false;
+            save_scroll_pos(current_file, top_line);
+            scan_spiffs_files();
+            picker_sel = 0;
+            for (int i = 0; i < file_count; i++) {
+                if (strcmp(file_list[i], current_file) == 0) { picker_sel = i; break; }
+            }
+            picker_top = picker_sel > (PICKER_VISIBLE / 2) ? picker_sel - (PICKER_VISIBLE / 2) : 0;
+            encoder_count  = 0;
+            picker_confirm = false;
+            picker_cancel  = false;
+            app_mode = MODE_PICKER;
+            draw_picker_view();
+        }
+
+        /* ---- Picker mode ---- */
+        if (app_mode == MODE_PICKER) {
+            int delta = encoder_count;
+            if (delta != 0) {
+                encoder_count = 0;
+                picker_sel += delta;
+                if (picker_sel < 0)           picker_sel = 0;
+                if (picker_sel >= file_count) picker_sel = file_count - 1;
+                /* Keep selected item in view */
+                if (picker_sel < picker_top)
+                    picker_top = picker_sel;
+                if (picker_sel >= picker_top + PICKER_VISIBLE)
+                    picker_top = picker_sel - PICKER_VISIBLE + 1;
+                if (picker_top < 0) picker_top = 0;
+                draw_picker_view();
+            }
+            if (picker_confirm) {
+                picker_confirm = false;
+                if (file_count > 0) open_file(file_list[picker_sel]);
+                app_mode = MODE_READER;
+                last_top = -1;
+                render_view();
+            }
+            if (picker_cancel) {
+                picker_cancel = false;
+                app_mode = MODE_READER;
+                encoder_count = 0;
+                last_top = -1;
+                render_view();
+            }
+            vTaskDelay(pdMS_TO_TICKS(30));
+            continue;
+        }
+
+        /* ---- Reader mode ---- */
         int step = scroll_steps[scroll_mode];
         if (step == 0) step = TEXT_ROWS;  /* page mode */
         int max_top = total_lines > TEXT_ROWS ? total_lines - TEXT_ROWS : 0;
@@ -432,7 +573,7 @@ static void reader_task(void *arg)
         if (delta != 0) {
             encoder_count = 0;
             int new_top = top_line + delta * step;
-            if (new_top < 0) new_top = 0;
+            if (new_top < 0)       new_top = 0;
             if (new_top > max_top) new_top = max_top;
             top_line = new_top;
         }
