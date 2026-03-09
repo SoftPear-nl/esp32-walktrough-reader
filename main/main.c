@@ -334,7 +334,8 @@ static void draw_status_bar(void)
     char status[COLS + 1];
     int cur_line = top_line + 1;
     const char *mode = scroll_labels[scroll_mode];
-    snprintf(status, sizeof(status), " %d/%d  [%s]", cur_line, total_lines, mode);
+    uint32_t free_kb = esp_get_free_heap_size() / 1024;
+    snprintf(status, sizeof(status), " %d/%d [%s] %lukB", cur_line, total_lines, mode, (unsigned long)free_kb);
     draw_row_ex(TEXT_ROWS, status, (int)strlen(status), COL_BG, COL_FG);
 }
 
