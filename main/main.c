@@ -175,11 +175,16 @@ static int              picker_sel  = 0;
 static int              picker_top  = 0;
 #define PICKER_VISIBLE  (TEXT_ROWS - 1)
 
-typedef enum { MODE_READER, MODE_PICKER } app_mode_t;
-static volatile app_mode_t app_mode       = MODE_READER;
-static volatile bool       enter_picker   = false;
-static volatile bool       picker_confirm = false;
-static volatile bool       picker_cancel  = false;
+typedef enum { MODE_READER, MODE_PICKER, MODE_SETTINGS } app_mode_t;
+static volatile app_mode_t app_mode          = MODE_READER;
+static volatile bool       btn_pressed       = false;
+static volatile bool       picker_confirm    = false;
+static volatile bool       settings_confirm  = false;
+
+/* Settings screen state */
+#define SETTINGS_ITEMS  1
+static int  settings_sel = 0;
+static bool wifi_active  = false;
 
 /* -- Rotary encoder / button state -------------------------- */
 static volatile int encoder_count      = 0;
@@ -272,11 +277,7 @@ static void input_task(void *arg)
         int btn     = gpio_get_level(BTN_PIN);
         int enc_btn = gpio_get_level(ROT_ENC_BTN_PIN);
         if (btn == 0 && last_btn_state == 1) {
-            if (app_mode == MODE_READER) {
-                enter_picker = true;
-            } else {
-                picker_cancel = true;
-            }
+            btn_pressed = true;
         }
         last_btn_state = btn;
         if (enc_btn == 0 && last_enc_btn_state == 1) {
@@ -284,8 +285,10 @@ static void input_task(void *arg)
                 scroll_mode = (scroll_mode + 1) % NUM_SCROLL_MODES;
                 status_dirty = true;
                 ESP_LOGI(TAG, "Scroll mode: %s", scroll_labels[scroll_mode]);
-            } else {
+            } else if (app_mode == MODE_PICKER) {
                 picker_confirm = true;
+            } else if (app_mode == MODE_SETTINGS) {
+                settings_confirm = true;
             }
         }
         last_enc_btn_state = enc_btn;
@@ -512,8 +515,42 @@ static void draw_picker_view(void)
     }
 
     /* Status/hint bar */
-    const char *hint = "ENC:sel  BTN:back  PUSH:open";
+    const char *hint = "ENC:sel BTN:settings PUSH:open";
     draw_row_ex(TEXT_ROWS, hint, (int)strlen(hint), COL_BG, COL_FG);
+}
+
+/* -- Settings view ------------------------------------------ */
+static void wifi_ap_start(void);  /* defined in Wi-Fi section */
+static void wifi_ap_stop(void);
+
+static void draw_settings_view(void)
+{
+    char row[COLS + 1];
+
+    draw_row_ex(0, "       SETTINGS        ", 23, COL_BG, COL_FG);
+
+    snprintf(row, sizeof(row), " Wi-Fi File Transfer [%s]",
+             wifi_active ? "ON " : "OFF");
+    if (settings_sel == 0)
+        draw_row_ex(1, row, (int)strlen(row), COL_BG, COL_FG);
+    else
+        draw_row(1, row, (int)strlen(row));
+
+    if (wifi_active) {
+        draw_row(2, "  Status: Active    ", 20);
+        draw_row(3, "  SSID: ESP32-Reader", 20);
+        draw_row(4, "  Pass: reader123   ", 20);
+        draw_row(5, "  http://192.168.4.1", 20);
+    } else {
+        draw_row(2, "  Status: Off       ", 20);
+        draw_row(3, "  SSID: ESP32-Reader", 20);
+        draw_row(4, "  Pass: reader123   ", 20);
+        draw_row(5, "", 0);
+    }
+    for (int r = 6; r < TEXT_ROWS; r++) draw_row(r, "", 0);
+
+    draw_row_ex(TEXT_ROWS, "ENC:sel PUSH:toggle BTN:next",
+                28, COL_BG, COL_FG);
 }
 
 /* -- Load a new file, restore saved scroll position --------- */
@@ -546,21 +583,33 @@ static void reader_task(void *arg)
     bool       pending_save    = false;
 
     while (1) {
-        /* ---- Activate picker when BTN pressed in reader mode ---- */
-        if (enter_picker && app_mode == MODE_READER) {
-            enter_picker = false;
-            save_scroll_pos(current_file, top_line);
-            scan_spiffs_files();
-            picker_sel = 0;
-            for (int i = 0; i < file_count; i++) {
-                if (strcmp(file_list[i], current_file) == 0) { picker_sel = i; break; }
+        /* ---- BTN cycles: READER -> PICKER -> SETTINGS -> READER ---- */
+        if (btn_pressed) {
+            btn_pressed = false;
+            if (app_mode == MODE_READER) {
+                save_scroll_pos(current_file, top_line);
+                scan_spiffs_files();
+                picker_sel = 0;
+                for (int i = 0; i < file_count; i++) {
+                    if (strcmp(file_list[i], current_file) == 0) { picker_sel = i; break; }
+                }
+                picker_top = picker_sel > (PICKER_VISIBLE / 2) ? picker_sel - (PICKER_VISIBLE / 2) : 0;
+                encoder_count  = 0;
+                picker_confirm = false;
+                app_mode = MODE_PICKER;
+                draw_picker_view();
+            } else if (app_mode == MODE_PICKER) {
+                encoder_count    = 0;
+                settings_sel     = 0;
+                settings_confirm = false;
+                app_mode = MODE_SETTINGS;
+                draw_settings_view();
+            } else if (app_mode == MODE_SETTINGS) {
+                encoder_count = 0;
+                app_mode = MODE_READER;
+                last_top = -1;
+                render_view();
             }
-            picker_top = picker_sel > (PICKER_VISIBLE / 2) ? picker_sel - (PICKER_VISIBLE / 2) : 0;
-            encoder_count  = 0;
-            picker_confirm = false;
-            picker_cancel  = false;
-            app_mode = MODE_PICKER;
-            draw_picker_view();
         }
 
         /* ---- Picker mode ---- */
@@ -586,12 +635,27 @@ static void reader_task(void *arg)
                 last_top = -1;
                 render_view();
             }
-            if (picker_cancel) {
-                picker_cancel = false;
-                app_mode = MODE_READER;
+            vTaskDelay(pdMS_TO_TICKS(30));
+            continue;
+        }
+
+        /* ---- Settings mode ---- */
+        if (app_mode == MODE_SETTINGS) {
+            int delta = encoder_count;
+            if (delta != 0) {
                 encoder_count = 0;
-                last_top = -1;
-                render_view();
+                settings_sel += delta;
+                if (settings_sel < 0)               settings_sel = 0;
+                if (settings_sel >= SETTINGS_ITEMS) settings_sel = SETTINGS_ITEMS - 1;
+                draw_settings_view();
+            }
+            if (settings_confirm) {
+                settings_confirm = false;
+                if (settings_sel == 0) {
+                    if (!wifi_active) wifi_ap_start();
+                    else              wifi_ap_stop();
+                    draw_settings_view();
+                }
             }
             vTaskDelay(pdMS_TO_TICKS(30));
             continue;
@@ -875,7 +939,9 @@ static esp_err_t http_upload_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-static void wifi_init_ap(void)
+static httpd_handle_t http_server_handle = NULL;
+
+static void wifi_system_init(void)
 {
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -896,17 +962,17 @@ static void wifi_init_ap(void)
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg));
-    ESP_ERROR_CHECK(esp_wifi_start());
-    ESP_LOGI(TAG, "Wi-Fi AP: SSID=\"%s\"  Pass=\"%s\"  -> http://192.168.4.1",
-             WIFI_AP_SSID, WIFI_AP_PASS);
+    ESP_LOGI(TAG, "Wi-Fi driver ready (AP off; enable via Settings)");
 }
 
-static void start_http_server(void)
+static void wifi_ap_start(void)
 {
-    httpd_handle_t server = NULL;
-    httpd_config_t cfg    = HTTPD_DEFAULT_CONFIG();
-    cfg.stack_size        = 8192;
-    ESP_ERROR_CHECK(httpd_start(&server, &cfg));
+    if (wifi_active) return;
+    ESP_ERROR_CHECK(esp_wifi_start());
+
+    httpd_config_t cfg = HTTPD_DEFAULT_CONFIG();
+    cfg.stack_size     = 8192;
+    ESP_ERROR_CHECK(httpd_start(&http_server_handle, &cfg));
 
     const httpd_uri_t uris[] = {
         { .uri = "/",         .method = HTTP_GET,    .handler = http_root_handler     },
@@ -916,9 +982,20 @@ static void start_http_server(void)
         { .uri = "/upload",   .method = HTTP_POST,   .handler = http_upload_handler   },
     };
     for (int i = 0; i < 5; i++) {
-        ESP_ERROR_CHECK(httpd_register_uri_handler(server, &uris[i]));
+        ESP_ERROR_CHECK(httpd_register_uri_handler(http_server_handle, &uris[i]));
     }
-    ESP_LOGI(TAG, "HTTP server started");
+    wifi_active = true;
+    ESP_LOGI(TAG, "Wi-Fi AP on  SSID=\"%s\" -> http://192.168.4.1", WIFI_AP_SSID);
+}
+
+static void wifi_ap_stop(void)
+{
+    if (!wifi_active) return;
+    httpd_stop(http_server_handle);
+    http_server_handle = NULL;
+    ESP_ERROR_CHECK(esp_wifi_stop());
+    wifi_active = false;
+    ESP_LOGI(TAG, "Wi-Fi AP off");
 }
 
 /* ===== end Wi-Fi / HTTP ===================================== */
@@ -1012,9 +1089,8 @@ void app_main(void)
     file_fd = fopen(current_file, "r");
     if (file_fd) parse_lines();
 
-    /* 5. Wi-Fi AP + HTTP file manager */
-    wifi_init_ap();
-    start_http_server();
+    /* 5. Wi-Fi driver init (AP starts on demand via Settings screen) */
+    wifi_system_init();
 
     /* 6. Restore scroll position + initial render + reader task */
     int saved = load_scroll_pos(current_file);
