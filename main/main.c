@@ -155,10 +155,10 @@ static const uint8_t font8[95][8] = {
     {0x76,0xDC,0x00,0x00,0x00,0x00,0x00,0x00}, /* 0x7E ~ */
 };
 
-/* -- Virtual line (start pointer + length) ------------------ */
-typedef struct { const char *start; int len; } Line;
+/* -- Virtual line (file offset + length) -------------------- */
+typedef struct { int offset; int len; } Line;
 
-static char  *file_buf    = NULL;
+static FILE  *file_fd     = NULL;
 static Line  *lines       = NULL;
 static int    total_lines = 0;
 static int    top_line    = 0;
@@ -338,12 +338,38 @@ static void draw_status_bar(void)
 /* -- Render current view to display ------------------------- */
 static void render_view(void)
 {
+    /* One fseek to the first visible line, then one fread covering all rows.
+     * SPIFFS fseek is O(file_size), so minimising seek count is critical. */
+    static char vbuf[4096];
+    int got = 0, start_off = 0;
+
+    if (file_fd && total_lines > 0) {
+        int last = top_line + TEXT_ROWS - 1;
+        if (last >= total_lines) last = total_lines - 1;
+        start_off   = lines[top_line].offset;
+        int end_off = lines[last].offset + lines[last].len;
+        int rd_len  = end_off - start_off;
+        if (rd_len > 0 && rd_len <= (int)sizeof(vbuf)) {
+            fseek(file_fd, start_off, SEEK_SET);
+            got = (int)fread(vbuf, 1, (size_t)rd_len, file_fd);
+        }
+    }
+
     for (int r = 0; r < TEXT_ROWS; r++) {
         int idx = top_line + r;
-        if (idx < total_lines)
-            draw_row(r, lines[idx].start, lines[idx].len);
-        else
+        if (idx < total_lines) {
+            int buf_off = lines[idx].offset - start_off;
+            int len     = lines[idx].len;
+            if (len == 0) {
+                draw_row(r, "", 0);
+            } else if (buf_off >= 0 && buf_off + len <= got) {
+                draw_row(r, vbuf + buf_off, len);
+            } else {
+                draw_row(r, "", 0);
+            }
+        } else {
             draw_row(r, "", 0);
+        }
     }
     draw_status_bar();
 }
@@ -368,78 +394,83 @@ static int find_wrap(const char *s, int len)
     return COLS;   /* no good break point – hard wrap */
 }
 
-/* -- Count virtual lines for one physical line -------------- */
-static int count_vlines(const char *s, int len)
-{
-    if (len == 0) return 1;
-    int n = 0;
-    int off = 0;
-    while (off < len) {
-        int seg = find_wrap(s + off, len - off);
-        n++;
-        off += seg;
-        /* skip leading space on the new wrapped line */
-        while (off < len && (s[off] == ' ' || s[off] == '\t')) off++;
-    }
-    return n;
-}
-
-/* -- Parse file into word-wrapped virtual lines ------------- */
+/* -- Parse file into word-wrapped virtual lines (streaming) - */
 static void parse_lines(void)
 {
-    if (!file_buf) return;
+    if (!file_fd) return;
+    rewind(file_fd);
 
-    /* First pass: count virtual lines */
-    int count = 0;
-    const char *p = file_buf;
-    while (*p) {
-        const char *ls = p;
-        while (*p && *p != '\n') p++;
-        count += count_vlines(ls, (int)(p - ls));
-        if (*p == '\n') p++;
-    }
-
-    lines = malloc((size_t)count * sizeof(Line));
+    int capacity = 512;
+    lines = malloc((size_t)capacity * sizeof(Line));
     if (!lines) { ESP_LOGE(TAG, "lines malloc failed"); return; }
-
-    /* Second pass: populate */
     total_lines = 0;
-    p = file_buf;
-    while (*p) {
-        const char *ls = p;
-        while (*p && *p != '\n') p++;
-        int ll = (int)(p - ls);
-        if (ll == 0) {
-            lines[total_lines++] = (Line){ ls, 0 };
-        } else {
-            int off = 0;
-            while (off < ll) {
-                int seg = find_wrap(ls + off, ll - off);
-                lines[total_lines++] = (Line){ ls + off, seg };
-                off += seg;
-                /* skip leading whitespace on wrapped continuation */
-                while (off < ll && (ls[off] == ' ' || ls[off] == '\t')) off++;
+
+#define ADD_LINE(off, slen) do { \
+    if (total_lines >= capacity) { \
+        capacity *= 2; \
+        Line *_t = realloc(lines, (size_t)capacity * sizeof(Line)); \
+        if (!_t) { ESP_LOGE(TAG, "realloc failed"); goto parse_done; } \
+        lines = _t; \
+    } \
+    lines[total_lines++] = (Line){ (off), (slen) }; \
+} while (0)
+
+    /* Read sequentially — never seek. SPIFFS fseek rescans from the start
+     * each call making N seeks O(N²). One forward pass is O(N). */
+    char   win[COLS + 2]; /* sliding window of current physical-line chars */
+    int    win_len = 0;   /* valid bytes in win                            */
+    int    win_off = 0;   /* absolute file offset of win[0]               */
+    int    abs_off = 0;   /* absolute file offset of next byte to read    */
+    char   rdbuf[256];
+    int    n;
+
+    while ((n = (int)fread(rdbuf, 1, sizeof(rdbuf), file_fd)) > 0) {
+        for (int i = 0; i < n; i++, abs_off++) {
+            char c = rdbuf[i];
+            if (c == '\n') {
+                if (win_len == 0) {
+                    ADD_LINE(win_off, 0);   /* blank line */
+                } else {
+                    int off = 0;
+                    while (off < win_len) {
+                        int seg = find_wrap(win + off, win_len - off);
+                        ADD_LINE(win_off + off, seg);
+                        off += seg;
+                        while (off < win_len && (win[off] == ' ' || win[off] == '\t')) off++;
+                    }
+                }
+                win_off = abs_off + 1;
+                win_len = 0;
+            } else {
+                win[win_len++] = c;
+                if (win_len == COLS + 1) {
+                    /* Window full — emit one segment, keep remainder */
+                    int seg = find_wrap(win, win_len);
+                    ADD_LINE(win_off, seg);
+                    int skip = seg;
+                    while (skip < win_len && (win[skip] == ' ' || win[skip] == '\t')) skip++;
+                    win_off += skip;
+                    win_len -= skip;
+                    if (win_len > 0) memmove(win, win + skip, (size_t)win_len);
+                }
             }
         }
-        if (*p == '\n') p++;
     }
-    ESP_LOGI(TAG, "Parsed %d virtual lines (word-wrapped)", total_lines);
-}
 
-/* -- Read entire file from SPIFFS into heap ----------------- */
-static char *read_spiffs_file(const char *path)
-{
-    struct stat st;
-    if (stat(path, &st) != 0) { ESP_LOGE(TAG, "stat failed: %s", path); return NULL; }
-    char *buf = malloc((size_t)st.st_size + 1);
-    if (!buf) { ESP_LOGE(TAG, "malloc failed"); return NULL; }
-    FILE *f = fopen(path, "r");
-    if (!f) { free(buf); ESP_LOGE(TAG, "fopen failed: %s", path); return NULL; }
-    size_t n = fread(buf, 1, (size_t)st.st_size, f);
-    fclose(f);
-    buf[n] = '\0';
-    ESP_LOGI(TAG, "Read %u bytes from %s", (unsigned)n, path);
-    return buf;
+    /* Flush last line (no trailing newline) */
+    if (win_len > 0) {
+        int off = 0;
+        while (off < win_len) {
+            int seg = find_wrap(win + off, win_len - off);
+            ADD_LINE(win_off + off, seg);
+            off += seg;
+            while (off < win_len && (win[off] == ' ' || win[off] == '\t')) off++;
+        }
+    }
+
+parse_done:
+#undef ADD_LINE
+    ESP_LOGI(TAG, "Parsed %d virtual lines (sequential)", total_lines);
 }
 
 /* -- Scan all files from SPIFFS into file_list[] ------------ */
@@ -488,16 +519,15 @@ static void draw_picker_view(void)
 /* -- Load a new file, restore saved scroll position --------- */
 static void open_file(const char *path)
 {
-    free(file_buf);
+    if (file_fd) { fclose(file_fd); file_fd = NULL; }
     free(lines);
-    file_buf    = NULL;
     lines       = NULL;
     total_lines = 0;
     top_line    = 0;
     strncpy(current_file, path, MAX_PATH_LEN - 1);
     current_file[MAX_PATH_LEN - 1] = '\0';
-    file_buf = read_spiffs_file(current_file);
-    if (file_buf) parse_lines();
+    file_fd = fopen(current_file, "r");
+    if (file_fd) parse_lines();
     int saved   = load_scroll_pos(current_file);
     int max_top = total_lines > TEXT_ROWS ? total_lines - TEXT_ROWS : 0;
     if (saved > max_top) saved = max_top;
@@ -979,8 +1009,8 @@ void app_main(void)
     assert(row_bufs[0] && row_bufs[1]);
 
     ESP_ERROR_CHECK(esp_vfs_spiffs_register(&spiffs_conf));
-    file_buf = read_spiffs_file(current_file);
-    if (file_buf) parse_lines();
+    file_fd = fopen(current_file, "r");
+    if (file_fd) parse_lines();
 
     /* 5. Wi-Fi AP + HTTP file manager */
     wifi_init_ap();
