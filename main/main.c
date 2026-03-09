@@ -17,6 +17,10 @@
 #include "esp_heap_caps.h"
 #include "nvs_flash.h"
 #include "nvs.h"
+#include "esp_wifi.h"
+#include "esp_event.h"
+#include "esp_netif.h"
+#include "esp_http_server.h"
 
 static const char *TAG = "reader";
 
@@ -602,6 +606,293 @@ static void reader_task(void *arg)
     }
 }
 
+/* ===== Wi-Fi AP + HTTP File Manager ========================= */
+
+#define WIFI_AP_SSID    "ESP32-Reader"
+#define WIFI_AP_PASS    "reader123"
+#define WIFI_AP_CHANNEL 1
+#define WIFI_AP_MAX_STA 3
+
+/* Minimal single-page file manager, served at http://192.168.4.1 */
+static const char index_html[] =
+    "<!DOCTYPE html><html><head>"
+    "<meta charset=\"UTF-8\">"
+    "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+    "<title>ESP32 File Manager</title>"
+    "<style>"
+    "*{box-sizing:border-box}"
+    "body{font-family:sans-serif;max-width:650px;margin:30px auto;padding:0 15px;background:#f5f5f5}"
+    "h2{color:#2c3e50}"
+    "table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1)}"
+    "th{background:#2c3e50;color:#fff;padding:10px}"
+    "td{padding:8px 10px;border-bottom:1px solid #eee}"
+    ".btn{padding:5px 12px;border:none;border-radius:4px;cursor:pointer;font-size:13px}"
+    ".dl{background:#3498db;color:#fff}"
+    ".del{background:#e74c3c;color:#fff}"
+    ".box{background:#fff;padding:20px;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-top:20px}"
+    "#st{margin-top:8px;font-weight:bold}"
+    "</style></head><body>"
+    "<h2>ESP32 File Manager</h2>"
+    "<table><thead><tr><th>File</th><th>Size</th><th>Download</th><th>Delete</th></tr></thead>"
+    "<tbody id=\"tb\"></tbody></table>"
+    "<div class=\"box\"><h3 style=\"margin-top:0\">Upload File</h3>"
+    "<input type=\"file\" id=\"fi\">"
+    "<button class=\"btn dl\" onclick=\"upload()\">Upload</button>"
+    "<div id=\"st\"></div></div>"
+    "<script>"
+    "function sz(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB';}"
+    "function refresh(){"
+    "fetch('/list').then(r=>r.json()).then(files=>{"
+    "var t=document.getElementById('tb');t.innerHTML='';"
+    "files.forEach(f=>{"
+    "var r=t.insertRow();"
+    "r.insertCell().textContent=f.name;"
+    "r.insertCell().textContent=sz(f.size);"
+    "var a=document.createElement('a');"
+    "a.href='/download?name='+encodeURIComponent(f.name);"
+    "a.textContent='Download';a.className='btn dl';a.style.textDecoration='none';"
+    "r.insertCell().appendChild(a);"
+    "var b=document.createElement('button');"
+    "b.textContent='Delete';b.className='btn del';"
+    "b.onclick=function(){if(confirm('Delete '+f.name+'?'))"
+    "fetch('/delete?name='+encodeURIComponent(f.name),{method:'DELETE'}).then(()=>refresh());};"
+    "r.insertCell().appendChild(b);"
+    "});}).catch(e=>{document.getElementById('tb').innerHTML='<tr><td colspan=4>'+e+'</td></tr>';});}"
+    "function upload(){"
+    "var fi=document.getElementById('fi'),st=document.getElementById('st');"
+    "if(!fi.files.length){st.textContent='Select a file.';return;}"
+    "var f=fi.files[0];st.style.color='#333';st.textContent='Uploading '+f.name+'...';"
+    "fetch('/upload?name='+encodeURIComponent(f.name),{method:'POST',body:f})"
+    ".then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})"
+    ".then(msg=>{st.style.color='green';st.textContent=msg;fi.value='';refresh();})"
+    ".catch(e=>{st.style.color='red';st.textContent='Error: '+e;});}"
+    "refresh();</script></body></html>";
+
+/* Decode a percent-encoded URL query value */
+static void url_decode(const char *src, char *dst, size_t dst_sz)
+{
+    size_t i = 0, j = 0;
+    while (src[i] && j < dst_sz - 1) {
+        if (src[i] == '%' && src[i+1] && src[i+2]) {
+            char hex[3] = { src[i+1], src[i+2], '\0' };
+            dst[j++] = (char)strtol(hex, NULL, 16);
+            i += 3;
+        } else if (src[i] == '+') {
+            dst[j++] = ' ';
+            i++;
+        } else {
+            dst[j++] = src[i++];
+        }
+    }
+    dst[j] = '\0';
+}
+
+/* Reject names that could cause path traversal */
+static bool valid_filename(const char *name)
+{
+    if (!name || name[0] == '\0' || name[0] == '.') return false;
+    for (const char *p = name; *p; p++) {
+        if (*p == '/' || *p == '\\') return false;
+    }
+    return true;
+}
+
+/* GET / — file manager HTML */
+static esp_err_t http_root_handler(httpd_req_t *req)
+{
+    httpd_resp_set_type(req, "text/html");
+    httpd_resp_sendstr(req, index_html);
+    return ESP_OK;
+}
+
+/* GET /list — JSON array [{name,size},...] */
+static esp_err_t http_list_handler(httpd_req_t *req)
+{
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_sendstr_chunk(req, "[");
+    DIR *dir = opendir("/spiffs");
+    if (dir) {
+        bool first = true;
+        struct dirent *entry;
+        while ((entry = readdir(dir)) != NULL) {
+            if (entry->d_name[0] == '.') continue;
+            char path[MAX_PATH_LEN];
+            snprintf(path, sizeof(path), "/spiffs/%s", entry->d_name);
+            struct stat st;
+            stat(path, &st);
+            char row[320];
+            snprintf(row, sizeof(row), "%s{\"name\":\"%s\",\"size\":%ld}",
+                     first ? "" : ",", entry->d_name, (long)st.st_size);
+            httpd_resp_sendstr_chunk(req, row);
+            first = false;
+        }
+        closedir(dir);
+    }
+    httpd_resp_sendstr_chunk(req, "]");
+    httpd_resp_sendstr_chunk(req, NULL);
+    return ESP_OK;
+}
+
+/* GET /download?name=<filename> — stream file */
+static esp_err_t http_download_handler(httpd_req_t *req)
+{
+    char qs[256], raw[256], name[256];
+    if (httpd_req_get_url_query_str(req, qs, sizeof(qs)) != ESP_OK ||
+        httpd_query_key_value(qs, "name", raw, sizeof(raw)) != ESP_OK) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Missing name");
+        return ESP_FAIL;
+    }
+    url_decode(raw, name, sizeof(name));
+    if (!valid_filename(name)) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Invalid filename");
+        return ESP_FAIL;
+    }
+    char path[MAX_PATH_LEN];
+    snprintf(path, sizeof(path), "/spiffs/%s", name);
+    FILE *f = fopen(path, "r");
+    if (!f) {
+        httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "Not found");
+        return ESP_FAIL;
+    }
+    httpd_resp_set_type(req, "application/octet-stream");
+    char disp[320];
+    snprintf(disp, sizeof(disp), "attachment; filename=\"%s\"", name);
+    httpd_resp_set_hdr(req, "Content-Disposition", disp);
+    char *buf = malloc(1024);
+    if (!buf) {
+        fclose(f);
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "OOM");
+        return ESP_FAIL;
+    }
+    size_t n;
+    while ((n = fread(buf, 1, 1024, f)) > 0) {
+        httpd_resp_send_chunk(req, buf, (ssize_t)n);
+    }
+    free(buf);
+    fclose(f);
+    httpd_resp_send_chunk(req, NULL, 0);
+    return ESP_OK;
+}
+
+/* DELETE /delete?name=<filename> — remove file */
+static esp_err_t http_delete_handler(httpd_req_t *req)
+{
+    char qs[256], raw[256], name[256];
+    if (httpd_req_get_url_query_str(req, qs, sizeof(qs)) != ESP_OK ||
+        httpd_query_key_value(qs, "name", raw, sizeof(raw)) != ESP_OK) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Missing name");
+        return ESP_FAIL;
+    }
+    url_decode(raw, name, sizeof(name));
+    if (!valid_filename(name)) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Invalid filename");
+        return ESP_FAIL;
+    }
+    char path[MAX_PATH_LEN];
+    snprintf(path, sizeof(path), "/spiffs/%s", name);
+    if (remove(path) != 0) {
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Delete failed");
+        return ESP_FAIL;
+    }
+    httpd_resp_sendstr(req, "OK");
+    return ESP_OK;
+}
+
+/* POST /upload?name=<filename> — write body to SPIFFS */
+static esp_err_t http_upload_handler(httpd_req_t *req)
+{
+    char qs[256], raw[256], name[256];
+    if (httpd_req_get_url_query_str(req, qs, sizeof(qs)) != ESP_OK ||
+        httpd_query_key_value(qs, "name", raw, sizeof(raw)) != ESP_OK) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Missing name");
+        return ESP_FAIL;
+    }
+    url_decode(raw, name, sizeof(name));
+    if (!valid_filename(name)) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Invalid filename");
+        return ESP_FAIL;
+    }
+    char path[MAX_PATH_LEN];
+    snprintf(path, sizeof(path), "/spiffs/%s", name);
+    FILE *f = fopen(path, "w");
+    if (!f) {
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Cannot create file");
+        return ESP_FAIL;
+    }
+    char *buf = malloc(1024);
+    if (!buf) {
+        fclose(f); remove(path);
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "OOM");
+        return ESP_FAIL;
+    }
+    size_t remaining = req->content_len;
+    bool ok = true;
+    while (remaining > 0) {
+        int chunk = (int)(remaining > 1024 ? 1024 : remaining);
+        int got   = httpd_req_recv(req, buf, chunk);
+        if (got <= 0) { ok = false; break; }
+        if ((size_t)fwrite(buf, 1, (size_t)got, f) != (size_t)got) { ok = false; break; }
+        remaining -= (size_t)got;
+    }
+    free(buf);
+    fclose(f);
+    if (!ok) {
+        remove(path);
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Transfer error");
+        return ESP_FAIL;
+    }
+    httpd_resp_sendstr(req, "Upload complete");
+    return ESP_OK;
+}
+
+static void wifi_init_ap(void)
+{
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_netif_create_default_wifi_ap();
+
+    wifi_init_config_t init_cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&init_cfg));
+
+    wifi_config_t wifi_cfg = {
+        .ap = {
+            .ssid           = WIFI_AP_SSID,
+            .ssid_len       = sizeof(WIFI_AP_SSID) - 1,
+            .channel        = WIFI_AP_CHANNEL,
+            .password       = WIFI_AP_PASS,
+            .max_connection = WIFI_AP_MAX_STA,
+            .authmode       = WIFI_AUTH_WPA2_PSK,
+        },
+    };
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg));
+    ESP_ERROR_CHECK(esp_wifi_start());
+    ESP_LOGI(TAG, "Wi-Fi AP: SSID=\"%s\"  Pass=\"%s\"  -> http://192.168.4.1",
+             WIFI_AP_SSID, WIFI_AP_PASS);
+}
+
+static void start_http_server(void)
+{
+    httpd_handle_t server = NULL;
+    httpd_config_t cfg    = HTTPD_DEFAULT_CONFIG();
+    cfg.stack_size        = 8192;
+    ESP_ERROR_CHECK(httpd_start(&server, &cfg));
+
+    const httpd_uri_t uris[] = {
+        { .uri = "/",         .method = HTTP_GET,    .handler = http_root_handler     },
+        { .uri = "/list",     .method = HTTP_GET,    .handler = http_list_handler     },
+        { .uri = "/download", .method = HTTP_GET,    .handler = http_download_handler },
+        { .uri = "/delete",   .method = HTTP_DELETE, .handler = http_delete_handler   },
+        { .uri = "/upload",   .method = HTTP_POST,   .handler = http_upload_handler   },
+    };
+    for (int i = 0; i < 5; i++) {
+        ESP_ERROR_CHECK(httpd_register_uri_handler(server, &uris[i]));
+    }
+    ESP_LOGI(TAG, "HTTP server started");
+}
+
+/* ===== end Wi-Fi / HTTP ===================================== */
+
 /* -- app_main ----------------------------------------------- */
 void app_main(void)
 {
@@ -691,7 +982,11 @@ void app_main(void)
     file_buf = read_spiffs_file(current_file);
     if (file_buf) parse_lines();
 
-    /* 5. Restore scroll position + initial render + reader task */
+    /* 5. Wi-Fi AP + HTTP file manager */
+    wifi_init_ap();
+    start_http_server();
+
+    /* 6. Restore scroll position + initial render + reader task */
     int saved = load_scroll_pos(current_file);
     int max_top = total_lines > TEXT_ROWS ? total_lines - TEXT_ROWS : 0;
     if (saved > max_top) saved = max_top;
